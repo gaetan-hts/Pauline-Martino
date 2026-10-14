@@ -1,0 +1,321 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import BookingButton from '../components/BookingButton.astro';
+import Quote from '../components/Quote.astro';
+import OliveMark from '../components/OliveMark.astro';
+import { site, quotes } from '../data/site';
+import { faq } from '../data/faq';
+
+import portrait from '../assets/photos/pauline-portrait.jpg';
+import mer from '../assets/photos/pauline-bord-de-mer.jpg';
+import salle from '../assets/photos/cabinet-salle.jpg';
+import fauteuil from '../assets/photos/cabinet-fauteuil-hypnose.jpg';
+import bureauLampe from '../assets/photos/cabinet-bureau-lampe.jpg';
+import vue from '../assets/photos/cabinet-vue-ensemble.jpg';
+import duo from '../assets/photos/pauline-christophe.jpg';
+
+const pages = (await getCollection('accompagnements')).sort((a, b) => a.data.order - b.data.order);
+
+const formations = [
+  { year: '2025', items: ['Enseignement Evidence® PNL niveaux 1 et 2', 'Enseignement Evidence® NEMO-EMDR'] },
+  {
+    year: '2024',
+    items: [
+      'Enseignement Evidence® Coach en développement personnel et en accompagnement holistique',
+      'Enseignement Evidence® Hypnose Transe Ericksonienne',
+      'Enseignement Evidence® Hypnose Conversationnelle',
+    ],
+  },
+];
+
+const parkings = [
+  ['Parking des anciens combattants d’Indochine, 34 avenue de la Libération', '2 min à pied'],
+  ['Parking de la Salle des fêtes, rue de la Font des Fabre', '3 min à pied'],
+  ['Parking Capitaine Claude Lepine', '4 min à pied'],
+  ['Parking Carnot, rue Carnot', '5 min à pied'],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a.join(' ') },
+  })),
+};
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Pauline Martino',
+  jobTitle: site.job,
+  worksFor: { '@id': `${site.url}/#cabinet` },
+  sameAs: Object.values(site.social),
+};
+---
+<Layout
+  title="Hypnothérapeute à La Farlède, près de Toulon | Pauline Martino"
+  description="Pauline Martino, hypnothérapeute et praticienne NEMO à La Farlède, à 15 min de Toulon. Stress, émotions, phobies, sommeil, tabac. Au cabinet ou en visio."
+  campaign="accueil"
+  jsonLd={[personSchema, faqSchema]}
+>
+  <!-- Accueil -->
+  <section class="relative overflow-hidden">
+    <div class="wrap grid items-center gap-10 py-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16 md:py-20">
+      <div>
+        <p class="text-lg text-olive">Hypnose et NEMO à La Farlède, à 15 min de Toulon, et en visio</p>
+        <h1 class="mt-4 text-[2.4rem] sm:text-5xl lg:text-[3.6rem]">
+          Pauline Martino, hypnothérapeute et praticienne NEMO à La Farlède
+        </h1>
+        <p class="mt-6 max-w-xl text-xl leading-relaxed text-noyer/85">
+          Ici, on prend soin de ce qui se passe en vous, par l’écoute, l’accompagnement et les mots.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <BookingButton campaign="accueil-hero" />
+          <a class="btn btn-ghost" href={site.phoneHref}>Appeler le {site.phone}</a>
+        </div>
+        <p class="mt-6 text-noyer/70">Séance d’une heure, {site.price}. Enfants dès 5 ans, adolescents et adultes.</p>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-sm md:max-w-none">
+        <OliveMark class="absolute -top-6 -left-8 z-10 h-24 w-24 -rotate-12 text-olive sm:h-28 sm:w-28" />
+        <div class="arch aspect-[4/5] bg-lin-fonce">
+          <Image
+            src={portrait}
+            alt="Portrait de Pauline Martino, hypnothérapeute à La Farlède"
+            widths={[400, 640, 900]}
+            sizes="(min-width: 768px) 40vw, 90vw"
+            class="h-full w-full object-cover object-[50%_30%]"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accompagnements -->
+  <section id="accompagnements" class="border-t border-noyer/10 py-16 sm:py-24">
+    <div class="wrap grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <h2 class="text-3xl sm:text-4xl">Pourquoi vient-on me consulter ?</h2>
+        <div class="prose-pauline mt-6 max-w-prose text-noyer/85">
+          <p>On me demande souvent : « C’est quoi votre spécialité ? ». Ma spécialité, c’est l’écoute, la véritable écoute, sans jugement, sans interprétation, sans analyse. Une écoute active et réceptive.</p>
+          <p>Chaque personne a sa propre carte du monde. L’objectif des séances est de vous accompagner à comprendre la façon dont vous voyez le monde, et à déprogrammer les croyances qui ne correspondent plus à qui vous êtes aujourd’hui.</p>
+        </div>
+        <p class="mt-6 max-w-prose text-noyer/85">
+          <strong class="font-semibold text-olive">Pour qui ?</strong> Les adultes, les femmes enceintes et jeunes mamans, les enfants à partir de 5 ans, les adolescents, les seniors et les couples.
+        </p>
+      </div>
+
+      <ul class="border-t border-noyer/15">
+        {pages.map((p) => (
+          <li class="border-b border-noyer/15">
+            <a href={`/${p.id}`} class="group flex items-center justify-between gap-6 py-6">
+              <span>
+                <span class="block font-serif text-2xl text-noyer transition-colors group-hover:text-argile sm:text-[1.7rem]">{p.data.menuLabel}</span>
+                <span class="mt-1 block text-noyer/70">{p.data.summary}</span>
+              </span>
+              <svg viewBox="0 0 24 24" class="h-6 w-6 shrink-0 text-olive transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Quote {...quotes[0]} />
+
+  <!-- Qui suis-je -->
+  <section id="qui-suis-je" class="py-16 sm:py-24">
+    <div class="wrap grid items-start gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+      <div class="arch mx-auto aspect-[3/4] w-full max-w-sm md:sticky md:top-28">
+        <Image src={mer} alt="Pauline Martino au bord de la mer, au coucher du soleil" widths={[400, 700]} sizes="(min-width: 768px) 35vw, 90vw" class="h-full w-full object-cover" />
+      </div>
+      <div>
+        <h2 class="text-3xl sm:text-4xl">Qui suis-je ?</h2>
+        <div class="prose-pauline mt-6 max-w-prose text-[1.1rem] text-noyer/85">
+          <p>Pauline Martino, passionnée par l’écriture et les comportements humains. Vous allez me dire : mais quel rapport ? De cette conjugaison est née ma rencontre avec l’hypnose, car toutes mes séances d’hypnose sont issues de ma plume.</p>
+          <p>Ma vocation est d’aider les gens, à tout âge. Tout ce que je propose, je l’expérimente sur moi. En l’espace de quelque temps, ma vie a pris un tournant : je suis sortie de mon brouillard mental, de mes ruminations, et j’ai emprunté un chemin en dehors des sentiers battus. C’est ce que je vous transmets en séance, pour que vous puissiez devenir votre propre thérapeute et avancer sereinement.</p>
+          <p>J’utilise des outils puissants et rapides, la PNL, l’hypnose et les mouvements oculaires (NEMO-EMDR), que j’ai adaptés à ma pratique. Les clients me disent souvent : « J’ai déjà fait de l’hypnose, mais je n’ai jamais vécu ça ! »</p>
+        </div>
+
+        <h3 class="mt-12 text-2xl">Mon parcours</h3>
+        <div class="prose-pauline mt-4 max-w-prose text-noyer/85">
+          <p>Depuis mon adolescence, je suis animée par le désir d’aider mon prochain. J’ai d’abord transformé ce désir en vocation en suivant la voie de l’avocature. Au fil des années, je m’éloignais pourtant de mon essence profonde et de mes émotions.</p>
+          <p>Lorsque j’ai accepté d’écouter le message de ma tristesse et celui de mon corps, j’ai pu reprendre ma vie en main. En quête de sens, j’ai choisi un chemin qui fait sens avec qui je suis. L’hypnose s’est naturellement frayé une voie jusqu’à moi : c’est maintenant un choix de vie, qui allie deux de mes passions, l’être humain et l’écriture.</p>
+        </div>
+        <BookingButton campaign="accueil-qui-suis-je" class="mt-8" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Techniques -->
+  <section id="techniques" class="bg-lin-fonce py-16 sm:py-24">
+    <div class="wrap">
+      <h2 class="max-w-2xl text-3xl sm:text-4xl">L’hypnose et NEMO, deux approches qui se complètent</h2>
+      <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-16">
+        <div>
+          <h3 class="text-2xl text-olive">L’hypnose, c’est quoi ?</h3>
+          <div class="prose-pauline mt-4 text-noyer/85">
+            <p>Un état naturel que vous vivez déjà plusieurs fois par jour, lorsque vous êtes absorbé par un film ou que vous conduisez sans vous souvenir du trajet. Votre attention se tourne vers l’intérieur et votre inconscient devient plus accessible.</p>
+            <p>Vous ne dormez pas : vous entendez tout, vous vous souvenez de tout et vous gardez le contrôle à chaque instant. Je travaille principalement avec des protocoles de libération de liens, qui vous aident à vous détacher de ce qui vous retient.</p>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-2xl text-olive">NEMO, c’est quoi ?</h3>
+          <div class="prose-pauline mt-4 text-noyer/85">
+            <p>NEMO signifie « nettoyage émotionnel par mouvements oculaires ». Lorsqu’un événement nous marque, l’émotion peut rester attachée au souvenir, parfois des années plus tard.</p>
+            <p>En séance, vous suivez ma baguette du regard. Ces mouvements aident votre cerveau à apaiser l’émotion : le souvenir reste, mais il devient neutre. Vous restez pleinement conscient et n’avez pas besoin de tout raconter en détail.</p>
+          </div>
+        </div>
+      </div>
+      <p class="mt-12 max-w-3xl border-l-2 border-argile pl-6 text-lg">
+        NEMO apaise une émotion liée à un souvenir ou à une situation précise. L’hypnose permet de comprendre ce qui se joue en vous et de vous libérer des liens qui vous retiennent. Je choisis avec vous, le jour de la séance, l’approche la plus adaptée.
+      </p>
+
+      <!-- Le cabinet -->
+      <div class="mt-20 grid gap-4 sm:grid-cols-3">
+        <div class="overflow-hidden rounded-2xl sm:mt-16">
+          <Image src={salle} alt="La salle du cabinet à La Farlède" widths={[400, 600]} sizes="(min-width: 640px) 30vw, 90vw" class="aspect-[3/4] h-full w-full object-cover" />
+        </div>
+        <div class="arch">
+          <Image src={fauteuil} alt="Le fauteuil d’hypnose devant la niche vert olive" widths={[400, 600]} sizes="(min-width: 640px) 30vw, 90vw" class="aspect-[3/4] h-full w-full object-cover" />
+        </div>
+        <div class="overflow-hidden rounded-2xl sm:mt-16">
+          <Image src={bureauLampe} alt="Le bureau d’accueil, avec une lampe de sel et une plante" widths={[400, 600]} sizes="(min-width: 640px) 30vw, 90vw" class="aspect-[3/4] h-full w-full object-cover" />
+        </div>
+      </div>
+      <p class="mt-6 text-center text-noyer/80">Le cabinet, au 119 avenue de la République à La Farlède. Les séances ont aussi lieu en visio, avec des résultats tout aussi rapides.</p>
+    </div>
+  </section>
+
+  <!-- Formations -->
+  <section class="py-16 sm:py-24">
+    <div class="wrap grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
+      <div>
+        <h2 class="text-3xl sm:text-4xl">Formations et certifications</h2>
+        <p class="mt-4 max-w-sm text-noyer/80">Formée par Evidence Relationnelle aux thérapies brèves.</p>
+      </div>
+      <ol class="relative border-l border-olive/40 pl-8">
+        {formations.map((f) => (
+          <li class="relative pb-8 last:pb-0">
+            <span class="absolute top-1.5 -left-[2.4rem] h-3 w-3 rounded-full bg-olive ring-4 ring-lin" aria-hidden="true"></span>
+            <p class="font-serif text-2xl text-olive">{f.year}</p>
+            <ul class="mt-2 space-y-1.5 text-noyer/85">
+              {f.items.map((i) => <li>{i}</li>)}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <Quote {...quotes[1]} tone="lin" />
+
+  <!-- Infos pratiques -->
+  <section id="infos-pratiques" class="py-16 sm:py-24">
+    <div class="wrap">
+      <h2 class="text-3xl sm:text-4xl">Informations pratiques</h2>
+      <div class="mt-10 grid gap-10 lg:grid-cols-[1fr_1fr_0.9fr]">
+        <div>
+          <h3 class="text-xl">Le cabinet</h3>
+          <address class="mt-3 not-italic text-noyer/85">{site.address.street}<br />{site.address.postalCode} {site.address.city}</address>
+          <a class="mt-2 inline-block font-semibold text-olive underline underline-offset-4 hover:text-argile" href={site.mapsUrl} target="_blank" rel="noopener">Voir l’itinéraire</a>
+          <h3 class="mt-8 text-xl">Horaires</h3>
+          <p class="mt-3 text-noyer/85">{site.hours}.</p>
+          <h3 class="mt-8 text-xl">Où stationner</h3>
+          <ul class="mt-3 space-y-2 text-noyer/85">
+            {parkings.map(([name, time]) => <li>{name} <span class="text-noyer/60">({time})</span></li>)}
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-xl">Les séances</h3>
+          <p class="mt-3 text-noyer/85">Hypnose, PNL ou NEMO, pour les enfants, les adolescents et les adultes, au cabinet ou en visio. Durée : {site.duration}.</p>
+          <h3 class="mt-8 text-xl">Tarif</h3>
+          <p class="mt-3 text-noyer/85"><span class="font-serif text-3xl text-noyer">{site.price}</span> la séance. Virement, carte bancaire, chèque ou espèces.</p>
+          <h3 class="mt-8 text-xl">Remboursement</h3>
+          <p class="mt-3 text-noyer/85">Les séances ne sont pas prises en charge par l’Assurance maladie. Certaines mutuelles en remboursent une partie au titre des médecines douces. Une facture vous est remise sur demande.</p>
+          <h3 class="mt-8 text-xl">Annulation</h3>
+          <p class="mt-3 text-noyer/85">Ici, le mot d’ordre est la liberté. Un imprévu ? Prévenez-moi simplement le plus tôt possible, pour que le créneau profite à quelqu’un d’autre.</p>
+        </div>
+
+        <div class="self-start rounded-3xl bg-olive-nuit p-8 text-lin">
+          <h3 class="text-2xl text-lin">Prendre rendez-vous</h3>
+          <p class="mt-3 text-lin/80">En ligne sur Medoucine, ou directement par téléphone.</p>
+          <BookingButton campaign="accueil-infos" class="mt-6 w-full" />
+          <a class="btn mt-3 w-full border border-lin/30 text-lin hover:bg-lin/10" href={site.phoneHref}>{site.phone}</a>
+          <p class="mt-6 text-sm text-lin/70">Par e-mail :<br /><a class="break-all text-lin underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Avis : à brancher -->
+  <section id="avis" class="bg-lin-fonce py-16 sm:py-24">
+    <div class="wrap">
+      <h2 class="text-3xl sm:text-4xl">Ce qu’en disent les personnes accompagnées</h2>
+      <div class="mt-10 rounded-3xl border-2 border-dashed border-noyer/25 p-10 text-center text-noyer/70">
+        <p class="font-semibold text-noyer">Emplacement des avis Google</p>
+        <p class="mt-2">Les avis réels de la fiche Google de Pauline s’afficheront ici (widget ou sélection validée par elle).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accompagnement à deux voix -->
+  <section class="py-16 sm:py-24">
+    <div class="wrap grid items-center gap-10 md:grid-cols-2 md:gap-16">
+      <div class="overflow-hidden rounded-3xl">
+        <Image src={duo} alt="Pauline Martino et Christophe Rodrik, en discussion" widths={[500, 800]} sizes="(min-width: 768px) 45vw, 90vw" class="aspect-[4/5] w-full object-cover object-top md:aspect-[4/4.4]" />
+      </div>
+      <div>
+        <h2 class="text-3xl sm:text-4xl">Clarté, confiance et passage à l’action</h2>
+        <div class="prose-pauline mt-6 max-w-prose text-noyer/85">
+          <p>Vous savez ce que vous voulez changer, mais quelque chose vous retient. Avec mon associé Christophe Rodrik, nous vous accompagnons à deux voix pour oser aller d’un inconfort connu vers un confort encore inconnu.</p>
+          <p>Deux thérapeutes, deux générations, deux forces : formés aux thérapies brèves, nous repérons ce qui bloque, le dénouons, et vous mettons en mouvement dès les premières séances. Nous enseignons aussi l’hypnose, la PNL et la philosophie de l’évidence relationnelle.</p>
+        </div>
+        <a class="btn btn-ghost mt-8" href={site.phoneHref}>Réserver un appel gratuit</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="border-t border-noyer/10 py-16 sm:py-24">
+    <div class="wrap max-w-3xl">
+      <h2 class="text-3xl sm:text-4xl">Vos questions</h2>
+      <div class="mt-8 border-t border-noyer/15">
+        {faq.map((f) => (
+          <details class="group border-b border-noyer/15">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-serif text-xl [&::-webkit-details-marker]:hidden">
+              {f.q}
+              <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-noyer/20 text-olive transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <div class="prose-pauline pb-6 text-noyer/85">
+              {f.a.map((p) => <p>{p}</p>)}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Dernier appel -->
+  <section class="relative overflow-hidden bg-olive py-16 text-lin sm:py-20">
+    <div class="wrap grid items-center gap-10 md:grid-cols-[1.3fr_0.7fr]">
+      <div>
+        <h2 class="text-3xl text-lin sm:text-4xl">Envie d’en parler ?</h2>
+        <p class="mt-4 max-w-xl text-lg text-lin/85">Réservez une séance au cabinet à La Farlède ou en visio. Vous pouvez aussi m’appeler pour poser vos questions avant de vous lancer.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <BookingButton campaign="accueil-fin" />
+          <a class="btn border border-lin/40 text-lin hover:bg-lin/10" href={site.phoneHref}>{site.phone}</a>
+        </div>
+      </div>
+      <div class="arch mx-auto hidden aspect-[3/4] w-56 md:block">
+        <Image src={vue} alt="" widths={[300, 450]} sizes="14rem" class="h-full w-full object-cover" />
+      </div>
+    </div>
+  </section>
+</Layout>

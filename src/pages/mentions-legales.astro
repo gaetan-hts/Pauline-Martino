@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+---
+<Layout title="Mentions légales | Pauline Martino" description="Mentions légales et politique de confidentialité du site de Pauline Martino, hypnothérapeute à La Farlède." campaign="mentions">
+  <section class="wrap max-w-3xl py-16">
+    <h1 class="text-4xl">Mentions légales et confidentialité</h1>
+    <div class="prose-pauline mt-8 text-noyer/85">
+      <p><strong>Éditrice du site :</strong> Pauline Martino, {site.address.street}, {site.address.postalCode} {site.address.city}. Téléphone : {site.phone}. E-mail : {site.email}.</p>
+      <p><strong>SIRET :</strong> [à compléter]</p>
+      <p><strong>Hébergement :</strong> [à compléter selon l’hébergeur retenu, ex. Cloudflare, Inc.]</p>
+      <p><strong>Données personnelles :</strong> ce site n’utilise pas de cookies publicitaires. Les informations envoyées par e-mail ou par téléphone servent uniquement à répondre à votre demande. La prise de rendez-vous est gérée par Medoucine, qui dispose de sa propre politique de confidentialité.</p>
+      <p><strong>Avertissement :</strong> les séances d’hypnose et de NEMO ne remplacent pas un suivi médical ou psychologique et ne dispensent d’aucun traitement en cours.</p>
+    </div>
+  </section>
+</Layout>

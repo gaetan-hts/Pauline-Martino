@@ -1,0 +1,17 @@
+---
+interface Props { text: string; author: string; tone?: 'olive' | 'lin' }
+const { text, author, tone = 'olive' } = Astro.props;
+---
+<figure class:list={[
+  'py-16 sm:py-24',
+  tone === 'olive' ? 'bg-olive-nuit text-lin' : 'bg-lin-fonce text-noyer',
+]}>
+  <div class="wrap max-w-4xl text-center">
+    <blockquote class="font-serif text-2xl leading-snug sm:text-[2.1rem]">
+      <p>« {text} »</p>
+    </blockquote>
+    <figcaption class:list={['mt-6 text-base', tone === 'olive' ? 'text-sauge' : 'text-olive']}>
+      {author}
+    </figcaption>
+  </div>
+</figure>

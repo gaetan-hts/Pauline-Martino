@@ -1,0 +1,85 @@
+@import 'tailwindcss';
+@import '@fontsource/young-serif';
+@import '@fontsource-variable/figtree';
+
+/* Palette tirée du cabinet : le lin des murs, le vert olive de la niche,
+   la terre cuite de la lampe et des chaises, le rotin, le noyer de la porte. */
+@theme {
+  --color-lin: #f2ece1;
+  --color-lin-fonce: #e6dbc8;
+  --color-olive: #56622f;
+  --color-olive-nuit: #353d1e;
+  --color-sauge: #a7ae86;
+  --color-argile: #a14d2c;
+  --color-argile-clair: #e9c4ad;
+  --color-rotin: #c39a5d;
+  --color-noyer: #2e2219;
+
+  --font-serif: 'Young Serif', Georgia, serif;
+  --font-sans: 'Figtree Variable', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    @apply bg-lin font-sans text-noyer antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-noyer;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-argile);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  /* L'arche : reprise des portes cannées du buffet et du miroir soleil */
+  .arch {
+    border-radius: 999px 999px 1.25rem 1.25rem;
+    overflow: hidden;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-semibold transition-colors;
+    min-height: 48px;
+  }
+  .btn-rdv {
+    @apply bg-argile text-white hover:bg-[#87401f];
+  }
+  .btn-ghost {
+    @apply border border-noyer/25 text-noyer hover:border-noyer hover:bg-white/40;
+  }
+  .prose-pauline p + p {
+    margin-top: 1rem;
+  }
+  .prose-pauline strong {
+    @apply font-semibold text-olive;
+  }
+}
