@@ -13,7 +13,6 @@ signs:
   - Vous vous levez fatigué(e), même après une nuit complète
   - Vous appréhendez le moment du coucher
 practice: Les premiers changements apparaissent généralement en quelques séances. Les séances ont lieu au cabinet à La Farlède ou en visio.
-disclaimer: Cet accompagnement ne remplace pas un suivi médical et ne dispense d'aucun traitement en cours.
 image: ../../assets/photos/cabinet-salle.jpg
 imageAlt: La salle du cabinet, avec le fauteuil d'hypnose, un fauteuil vintage et des suspensions en rotin
 ---

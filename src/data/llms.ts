@@ -4,6 +4,7 @@
 import { getCollection } from 'astro:content';
 import { site, formations, parkings, bookingUrl } from './site';
 import { faq } from './faq';
+import { platforms } from './avis';
 
 const url = (path: string) => new URL(path, site.url).href;
 
@@ -24,9 +25,7 @@ function header() {
 - Zone desservie : ${site.city}, ${site.neighbours.join(', ')}, et partout en visio
 - Téléphone : ${site.phone}
 - E-mail : ${site.email}
-- Prise de rendez-vous en ligne : [Medoucine](${bookingUrl('llms')})
-
-Les séances d’hypnose et de NEMO ne remplacent pas un suivi médical ou psychologique et ne dispensent d’aucun traitement en cours.`;
+- Prise de rendez-vous en ligne : [Medoucine](${bookingUrl('llms')})`;
 }
 
 export async function llmsTxt() {
@@ -45,6 +44,8 @@ ${list}
 - [Accueil](${url('/')}) : présentation, approche, techniques, formations, informations pratiques et FAQ
 - [Qui suis-je ?](${url('/#qui-suis-je')}) : parcours de Pauline Martino
 - [L’hypnose et NEMO](${url('/#techniques')}) : en quoi consistent les deux approches
+- [Ma formation](${url('/#formation')}) : formée par Christophe Rodrik, certifications, accompagnement à deux voix
+- [Avis](${url('/#avis')}) : notes et avis vérifiés
 - [Informations pratiques](${url('/#infos-pratiques')}) : adresse, horaires, stationnement, tarif, annulation
 - [Questions fréquentes](${url('/#faq')})
 
@@ -72,7 +73,6 @@ export async function llmsFullTxt() {
         `**Vous vous reconnaissez ?**\n\n${d.signs.map((s) => `- ${s}`).join('\n')}`,
         (p.body ?? '').trim(),
         `**En pratique** : ${d.practice}`,
-        `_${d.disclaimer}_`,
       ]
         .filter(Boolean)
         .join('\n\n');
@@ -81,6 +81,9 @@ export async function llmsFullTxt() {
 
   const training = formations.map((f) => `- ${f.year} : ${f.items.join(' ; ')}`).join('\n');
   const parking = parkings.map(([name, time]) => `- ${name} (${time})`).join('\n');
+  const reviewsLine = platforms
+    .map((p) => `- ${p.source} : ${p.rating}/5 sur ${p.count} avis (relevé le ${p.checkedAt}), [lire les avis](${p.url})`)
+    .join('\n');
   const questions = faq.map((f) => `### ${f.q}\n\n${f.a.join('\n\n')}`).join('\n\n');
 
   return `${header()}
@@ -96,13 +99,21 @@ Une séance commence par un échange d’une vingtaine de minutes, puis utilise 
 - **L’hypnose** : un état naturel où l’attention se tourne vers l’intérieur. On ne dort pas, on entend tout et on garde le contrôle. Pauline Martino travaille principalement avec des protocoles de libération de liens.
 - **NEMO** (nettoyage émotionnel par mouvements oculaires) : on suit une baguette du regard pour apaiser l’émotion attachée à un souvenir. Le souvenir reste, mais devient neutre. Pas besoin de tout raconter en détail.
 
-## Formations (Evidence Relationnelle)
+## Formation
+
+Pauline Martino a été formée par Christophe Rodrik, hypnothérapeute depuis 20 ans, lors d’une formation immersive : 15 jours d’enseignement en hypnose, PNL et NEMO-EMDR, puis 4 mois d’accompagnement. Elle a assisté à de nombreuses séances à ses côtés avant de s’installer, et exerce depuis presque trois ans.
+
+Certifications Evidence Relationnelle :
 
 ${training}
 
-## Accompagnement à deux voix
+## Accompagnement à deux voix et formation de thérapeutes
 
-Avec son associé Christophe Rodrik, Pauline Martino propose un accompagnement à deux voix (clarté, confiance et passage à l’action). Tous deux enseignent aussi l’hypnose, la PNL et la philosophie de l’évidence relationnelle.
+Avec son associé Christophe Rodrik, Pauline Martino propose des accompagnements à deux voix, deux générations, pour aider à passer à l’action. Ensemble, ils forment aussi de futurs thérapeutes : une formation immersive en hypnose et PNL, puis un accompagnement pour s’installer et développer son activité.
+
+## Avis
+
+${reviewsLine}
 
 ## Accompagnements
 

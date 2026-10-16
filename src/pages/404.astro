@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import BookingButton from '../components/BookingButton.astro';
+import { site } from '../data/site';
+
+const pages = (await getCollection('accompagnements')).sort((a, b) => a.data.order - b.data.order);
+---
+<Layout title="Page introuvable | Pauline Martino" description="Cette page n’existe pas ou a été déplacée." campaign="404" noindex>
+  <section class="wrap max-w-3xl py-20 sm:py-28">
+    <p class="text-lg text-olive">Erreur 404</p>
+    <h1 class="mt-3 text-4xl sm:text-5xl">Cette page n’existe pas, ou plus</h1>
+    <p class="mt-6 text-xl text-noyer/85">Le lien est peut-être ancien ou mal recopié. Voici où vous pouvez aller :</p>
+    <ul class="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+      <li><a class="font-semibold text-olive underline underline-offset-4 hover:text-argile" href="/">Accueil</a></li>
+      {pages.map((p) => (
+        <li><a class="font-semibold text-olive underline underline-offset-4 hover:text-argile" href={`/${p.id}`}>{p.data.menuLabel}</a></li>
+      ))}
+      <li><a class="font-semibold text-olive underline underline-offset-4 hover:text-argile" href="/#infos-pratiques">Informations pratiques</a></li>
+    </ul>
+    <div class="mt-10 flex flex-wrap gap-3">
+      <BookingButton campaign="404" />
+      <a class="btn btn-ghost" href={site.phoneHref}>Appeler le {site.phone}</a>
+    </div>
+  </section>
+</Layout>

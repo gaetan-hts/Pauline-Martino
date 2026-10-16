@@ -12,8 +12,18 @@ interface Props {
   campaign: string; // identifiant de page pour le suivi des clics « Prendre rendez-vous »
   jsonLd?: Record<string, unknown>[];
   ogImage?: ImageMetadata;
+  ogImageAlt?: string;
+  noindex?: boolean; // page 404
 }
-const { title, description, campaign, jsonLd = [], ogImage = ogDefault } = Astro.props;
+const {
+  title,
+  description,
+  campaign,
+  jsonLd = [],
+  ogImage = ogDefault,
+  ogImageAlt = 'Portrait de Pauline Martino, hypnothérapeute à La Farlède',
+  noindex = false,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/'), site.url).href;
 const og = await getImage({ src: ogImage, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
 const ogUrl = new URL(og.src, site.url).href;
@@ -29,7 +39,18 @@ const business = {
   telephone: '+33605532143',
   email: site.email,
   image: ogUrl,
-  priceRange: '80 €',
+  priceRange: site.price,
+  currenciesAccepted: 'EUR',
+  paymentAccepted: 'Virement, carte bancaire, chèque, espèces',
+  geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  hasMap: site.mapsUrl,
+  knowsLanguage: 'fr',
+  makesOffer: {
+    '@type': 'Offer',
+    name: 'Séance d’hypnose, de PNL ou de NEMO (1 heure), au cabinet ou en visio',
+    price: site.priceValue,
+    priceCurrency: 'EUR',
+  },
   address: {
     '@type': 'PostalAddress',
     streetAddress: site.address.street,
@@ -54,9 +75,10 @@ const schemas = [business, ...jsonLd];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!noindex && <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#f2ece1" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
@@ -65,6 +87,9 @@ const schemas = [business, ...jsonLd];
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
 
     {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}

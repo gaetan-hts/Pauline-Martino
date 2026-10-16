@@ -16,7 +16,6 @@ signs:
   - Vous avez des envies de sucre difficiles à maîtriser
   - La cigarette ou la nourriture est devenue votre façon de traverser les émotions
 practice: Inutile d'attendre le « bon moment » ou de vous sentir assez fort(e), venez comme vous êtes. L'accompagnement se déroule sur quelques séances et peut compléter un suivi médical ou diététique. Les séances ont lieu au cabinet à La Farlède ou en visio.
-disclaimer: Cet accompagnement ne remplace pas un suivi médical et ne dispense d'aucun traitement en cours.
 image: ../../assets/photos/cabinet-bureau-jour.jpg
 imageAlt: Le bureau du cabinet baigné de lumière naturelle, avec une plante et deux chaises
 ---

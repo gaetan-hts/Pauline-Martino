@@ -1,10 +1,12 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import BookingButton from '../components/BookingButton.astro';
 import Quote from '../components/Quote.astro';
 import OliveMark from '../components/OliveMark.astro';
+import Illustration from '../components/Illustration.astro';
+import Reviews from '../components/Reviews.astro';
 import { site, quotes, formations, parkings } from '../data/site';
 import { faq } from '../data/faq';
 
@@ -13,8 +15,11 @@ import mer from '../assets/photos/pauline-bord-de-mer.jpg';
 import salle from '../assets/photos/cabinet-salle.jpg';
 import fauteuil from '../assets/photos/cabinet-fauteuil-hypnose.jpg';
 import bureauLampe from '../assets/photos/cabinet-bureau-lampe.jpg';
+import bureauJour from '../assets/photos/cabinet-bureau-jour.jpg';
 import vue from '../assets/photos/cabinet-vue-ensemble.jpg';
 import duo from '../assets/photos/pauline-christophe.jpg';
+
+const portraitOg = await getImage({ src: portrait, width: 800, format: 'jpg' });
 
 const pages = (await getCollection('accompagnements')).sort((a, b) => a.data.order - b.data.order);
 
@@ -32,7 +37,18 @@ const personSchema = {
   '@type': 'Person',
   name: 'Pauline Martino',
   jobTitle: site.job,
+  url: site.url,
+  image: new URL(portraitOg.src, site.url).href,
   worksFor: { '@id': `${site.url}/#cabinet` },
+  knowsAbout: ['Hypnose ericksonienne', 'Hypnose conversationnelle', 'PNL', 'NEMO-EMDR', 'Thérapies brèves'],
+  hasCredential: formations.flatMap((f) =>
+    f.items.map((name) => ({
+      '@type': 'EducationalOccupationalCredential',
+      name,
+      dateCreated: f.year,
+      recognizedBy: { '@type': 'Organization', name: 'Evidence Relationnelle' },
+    })),
+  ),
   sameAs: Object.values(site.social),
 };
 ---
@@ -131,6 +147,34 @@ const personSchema = {
         <BookingButton campaign="accueil-qui-suis-je" class="mt-8" />
       </div>
     </div>
+
+    <!-- Le cabinet -->
+    <div class="wrap mt-20 sm:mt-28">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <h3 class="text-3xl">Le cabinet</h3>
+        <p class="max-w-md text-noyer/80">
+          Au {site.address.street} à {site.address.city}, un lieu calme et lumineux.
+          Les séances ont aussi lieu en visio, avec des résultats tout aussi rapides.
+        </p>
+      </div>
+      <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:grid-rows-2">
+        <div class="arch col-span-2 aspect-[4/5] lg:row-span-2 lg:aspect-auto">
+          <Image src={fauteuil} alt="Le fauteuil d’hypnose du cabinet, devant la niche vert olive" widths={[500, 800]} sizes="(min-width: 1024px) 36rem, 95vw" class="h-full w-full object-cover" />
+        </div>
+        <div class="overflow-hidden rounded-2xl">
+          <Image src={salle} alt="La salle du cabinet à La Farlède, avec ses suspensions en rotin" widths={[300, 500]} sizes="(min-width: 1024px) 18rem, 47vw" class="aspect-square h-full w-full object-cover" />
+        </div>
+        <div class="overflow-hidden rounded-2xl">
+          <Image src={bureauLampe} alt="Le bureau d’accueil, avec une lampe de sel et une plante" widths={[300, 500]} sizes="(min-width: 1024px) 18rem, 47vw" class="aspect-square h-full w-full object-cover" />
+        </div>
+        <div class="overflow-hidden rounded-2xl">
+          <Image src={bureauJour} alt="Le bureau du cabinet en lumière naturelle" widths={[300, 500]} sizes="(min-width: 1024px) 18rem, 47vw" class="aspect-square h-full w-full object-cover" />
+        </div>
+        <div class="overflow-hidden rounded-2xl">
+          <Image src={vue} alt="Vue d’ensemble de la salle, avec le fauteuil vintage et la lampe" widths={[300, 500]} sizes="(min-width: 1024px) 18rem, 47vw" class="aspect-square h-full w-full object-cover" />
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Techniques -->
@@ -139,6 +183,7 @@ const personSchema = {
       <h2 class="max-w-2xl text-3xl sm:text-4xl">L’hypnose et NEMO, deux approches qui se complètent</h2>
       <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-16">
         <div>
+          <Illustration name="hypnose" class="mb-8 w-full max-w-xs" />
           <h3 class="text-2xl text-olive">L’hypnose, c’est quoi ?</h3>
           <div class="prose-pauline mt-4 text-noyer/85">
             <p>Un état naturel que vous vivez déjà plusieurs fois par jour, lorsque vous êtes absorbé par un film ou que vous conduisez sans vous souvenir du trajet. Votre attention se tourne vers l’intérieur et votre inconscient devient plus accessible.</p>
@@ -146,6 +191,7 @@ const personSchema = {
           </div>
         </div>
         <div>
+          <Illustration name="nemo" class="mb-8 w-full max-w-xs" />
           <h3 class="text-2xl text-olive">NEMO, c’est quoi ?</h3>
           <div class="prose-pauline mt-4 text-noyer/85">
             <p>NEMO signifie « nettoyage émotionnel par mouvements oculaires ». Lorsqu’un événement nous marque, l’émotion peut rester attachée au souvenir, parfois des années plus tard.</p>
@@ -156,41 +202,44 @@ const personSchema = {
       <p class="mt-12 max-w-3xl border-l-2 border-argile pl-6 text-lg">
         NEMO apaise une émotion liée à un souvenir ou à une situation précise. L’hypnose permet de comprendre ce qui se joue en vous et de vous libérer des liens qui vous retiennent. Je choisis avec vous, le jour de la séance, l’approche la plus adaptée.
       </p>
-
-      <!-- Le cabinet -->
-      <div class="mt-20 grid gap-4 sm:grid-cols-3">
-        <div class="overflow-hidden rounded-2xl sm:mt-16">
-          <Image src={salle} alt="La salle du cabinet à La Farlède" widths={[400, 600]} sizes="(min-width: 640px) 30vw, 90vw" class="aspect-[3/4] h-full w-full object-cover" />
-        </div>
-        <div class="arch">
-          <Image src={fauteuil} alt="Le fauteuil d’hypnose devant la niche vert olive" widths={[400, 600]} sizes="(min-width: 640px) 30vw, 90vw" class="aspect-[3/4] h-full w-full object-cover" />
-        </div>
-        <div class="overflow-hidden rounded-2xl sm:mt-16">
-          <Image src={bureauLampe} alt="Le bureau d’accueil, avec une lampe de sel et une plante" widths={[400, 600]} sizes="(min-width: 640px) 30vw, 90vw" class="aspect-[3/4] h-full w-full object-cover" />
-        </div>
-      </div>
-      <p class="mt-6 text-center text-noyer/80">Le cabinet, au 119 avenue de la République à La Farlède. Les séances ont aussi lieu en visio, avec des résultats tout aussi rapides.</p>
     </div>
   </section>
 
-  <!-- Formations -->
-  <section class="py-16 sm:py-24">
-    <div class="wrap grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
-      <div>
-        <h2 class="text-3xl sm:text-4xl">Formations et certifications</h2>
-        <p class="mt-4 max-w-sm text-noyer/80">Formée par Evidence Relationnelle aux thérapies brèves.</p>
+  <!-- Formation et accompagnement à deux voix -->
+  <section id="formation" class="py-16 sm:py-24">
+    <div class="wrap grid items-start gap-12 md:grid-cols-[0.85fr_1.15fr] md:gap-16">
+      <div class="overflow-hidden rounded-3xl md:sticky md:top-28">
+        <Image src={duo} alt="Pauline Martino et Christophe Rodrik, son formateur et associé, en discussion" widths={[500, 800]} sizes="(min-width: 768px) 40vw, 95vw" class="aspect-[4/5] w-full object-cover object-top" />
       </div>
-      <ol class="relative border-l border-olive/40 pl-8">
-        {formations.map((f) => (
-          <li class="relative pb-8 last:pb-0">
-            <span class="absolute top-1.5 -left-[2.4rem] h-3 w-3 rounded-full bg-olive ring-4 ring-lin" aria-hidden="true"></span>
-            <p class="font-serif text-2xl text-olive">{f.year}</p>
-            <ul class="mt-2 space-y-1.5 text-noyer/85">
-              {f.items.map((i) => <li>{i}</li>)}
-            </ul>
-          </li>
-        ))}
-      </ol>
+      <div>
+        <h2 class="text-3xl sm:text-4xl">Ma formation</h2>
+        <div class="prose-pauline mt-6 max-w-prose text-[1.1rem] text-noyer/85">
+          <p>J’ai été formée par Christophe Rodrik, hypnothérapeute depuis 20 ans, lors d’une formation immersive : 15 jours d’enseignement en hypnose, PNL et NEMO-EMDR, puis 4 mois d’accompagnement pour devenir une thérapeute « tout terrain ».</p>
+          <p>J’ai assisté à de nombreuses séances à ses côtés, avec ses clients, avant de m’installer. J’exerce depuis presque trois ans.</p>
+        </div>
+
+        <h3 class="mt-10 text-xl">Certifications Evidence Relationnelle</h3>
+        <ol class="relative mt-5 border-l border-olive/40 pl-8">
+          {formations.map((f) => (
+            <li class="relative pb-6 last:pb-0">
+              <span class="absolute top-1.5 -left-[2.4rem] h-3 w-3 rounded-full bg-olive ring-4 ring-lin" aria-hidden="true"></span>
+              <p class="font-serif text-2xl text-olive">{f.year}</p>
+              <ul class="mt-2 space-y-1.5 text-noyer/85">
+                {f.items.map((i) => <li>{i}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ol>
+
+        <div class="mt-12 rounded-3xl bg-lin-fonce p-7 sm:p-9">
+          <h3 class="text-2xl">À deux voix, avec Christophe</h3>
+          <div class="prose-pauline mt-4 text-noyer/85">
+            <p>Avec Christophe, mon associé, nous proposons aussi des accompagnements à deux voix, deux générations, pour vous aider à passer à l’action.</p>
+            <p>Et si vous rêvez de devenir thérapeute, nous transmettons ce que j’ai moi-même vécu : une formation immersive en hypnose et PNL, puis un accompagnement pour vous installer et développer votre activité.</p>
+          </div>
+          <a class="btn btn-ghost mt-6" href={site.phoneHref}>Réserver un appel gratuit</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -235,46 +284,22 @@ const personSchema = {
     </div>
   </section>
 
-  <!-- Avis : à brancher -->
-  <section id="avis" class="bg-lin-fonce py-16 sm:py-24">
-    <div class="wrap">
-      <h2 class="text-3xl sm:text-4xl">Ce qu’en disent les personnes accompagnées</h2>
-      <div class="mt-10 rounded-3xl border-2 border-dashed border-noyer/25 p-10 text-center text-noyer/70">
-        <p class="font-semibold text-noyer">Emplacement des avis Google</p>
-        <p class="mt-2">Les avis réels de la fiche Google de Pauline s’afficheront ici (widget ou sélection validée par elle).</p>
-      </div>
-    </div>
-  </section>
+  <!-- Avis -->
+  <Reviews />
 
-  <!-- Accompagnement à deux voix -->
-  <section class="py-16 sm:py-24">
-    <div class="wrap grid items-center gap-10 md:grid-cols-2 md:gap-16">
-      <div class="overflow-hidden rounded-3xl">
-        <Image src={duo} alt="Pauline Martino et Christophe Rodrik, en discussion" widths={[500, 800]} sizes="(min-width: 768px) 45vw, 90vw" class="aspect-[4/5] w-full object-cover object-top md:aspect-[4/4.4]" />
-      </div>
-      <div>
-        <h2 class="text-3xl sm:text-4xl">Clarté, confiance et passage à l’action</h2>
-        <div class="prose-pauline mt-6 max-w-prose text-noyer/85">
-          <p>Vous savez ce que vous voulez changer, mais quelque chose vous retient. Avec mon associé Christophe Rodrik, nous vous accompagnons à deux voix pour oser aller d’un inconfort connu vers un confort encore inconnu.</p>
-          <p>Deux thérapeutes, deux générations, deux forces : formés aux thérapies brèves, nous repérons ce qui bloque, le dénouons, et vous mettons en mouvement dès les premières séances. Nous enseignons aussi l’hypnose, la PNL et la philosophie de l’évidence relationnelle.</p>
-        </div>
-        <a class="btn btn-ghost mt-8" href={site.phoneHref}>Réserver un appel gratuit</a>
-      </div>
-    </div>
-  </section>
 
   <!-- FAQ -->
   <section id="faq" class="border-t border-noyer/10 py-16 sm:py-24">
     <div class="wrap max-w-3xl">
       <h2 class="text-3xl sm:text-4xl">Vos questions</h2>
-      <div class="mt-8 border-t border-noyer/15">
+      <div class="mt-8 space-y-3">
         {faq.map((f) => (
-          <details class="group border-b border-noyer/15">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-serif text-xl [&::-webkit-details-marker]:hidden">
+          <details class="faq group rounded-2xl border border-noyer/10 bg-white/35 transition-colors open:border-olive/25 open:bg-white/60">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 px-5 py-5 font-serif text-xl transition-colors hover:text-olive sm:px-7 [&::-webkit-details-marker]:hidden">
               {f.q}
-              <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-noyer/20 text-olive transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+              <span class="faq-icon" aria-hidden="true"></span>
             </summary>
-            <div class="prose-pauline pb-6 text-noyer/85">
+            <div class="prose-pauline px-5 pb-6 text-noyer/85 sm:px-7">
               {f.a.map((p) => <p>{p}</p>)}
             </div>
           </details>

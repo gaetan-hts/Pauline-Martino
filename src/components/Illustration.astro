@@ -1,0 +1,76 @@
+---
+// Illustrations dessinées pour le site (SVG, couleurs de la charte), dans la forme de l'arche.
+// hypnose : soleil couchant sur la mer, l'attention qui se tourne vers l'intérieur
+// nemo : un regard qui suit la baguette, de gauche à droite (animé, sauf prefers-reduced-motion)
+interface Props { name: 'hypnose' | 'nemo'; class?: string }
+const { name, class: cls = '' } = Astro.props;
+const id = `ill-${name}`;
+---
+<svg viewBox="0 0 320 240" class:list={['block', cls]} role="img" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id={`${id}-arch`}>
+      <path d="M50 236V120a110 110 0 0 1 220 0v116z" />
+    </clipPath>
+  </defs>
+  <path d="M50 236V120a110 110 0 0 1 220 0v116z" class="fill-lin" />
+  <g clip-path={`url(#${id}-arch)`}>
+    {name === 'hypnose' ? (
+      <>
+        <rect x="50" y="10" width="220" height="150" class="fill-argile-clair" opacity="0.35" />
+        <g fill="none" class="stroke-rotin" stroke-width="1.5">
+          <path d="M96 160a64 64 0 0 1 128 0" opacity="0.55" />
+          <path d="M72 160a88 88 0 0 1 176 0" opacity="0.35" />
+          <path d="M48 160a112 112 0 0 1 224 0" opacity="0.2" />
+        </g>
+        <path d="M124 160a36 36 0 0 1 72 0z" class="fill-argile" />
+        <rect x="50" y="160" width="220" height="80" class="fill-olive" opacity="0.14" />
+        <g class="stroke-argile" stroke-linecap="round" stroke-width="3" opacity="0.6">
+          <path d="M132 172h56" /><path d="M142 184h36" /><path d="M150 196h20" />
+        </g>
+        <g class="stroke-olive" stroke-linecap="round" stroke-width="1.5" opacity="0.45">
+          <path d="M70 178h40" /><path d="M210 178h40" /><path d="M86 202h44" /><path d="M196 206h36" /><path d="M120 220h80" />
+        </g>
+        <path d="M50 160h220" class="stroke-olive" stroke-width="1.5" opacity="0.6" />
+      </>
+    ) : (
+      <>
+        <rect x="50" y="10" width="220" height="230" class="fill-lin-fonce" opacity="0.6" />
+        <path d="M90 118q70-62 140 0q-70 62-140 0z" class="fill-lin stroke-olive" stroke-width="2.5" stroke-linejoin="round" />
+        <clipPath id={`${id}-eye`}><path d="M90 118q70-62 140 0q-70 62-140 0z" /></clipPath>
+        <g clip-path={`url(#${id}-eye)`}>
+          <g class="nemo-iris">
+            <circle cx="160" cy="118" r="22" class="fill-olive" />
+            <circle cx="160" cy="118" r="9" class="fill-noyer" />
+            <circle cx="166" cy="111" r="4" class="fill-lin" opacity="0.9" />
+          </g>
+        </g>
+        <path d="M84 98q8-30 34-44M236 98q-8-30-34-44M160 52v-14" class="stroke-olive" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.4" />
+        <path d="M90 196h140" class="stroke-olive" stroke-width="1.5" stroke-dasharray="2 7" stroke-linecap="round" opacity="0.6" />
+        <path d="M84 196l-8 0M78 190l-6 6 6 6M236 196h8M242 190l6 6-6 6" class="stroke-olive" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6" />
+        <g class="nemo-wand">
+          <path d="M160 196v-26" class="stroke-noyer" stroke-width="2" stroke-linecap="round" opacity="0.7" />
+          <circle cx="160" cy="166" r="7" class="fill-argile" />
+        </g>
+      </>
+    )}
+  </g>
+  <path d="M50 236V120a110 110 0 0 1 220 0v116" fill="none" class="stroke-olive" stroke-width="1.5" opacity="0.35" />
+</svg>
+
+<style>
+  .nemo-iris,
+  .nemo-wand {
+    animation: nemo-look 4.8s ease-in-out infinite;
+  }
+  .nemo-iris {
+    animation-name: nemo-iris;
+  }
+  @keyframes nemo-look {
+    0%, 100% { transform: translateX(-60px); }
+    50% { transform: translateX(60px); }
+  }
+  @keyframes nemo-iris {
+    0%, 100% { transform: translateX(-26px); }
+    50% { transform: translateX(26px); }
+  }
+</style>

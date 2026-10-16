@@ -36,16 +36,18 @@ src/
   data/site.ts            ← téléphone, e-mail, adresse, horaires, tarif, réseaux, communes voisines,
                             bookingUrl(campaign) vers Medoucine, citations
   data/faq.ts             ← FAQ (affichée sur la home + JSON-LD FAQPage)
+  data/avis.ts            ← notes par plateforme (Medoucine, Google) + extraits d'avis choisis par Pauline
   data/llms.ts            ← contenu de /llms.txt et /llms-full.txt, généré depuis site.ts, faq.ts
                             et la collection (pages/llms.txt.ts, pages/llms-full.txt.ts)
   content.config.ts       ← schéma Zod de la collection « accompagnements »
   content/accompagnements/*.md  ← les 7 pages thématiques (nom de fichier = URL)
   pages/index.astro       ← home (one-page longue, ancres #accompagnements #qui-suis-je
-                            #techniques #infos-pratiques #avis #faq)
+                            #techniques #formation #infos-pratiques #avis #faq)
   pages/[slug].astro      ← gabarit des pages thématiques
   pages/mentions-legales.astro
   layouts/Layout.astro    ← <head> SEO, OG, JSON-LD LocalBusiness commun, header/footer
-  components/             ← Header, Footer, BookingButton, Quote, OliveMark (logo provisoire)
+  components/             ← Header, Footer, BookingButton, Quote, OliveMark (logo provisoire),
+                            Reviews (section avis), Illustration (SVG hypnose / nemo dans l'arche)
   styles/global.css       ← tokens Tailwind + .wrap .arch .btn .btn-rdv .btn-ghost .prose-pauline
   typo-fr.mjs             ← intégration Astro : espaces insécables FR + apostrophes courbes au build
   assets/photos/          ← photos (optimisées en WebP par <Image>)
@@ -61,9 +63,9 @@ scripts/screenshots.mjs
 ## Contenu : règles
 
 1. **Les textes viennent de Pauline** (`docs/brief-*.md`). On garde sa voix et ses formulations, en se limitant à corriger l'orthographe et la ponctuation, et à couper les paragraphes trop longs. Pas de réécriture marketing.
-2. **Ne jamais inventer d'avis, de témoignages, de chiffres ou de résultats.** La section `#avis` reste un emplacement tant qu'on n'a pas ses vrais avis Google.
+2. **Ne jamais inventer d'avis, de témoignages, de chiffres ou de résultats.** La section `#avis` affiche les notes Google (5/5, 106) et Medoucine (4,9/5, 59) relevées à la main le 16/10/2026, et 6 avis Medoucine copiés mot pour mot (`avis.ts`). Pas d'API : on met à jour à la main.
 3. **Pas d'allégations thérapeutiques.** La liste « Accroches par problématique » / « Mots clés » en fin de `brief-presentation-pauline.md` (cancer, épilepsie, endométriose, allergies, AVC, troubles sexuels, etc.) **ne doit pas être utilisée** dans le site. Raisons : risque DGCCRF / exercice illégal de la médecine, pénalité Google sur les sujets santé (YMYL), et une liste de mots-clés n'a aucun effet SEO. Gaëtan a validé ce point. Le SEO passe par les 7 pages thématiques.
-4. Chaque page thématique garde sa mention : « Cet accompagnement ne remplace pas un suivi médical ou psychologique… ».
+4. La mention « ne remplace pas un suivi médical ou psychologique » a été retirée partout à la demande de Gaëtan (oct. 2026). Ne pas la remettre sans qu'il le demande ; les règles 2 et 3 (rien d'inventé, aucune allégation thérapeutique) restent d'autant plus importantes.
 5. Les citations de Pauline (`quotes` dans `site.ts`) sont réparties sur le site en bandeaux (`<Quote>`, ton `olive` ou `lin`). Elle tient à les voir « sur l'ensemble du site ».
 6. Une photo est écartée : `panneau-en-seance.jpg`, à cause de la carte « suis tes rêves putain » posée dessus. À ne pas utiliser, sauf si on la recadre sur le seul panneau.
 
@@ -80,7 +82,7 @@ scripts/screenshots.mjs
 - Le téléphone est toujours un lien `tel:` (`site.phoneHref`).
 - Images : toujours `<Image>` d'`astro:assets` avec `widths` + `sizes` et un `alt` descriptif en français. L'image LCP (hero) est en `loading="eager" fetchpriority="high"`.
 - Typo FR : le post-traitement `typo-fr.mjs` s'en charge au build, donc écrire les textes normalement (« Qu'est-ce que… ? »).
-- **SEO pour les IA (GEO) :** `/llms.txt` (résumé + liens, format llmstxt.org) et `/llms-full.txt` (tous les textes) sont générés au build. Le texte « Approche » de `llms.ts` reprend la home : le mettre à jour si celle-ci change. Mêmes règles que le site : rien d'inventé, pas d'allégation thérapeutique, mention « ne remplace pas un suivi médical » conservée.
+- **SEO pour les IA (GEO) :** `/llms.txt` (résumé + liens, format llmstxt.org) et `/llms-full.txt` (tous les textes) sont générés au build. Le texte « Approche » de `llms.ts` reprend la home : le mettre à jour si celle-ci change. Mêmes règles que le site : rien d'inventé, pas d'allégation thérapeutique.
 - Le levier SEO externe le plus fort reste la **fiche Google Business Profile** de Pauline, qui doit pointer vers le site une fois en ligne.
 
 ## Charte graphique
@@ -112,12 +114,12 @@ La palette est tirée des photos du cabinet. Le pari visuel : **l'arche** (porte
 | `pauline-portrait.jpg` | portrait, veste taupe, fond sculpté blanc | hero home, confiance-en-soi, image OG par défaut |
 | `pauline-bord-de-mer.jpg` | Pauline souriante, coucher de soleil | qui suis-je, phobies |
 | `coucher-soleil-coeur.jpg` | mains en cœur autour du soleil | souvenirs douloureux |
-| `cabinet-fauteuil-hypnose.jpg` | fauteuil gris, niche vert olive | galerie home, stress-anxiété |
-| `cabinet-salle.jpg` | vue de la salle, suspensions rotin | galerie home, sommeil |
-| `cabinet-bureau-lampe.jpg` | bureau, lampe de sel | galerie home, émotions |
-| `cabinet-bureau-jour.jpg` | bureau en lumière naturelle | habitudes à changer |
-| `cabinet-vue-ensemble.jpg` | salle, fauteuil vintage, lampe | bandeau final home |
-| `pauline-christophe.jpg` | Pauline et Christophe Rodrik | section « à deux voix » |
+| `cabinet-fauteuil-hypnose.jpg` | fauteuil gris, niche vert olive | galerie « Le cabinet » (qui suis-je), stress-anxiété |
+| `cabinet-salle.jpg` | vue de la salle, suspensions rotin | galerie « Le cabinet », sommeil |
+| `cabinet-bureau-lampe.jpg` | bureau, lampe de sel | galerie « Le cabinet », émotions |
+| `cabinet-bureau-jour.jpg` | bureau en lumière naturelle | galerie « Le cabinet », habitudes à changer |
+| `cabinet-vue-ensemble.jpg` | salle, fauteuil vintage, lampe | galerie « Le cabinet », bandeau final home |
+| `pauline-christophe.jpg` | Pauline et Christophe Rodrik | section « Ma formation » (#formation) |
 
 ## Pièges connus
 
@@ -152,7 +154,7 @@ La palette est tirée des photos du cabinet. Le pari visuel : **l'arche** (porte
    - la mention © du texte
 3. **Keystatic** (CMS git-based gratuit) pour que Pauline publie ses écrits seule
 4. Page dédiée « Accompagnement à deux voix » (avec Christophe Rodrik) + avis Google d'Evidence Relationnelle + vrai lien « Réserver un appel gratuit »
-5. Section avis : widget Google ou sélection d'avis réels validée par Pauline
+5. Avis : faire valider les 6 extraits par Pauline, remplacer le lien Google par celui de sa fiche
 6. Page contact avec formulaire (Web3Forms) et carte
 7. Logo définitif + favicon
 8. Mentions légales : SIRET et hébergeur
@@ -161,3 +163,8 @@ La palette est tirée des photos du cabinet. Le pari visuel : **l'arche** (porte
    - Search Console + sitemap
    - lien depuis la fiche Google Business Profile
 10. MVP2 : prise de RDV Cal.com (voir plus haut)
+
+## Images
+
+- Pas d'images générées façon « photo » (faux cabinet, fausses personnes) : sur un site de thérapeute, l'authenticité compte. Là où une image manque, on dessine une illustration SVG dans la charte (`Illustration.astro` : arche, olive, argile, lin).
+- Hors bandeaux photo, les illustrations animées respectent `prefers-reduced-motion` (règle globale dans `global.css`).

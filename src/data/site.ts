@@ -16,8 +16,10 @@ export const site = {
     region: 'Provence-Alpes-Côte d’Azur',
     country: 'FR',
   },
+  geo: { lat: 43.168027, lng: 6.043109 }, // Base Adresse Nationale
   hours: 'Lundi, mercredi et samedi, de 9 h à 19 h, sur rendez-vous',
   price: '80 €',
+  priceValue: '80', // pour les données structurées (Offer)
   duration: '1 heure',
   social: {
     instagram: 'https://www.instagram.com/pauline_martino_hypno/',

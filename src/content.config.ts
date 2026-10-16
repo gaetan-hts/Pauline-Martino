@@ -16,7 +16,6 @@ const accompagnements = defineCollection({
       extra: z.object({ title: z.string(), text: z.string() }).optional(),
       signs: z.array(z.string()), // « Vous vous reconnaissez ? »
       practice: z.string(), // « En pratique »
-      disclaimer: z.string(),
       image: image(),
       imageAlt: z.string(),
     }),

@@ -13,7 +13,6 @@ signs:
   - Vous vous sentez hypersensible, à fleur de peau
   - Vous avez l'impression de subir vos réactions
 practice: Le nombre de séances dépend de votre histoire et de votre demande. Nous faisons le point ensemble à chaque étape. Les séances ont lieu au cabinet à La Farlède ou en visio.
-disclaimer: Cet accompagnement ne remplace pas un suivi médical ou psychologique et ne dispense d'aucun traitement en cours.
 image: ../../assets/photos/cabinet-bureau-lampe.jpg
 imageAlt: Le bureau de consultation, avec une lampe de sel allumée et une plante
 ---

@@ -13,7 +13,6 @@ signs:
   - Vous avez le sentiment de ne pas être à votre place
   - Une petite voix intérieure vous critique en permanence
 practice: Pour une échéance précise (examen, permis, entretien, compétition), comptez quelques semaines de préparation. Les séances ont lieu au cabinet à La Farlède ou en visio.
-disclaimer: Cet accompagnement ne remplace pas un suivi médical ou psychologique et ne dispense d'aucun traitement en cours.
 image: ../../assets/photos/pauline-portrait.jpg
 imageAlt: Portrait de Pauline Martino, souriante, en veste couleur taupe
 ---

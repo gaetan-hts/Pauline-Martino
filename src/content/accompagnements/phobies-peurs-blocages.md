@@ -13,7 +13,6 @@ signs:
   - Vous redoutez les araignées, les chiens, les piqûres, le sang, le vide, les espaces clos
   - Vous organisez votre vie pour éviter certaines situations
 practice: Les peurs et phobies font partie des demandes qui évoluent souvent rapidement. Si vous avez une échéance (un vol, un examen de conduite, une prise de parole), prenez rendez-vous quelques semaines avant. Les séances ont lieu au cabinet à La Farlède ou en visio.
-disclaimer: Cet accompagnement ne remplace pas un suivi médical ou psychologique et ne dispense d'aucun traitement en cours.
 image: ../../assets/photos/pauline-bord-de-mer.jpg
 imageAlt: Pauline Martino souriante au bord de la mer, au coucher du soleil
 ---

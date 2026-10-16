@@ -13,7 +13,6 @@ signs:
   - Vous évitez certains lieux, certaines personnes ou certains sujets
   - Vous sentez qu'un événement ancien vous freine aujourd'hui
 practice: Nous avançons à votre rythme, dans un cadre bienveillant et confidentiel. Les séances ont lieu au cabinet à La Farlède ou en visio.
-disclaimer: Cet accompagnement ne remplace pas un suivi médical ou psychologique et ne dispense d'aucun traitement en cours.
 image: ../../assets/photos/coucher-soleil-coeur.jpg
 imageAlt: Des mains formant un cœur autour du soleil couchant, au bord de la mer
 ---

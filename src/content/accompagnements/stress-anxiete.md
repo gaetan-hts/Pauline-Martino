@@ -13,7 +13,6 @@ signs:
   - Vous vous sentez débordé(e), au bord du surmenage
   - Vous anticipez toujours le pire
 practice: Quelques séances suffisent le plus souvent pour ressentir un apaisement durable. Les séances ont lieu au cabinet à La Farlède ou en visio.
-disclaimer: Cet accompagnement ne remplace pas un suivi médical ou psychologique et ne dispense d'aucun traitement en cours.
 image: ../../assets/photos/cabinet-fauteuil-hypnose.jpg
 imageAlt: Le fauteuil d'hypnose du cabinet, devant une niche vert olive éclairée par une lampe en rotin
 ---

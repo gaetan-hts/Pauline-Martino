@@ -23,6 +23,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
+    interpolate-size: allow-keywords; /* permet d'animer jusqu'à height: auto (FAQ) */
   }
   body {
     @apply bg-lin font-sans text-noyer antialiased;
@@ -75,6 +76,59 @@
   }
   .btn-ghost {
     @apply border border-noyer/25 text-noyer hover:border-noyer hover:bg-white/40;
+  }
+  /* FAQ : ouverture en douceur (navigateurs récents, sinon ouverture instantanée)
+     et icône « + » en deux traits qui devient « − » en pivotant sur son centre */
+  .faq::details-content {
+    block-size: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      block-size 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+      opacity 0.3s ease,
+      content-visibility 0.4s allow-discrete;
+  }
+  .faq[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+  .faq-icon {
+    @apply relative h-9 w-9 shrink-0 rounded-full border border-noyer/20 text-olive transition-colors;
+  }
+  .faq-icon::before,
+  .faq-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 2px;
+    margin: -1px 0 0 -7px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .faq-icon::after {
+    transform: rotate(90deg);
+  }
+  .faq[open] .faq-icon {
+    @apply border-olive bg-olive text-lin;
+  }
+  .faq[open] .faq-icon::after {
+    transform: rotate(0deg);
+  }
+  .faq summary:hover .faq-icon {
+    @apply border-olive;
+  }
+  .card {
+    transition:
+      border-color 0.3s,
+      translate 0.3s,
+      background-color 0.3s;
+  }
+  .card:hover {
+    translate: 0 -4px;
+    @apply border-argile/40 bg-white/60;
   }
   .prose-pauline p + p {
     margin-top: 1rem;
