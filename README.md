@@ -9,6 +9,7 @@ npm install
 npm run dev      # http://localhost:4321
 npm run build    # génère dist/
 npm run preview  # sert dist/ en local
+npm run shots    # captures desktop/tablette/mobile → screenshots/ (preview doit tourner ; 1re fois : npx playwright install chromium)
 ```
 
 ## Où modifier quoi
@@ -30,6 +31,7 @@ Ajouter une page thématique = copier un `.md`, changer le contenu et `order`. E
 - `<title>` ≤ 60 caractères et meta description par page, URL canonique, Open Graph (image 1200×630 générée)
 - Données structurées : `LocalBusiness` (adresse, horaires, zone desservie), `Person`, `FAQPage`, `Service`, `BreadcrumbList`
 - `sitemap-index.xml` + `robots.txt`
+- `/llms.txt` et `/llms-full.txt` pour les assistants IA (ChatGPT, Claude, Perplexity…), générés depuis les mêmes données : `src/data/llms.ts`
 - Polices auto-hébergées (pas d'appel à Google Fonts : plus rapide et conforme RGPD)
 - Typographie française (espaces insécables avant `: ; ! ?`, apostrophes courbes) appliquée au build : `src/typo-fr.mjs`
 - Chaque bouton « Prendre rendez-vous » envoie un `utm_campaign` différent vers Medoucine (ex. `stress-anxiete-hero`) pour savoir quelle page génère des réservations

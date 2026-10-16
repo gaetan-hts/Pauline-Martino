@@ -41,6 +41,26 @@ export function bookingUrl(campaign = 'site') {
   return `${MEDOUCINE}?${p.toString()}`;
 }
 
+// Formations et parkings : affichés sur la home et repris dans /llms.txt
+export const formations = [
+  { year: '2025', items: ['Enseignement Evidence® PNL niveaux 1 et 2', 'Enseignement Evidence® NEMO-EMDR'] },
+  {
+    year: '2024',
+    items: [
+      'Enseignement Evidence® Coach en développement personnel et en accompagnement holistique',
+      'Enseignement Evidence® Hypnose Transe Ericksonienne',
+      'Enseignement Evidence® Hypnose Conversationnelle',
+    ],
+  },
+];
+
+export const parkings = [
+  ['Parking des anciens combattants d’Indochine, 34 avenue de la Libération', '2 min à pied'],
+  ['Parking de la Salle des fêtes, rue de la Font des Fabre', '3 min à pied'],
+  ['Parking Capitaine Claude Lepine', '4 min à pied'],
+  ['Parking Carnot, rue Carnot', '5 min à pied'],
+];
+
 export const quotes = [
   {
     text: 'Tant que vous n’aurez pas rendu l’inconscient conscient, il dirigera votre vie et vous appellerez cela le destin.',
