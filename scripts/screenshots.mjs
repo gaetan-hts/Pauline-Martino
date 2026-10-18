@@ -8,8 +8,14 @@ import { mkdir, readdir } from 'node:fs/promises';
 const base = (process.argv.find((a) => a.startsWith('--base='))?.slice(7) ?? 'http://localhost:4321').replace(/\/$/, '');
 const out = 'screenshots';
 
-const slugs = (await readdir('src/content/accompagnements')).filter((f) => f.endsWith('.md')).map((f) => f.slice(0, -3));
-const pages = [['accueil', '/'], ...slugs.map((s) => [s, `/${s}`]), ['mentions-legales', '/mentions-legales']];
+const slugs = async (dir) => (await readdir(dir)).filter((f) => f.endsWith('.md')).map((f) => f.slice(0, -3));
+const pages = [
+  ['accueil', '/'],
+  ...(await slugs('src/content/accompagnements')).map((s) => [s, `/${s}/`]),
+  ['mentions-legales', '/mentions-legales/'],
+  ['en-home', '/en/'],
+  ...(await slugs('src/content/accompagnements-en')).map((s) => [`en-${s}`, `/en/${s}/`]),
+];
 
 const devices = [
   ['desktop', { width: 1440, height: 900 }],

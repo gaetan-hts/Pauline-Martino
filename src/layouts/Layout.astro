@@ -5,8 +5,12 @@ import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
 import { getImage } from 'astro:assets';
 import ogDefault from '../assets/photos/pauline-portrait.jpg';
+import { ui } from '../i18n/ui';
+import { englishEnabled, ogLocale, type Alternates, type Lang } from '../i18n/config';
 
 interface Props {
+  lang?: Lang;
+  alternates?: Alternates; // URL de la page dans chaque langue (hreflang + sélecteur de langue)
   title: string;
   description: string;
   campaign: string; // identifiant de page pour le suivi des clics « Prendre rendez-vous »
@@ -16,15 +20,21 @@ interface Props {
   noindex?: boolean; // page 404
 }
 const {
+  lang = 'fr',
+  alternates: alternatesProp,
   title,
   description,
   campaign,
   jsonLd = [],
   ogImage = ogDefault,
-  ogImageAlt = 'Portrait de Pauline Martino, hypnothérapeute à La Farlède',
+  ogImageAlt = lang === 'fr'
+    ? 'Portrait de Pauline Martino, hypnothérapeute à La Farlède'
+    : 'Portrait of Pauline Martino, hypnotherapist in La Farlède',
   noindex = false,
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/'), site.url).href;
+const alternates = englishEnabled ? alternatesProp : undefined;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const abs = (path: string) => new URL(path, site.url).href;
 const og = await getImage({ src: ogImage, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
 const ogUrl = new URL(og.src, site.url).href;
 
@@ -69,7 +79,7 @@ const business = {
 const schemas = [business, ...jsonLd];
 ---
 <!doctype html>
-<html lang="fr">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -78,10 +88,18 @@ const schemas = [business, ...jsonLd];
     {!noindex && <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#f2ece1" />
+    {!noindex && alternates && (
+      <>
+        <link rel="alternate" hreflang="fr" href={abs(alternates.fr)} />
+        <link rel="alternate" hreflang="en" href={abs(alternates.en)} />
+        <link rel="alternate" hreflang="x-default" href={abs(alternates.fr)} />
+      </>
+    )}
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
 
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    {alternates && <meta property="og:locale:alternate" content={ogLocale[lang === 'fr' ? 'en' : 'fr']} />}
     <meta property="og:site_name" content="Pauline Martino, hypnothérapeute" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -95,9 +113,9 @@ const schemas = [business, ...jsonLd];
     {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
   </head>
   <body>
-    <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2">Aller au contenu</a>
-    <Header campaign={campaign} />
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2">{ui[lang].skip}</a>
+    <Header lang={lang} campaign={campaign} alternates={alternates} />
     <main id="contenu"><slot /></main>
-    <Footer />
+    <Footer lang={lang} alternates={alternates} />
   </body>
 </html>

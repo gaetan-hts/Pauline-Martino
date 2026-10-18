@@ -1,10 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
+import { getServices } from '../data/services';
 import Layout from '../layouts/Layout.astro';
 import BookingButton from '../components/BookingButton.astro';
 import { site } from '../data/site';
 
-const pages = (await getCollection('accompagnements')).sort((a, b) => a.data.order - b.data.order);
+const pages = await getServices('fr');
 ---
 <Layout title="Page introuvable | Pauline Martino" description="Cette page n’existe pas ou a été déplacée." campaign="404" noindex>
   <section class="wrap max-w-3xl py-20 sm:py-28">
@@ -14,7 +14,7 @@ const pages = (await getCollection('accompagnements')).sort((a, b) => a.data.ord
     <ul class="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
       <li><a class="font-semibold text-olive underline underline-offset-4 hover:text-argile" href="/">Accueil</a></li>
       {pages.map((p) => (
-        <li><a class="font-semibold text-olive underline underline-offset-4 hover:text-argile" href={`/${p.id}`}>{p.data.menuLabel}</a></li>
+        <li><a class="font-semibold text-olive underline underline-offset-4 hover:text-argile" href={p.url}>{p.entry.data.menuLabel}</a></li>
       ))}
       <li><a class="font-semibold text-olive underline underline-offset-4 hover:text-argile" href="/#infos-pratiques">Informations pratiques</a></li>
     </ul>

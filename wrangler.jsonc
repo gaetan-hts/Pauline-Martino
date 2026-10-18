@@ -1,0 +1,15 @@
+{
+  // Déploiement Cloudflare Workers (Workers Builds : npm run build puis npx wrangler deploy).
+  // Le nom doit rester celui du projet dans le tableau de bord.
+  "name": "pauline-martino",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // Le Worker passe avant chaque fichier : indispensable pour le mot de passe
+    "run_worker_first": true,
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

@@ -36,16 +36,31 @@ Ajouter une page thématique = copier un `.md`, changer le contenu et `order`. E
 - Typographie française (espaces insécables avant `: ; ! ?`, apostrophes courbes) appliquée au build : `src/typo-fr.mjs`
 - Chaque bouton « Prendre rendez-vous » envoie un `utm_campaign` différent vers Medoucine (ex. `stress-anxiete-hero`) pour savoir quelle page génère des réservations
 
-## Déploiement (Cloudflare Pages, gratuit)
+## Déploiement (Cloudflare Workers, gratuit)
 
-1. Pousser le repo sur GitHub
-2. Cloudflare Pages → Create project → connecter le repo
-3. Build command : `npm run build` · Output : `dist`
-4. Ajouter le domaine personnalisé, puis mettre l'URL définitive dans `astro.config.mjs` (`site`), `src/data/site.ts` (`url`) et `public/robots.txt`
+Le site est servi par un Worker Cloudflare (`wrangler.jsonc`) : les fichiers de `dist/` sont servis tels quels, et `worker/index.js` passe avant chacun pour demander le mot de passe de préversion. Le domaine `pauline-martino-hypnose.fr` est déjà celui du code (URL canonique `https://www.pauline-martino-hypnose.fr`).
+
+### 1. Projet Cloudflare (fait)
+
+Workers & Pages → `pauline-martino`, relié au repo GitHub, branche `master` : build `npm run build`, déploiement `npx wrangler deploy`. Chaque `git push` sur `master` redéploie. Le site répond sur `https://pauline-martino.<sous-domaine>.workers.dev` avec le mot de passe : nom d'utilisateur libre, mot de passe `Paupau1337`.
+
+### 2. Brancher le domaine (acheté chez IONOS)
+
+1. Cloudflare → **Add a domain** → `pauline-martino-hypnose.fr` → offre **Free**. Cloudflare importe les enregistrements DNS existants : vérifier les MX si une adresse e-mail IONOS utilise le domaine, et supprimer les enregistrements A/AAAA/CNAME de la page de parking IONOS.
+2. Cloudflare affiche **2 serveurs de noms** (`xxx.ns.cloudflare.com`). Chez IONOS : **Domaines & SSL** → le domaine → **DNS** / **Serveurs de noms** → *Utiliser des serveurs de noms personnalisés* → coller les deux serveurs Cloudflare. Si DNSSEC est activé chez IONOS, le désactiver avant.
+3. Attendre l'activation (quelques minutes à 24 h, Cloudflare envoie un e-mail).
+4. Worker `pauline-martino` → **Settings** → **Domains & Routes** → **Add** → **Custom domain** → `www.pauline-martino-hypnose.fr`, puis recommencer avec `pauline-martino-hypnose.fr`. Cloudflare crée les enregistrements DNS et le certificat HTTPS tout seul.
+5. Rediriger l'apex vers www : Cloudflare → le domaine → **Rules** → **Redirect Rules** → modèle *Redirect from root to WWW* (301).
+
+### 3. Ouvrir le site au public
+
+1. Compléter les mentions légales : SIRET, et hébergeur = Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA
+2. Worker → **Settings** → **Variables and Secrets** → ajouter `SITE_PUBLIC` = `true` → redéployer. Le mot de passe disparaît.
+3. [Google Search Console](https://search.google.com/search-console) → propriété **Domaine** `pauline-martino-hypnose.fr` (validation par enregistrement TXT dans Cloudflare) → **Sitemaps** → `https://www.pauline-martino-hypnose.fr/sitemap-index.xml`
+4. Fiche Google Business Profile de Pauline → champ **Site web** → `https://www.pauline-martino-hypnose.fr`
 
 ## À faire avant la mise en ligne
 
-- [ ] Nom de domaine définitif
 - [ ] Mentions légales : SIRET et hébergeur (`src/pages/mentions-legales.astro`)
 - [ ] Logo définitif (cerveau + rameau d'olivier) à la place de `OliveMark.astro` et `public/favicon.svg`
 - [ ] Avis Google : widget ou sélection validée par Pauline (section `#avis` de la home)

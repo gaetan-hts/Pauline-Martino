@@ -1,0 +1,10 @@
+---
+// /en/ : généré seulement si la version anglaise est activée (src/i18n/config.ts)
+import HomePage from '../../components/pages/HomePage.astro';
+import { englishEnabled } from '../../i18n/config';
+
+export function getStaticPaths() {
+  return englishEnabled ? [{ params: { home: undefined } }] : [];
+}
+---
+<HomePage lang="en" />

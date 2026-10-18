@@ -25,7 +25,11 @@ async function walk(dir) {
   for (const e of await readdir(dir, { withFileTypes: true })) {
     const p = join(dir, e.name);
     if (e.isDirectory()) await walk(p);
-    else if (p.endsWith('.html')) await writeFile(p, fixHtml(await readFile(p, 'utf8')));
+    else if (p.endsWith('.html')) {
+      const html = await readFile(p, 'utf8');
+      // Pages anglaises : pas d'espace avant « ? ! : ; » (les avis cités en français restent tels quels)
+      if (!/<html lang="en"/.test(html)) await writeFile(p, fixHtml(html));
+    }
   }
 }
 

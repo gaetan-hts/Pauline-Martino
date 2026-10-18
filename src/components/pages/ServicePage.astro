@@ -1,0 +1,154 @@
+---
+// Gabarit commun aux pages thématiques, en français (/<slug>/) et en anglais (/en/<slug>/)
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BookingButton from '../BookingButton.astro';
+import Quote from '../Quote.astro';
+import Illustration, { type IllustrationName } from '../Illustration.astro';
+import { site, siteText } from '../../data/site';
+import { getServices, type Service } from '../../data/services';
+import { ui } from '../../i18n/ui';
+import { anchor, homePath, type Lang } from '../../i18n/config';
+
+interface Props { lang: Lang; service: Service }
+const { lang, service: current } = Astro.props;
+const { entry, slug, key, url, alternates } = current;
+const { Content } = await render(entry);
+const d = entry.data;
+const u = ui[lang].service;
+const s = siteText(lang);
+const others = (await getServices(lang)).filter((p) => p.slug !== slug);
+const quote = s.quotes[(d.order + 1) % s.quotes.length];
+const abs = (path: string) => new URL(path, site.url).href;
+const navServices = ui[lang].nav.services;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: u.home, item: abs(homePath[lang]) },
+    { '@type': 'ListItem', position: 2, name: navServices, item: abs(anchor(lang, 'accompagnements')) },
+    { '@type': 'ListItem', position: 3, name: d.menuLabel, item: abs(url) },
+  ],
+};
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  inLanguage: lang,
+  name: lang === 'fr' ? `${d.menuLabel} : hypnose et NEMO` : `${d.menuLabel}: hypnosis and NEMO`,
+  serviceType: u.serviceType,
+  provider: { '@id': `${site.url}/#cabinet` },
+  areaServed: [site.address.city, ...site.neighbours].map((name) => ({ '@type': 'City', name })),
+  description: d.description,
+  url: abs(url),
+  availableChannel: { '@type': 'ServiceChannel', name: u.channel, serviceUrl: abs(url) },
+  offers: { '@type': 'Offer', price: site.priceValue, priceCurrency: 'EUR', description: u.offer(site.duration) },
+};
+const c = lang === 'fr' ? slug : `en-${slug}`; // campagne UTM
+---
+<Layout lang={lang} title={d.seoTitle} description={d.description} campaign={c} alternates={alternates} jsonLd={[breadcrumb, serviceSchema]} ogImage={d.image} ogImageAlt={d.imageAlt}>
+  <section>
+    <div class="wrap pt-6">
+      <nav aria-label={u.breadcrumb} class="text-sm text-noyer/65">
+        <a href={homePath[lang]} class="hover:text-argile">{u.home}</a>
+        <span aria-hidden="true" class="mx-1.5">/</span>
+        <a href={anchor(lang, 'accompagnements')} class="hover:text-argile">{navServices}</a>
+        <span aria-hidden="true" class="mx-1.5">/</span>
+        <span aria-current="page">{d.menuLabel}</span>
+      </nav>
+    </div>
+    <div class="wrap grid items-center gap-10 pt-8 pb-14 md:grid-cols-[1.15fr_0.85fr] md:gap-16 md:pb-20">
+      <div>
+        <p class="text-lg text-olive">{u.kicker(d.menuLabel)}</p>
+        <h1 class="mt-3 text-[2.3rem] sm:text-5xl">{d.title}</h1>
+        <p class="mt-6 max-w-xl text-xl leading-relaxed text-noyer/85">{d.intro}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <BookingButton lang={lang} campaign={`${c}-hero`} />
+          <a class="btn btn-ghost" href={site.phoneHref}>{ui[lang].call(site.phone)}</a>
+        </div>
+      </div>
+      <Illustration name={key as IllustrationName} class="max-w-md md:max-w-none" />
+    </div>
+  </section>
+
+  {d.extra && (
+    <section class="bg-lin-fonce py-14 sm:py-20">
+      <div class="wrap max-w-3xl">
+        <h2 class="text-3xl">{d.extra.title}</h2>
+        <p class="mt-5 text-lg text-noyer/85">{d.extra.text}</p>
+      </div>
+    </section>
+  )}
+
+  <section class="py-14 sm:py-20">
+    <div class="wrap grid gap-14 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <h2 class="text-3xl">{u.signs}</h2>
+        <ul class="mt-6 space-y-4">
+          {d.signs.map((sign) => (
+            <li class="flex gap-4 text-lg text-noyer/90">
+              <span class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-argile" aria-hidden="true"></span>
+              <span>{sign}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-3xl">{u.how}</h2>
+        <div class="prose-pauline mt-6 text-lg text-noyer/85">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-14 sm:pb-20">
+    <div class="wrap">
+      <div class="grid gap-8 rounded-3xl bg-olive-nuit p-8 text-lin sm:p-12 md:grid-cols-[1.4fr_0.6fr] md:items-center">
+        <div>
+          <h2 class="text-3xl text-lin">{u.practice}</h2>
+          <p class="mt-4 max-w-2xl text-lg text-lin/85">{d.practice}</p>
+          <p class="mt-3 text-lin/70">{u.session(site.price)}</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          <BookingButton lang={lang} campaign={`${c}-pratique`} />
+          <a class="btn border border-lin/30 text-lin hover:bg-lin/10" href={site.phoneHref}>{site.phone}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Quote {...quote} />
+
+  <!-- Maillage interne : les autres pages thématiques -->
+  <section class="bg-lin-fonce py-16 sm:py-24">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="text-3xl sm:text-4xl">{u.others}</h2>
+          <p class="mt-3 max-w-xl text-noyer/75">{u.othersIntro}</p>
+        </div>
+        <a href={anchor(lang, 'accompagnements')} class="font-semibold text-olive underline underline-offset-4 hover:text-argile">{ui[lang].nav.allServices}</a>
+      </div>
+      <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {others.map((p) => (
+          <li>
+            <a href={p.url} class="card group flex h-full flex-col overflow-hidden rounded-3xl border border-noyer/10 bg-lin">
+              <div class="overflow-hidden bg-lin-fonce/50 px-10 pt-6 pb-2">
+                <Illustration name={p.key as IllustrationName} tone="lin" class="transition-transform duration-500 group-hover:scale-[1.05]" />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <h3 class="text-2xl transition-colors group-hover:text-argile">{p.entry.data.menuLabel}</h3>
+                <p class="mt-2 flex-1 text-noyer/75">{p.entry.data.summary}</p>
+                <span class="mt-5 inline-flex items-center gap-2 font-semibold text-olive">
+                  {u.discover}
+                  <svg viewBox="0 0 24 24" class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>

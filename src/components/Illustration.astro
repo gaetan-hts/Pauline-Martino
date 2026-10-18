@@ -1,76 +1,156 @@
 ---
-// Illustrations dessinées pour le site (SVG, couleurs de la charte), dans la forme de l'arche.
-// hypnose : soleil couchant sur la mer, l'attention qui se tourne vers l'intérieur
-// nemo : un regard qui suit la baguette, de gauche à droite (animé, sauf prefers-reduced-motion)
-interface Props { name: 'hypnose' | 'nemo'; class?: string }
-const { name, class: cls = '' } = Astro.props;
-const id = `ill-${name}`;
----
-<svg viewBox="0 0 320 240" class:list={['block', cls]} role="img" aria-hidden="true" focusable="false">
-  <defs>
-    <clipPath id={`${id}-arch`}>
-      <path d="M50 236V120a110 110 0 0 1 220 0v116z" />
-    </clipPath>
-  </defs>
-  <path d="M50 236V120a110 110 0 0 1 220 0v116z" class="fill-lin" />
-  <g clip-path={`url(#${id}-arch)`}>
-    {name === 'hypnose' ? (
-      <>
-        <rect x="50" y="10" width="220" height="150" class="fill-argile-clair" opacity="0.35" />
-        <g fill="none" class="stroke-rotin" stroke-width="1.5">
-          <path d="M96 160a64 64 0 0 1 128 0" opacity="0.55" />
-          <path d="M72 160a88 88 0 0 1 176 0" opacity="0.35" />
-          <path d="M48 160a112 112 0 0 1 224 0" opacity="0.2" />
-        </g>
-        <path d="M124 160a36 36 0 0 1 72 0z" class="fill-argile" />
-        <rect x="50" y="160" width="220" height="80" class="fill-olive" opacity="0.14" />
-        <g class="stroke-argile" stroke-linecap="round" stroke-width="3" opacity="0.6">
-          <path d="M132 172h56" /><path d="M142 184h36" /><path d="M150 196h20" />
-        </g>
-        <g class="stroke-olive" stroke-linecap="round" stroke-width="1.5" opacity="0.45">
-          <path d="M70 178h40" /><path d="M210 178h40" /><path d="M86 202h44" /><path d="M196 206h36" /><path d="M120 220h80" />
-        </g>
-        <path d="M50 160h220" class="stroke-olive" stroke-width="1.5" opacity="0.6" />
-      </>
-    ) : (
-      <>
-        <rect x="50" y="10" width="220" height="230" class="fill-lin-fonce" opacity="0.6" />
-        <path d="M90 118q70-62 140 0q-70 62-140 0z" class="fill-lin stroke-olive" stroke-width="2.5" stroke-linejoin="round" />
-        <clipPath id={`${id}-eye`}><path d="M90 118q70-62 140 0q-70 62-140 0z" /></clipPath>
-        <g clip-path={`url(#${id}-eye)`}>
-          <g class="nemo-iris">
-            <circle cx="160" cy="118" r="22" class="fill-olive" />
-            <circle cx="160" cy="118" r="9" class="fill-noyer" />
-            <circle cx="166" cy="111" r="4" class="fill-lin" opacity="0.9" />
-          </g>
-        </g>
-        <path d="M84 98q8-30 34-44M236 98q-8-30-34-44M160 52v-14" class="stroke-olive" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.4" />
-        <path d="M90 196h140" class="stroke-olive" stroke-width="1.5" stroke-dasharray="2 7" stroke-linecap="round" opacity="0.6" />
-        <path d="M84 196l-8 0M78 190l-6 6 6 6M236 196h8M242 190l6 6-6 6" class="stroke-olive" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6" />
-        <g class="nemo-wand">
-          <path d="M160 196v-26" class="stroke-noyer" stroke-width="2" stroke-linecap="round" opacity="0.7" />
-          <circle cx="160" cy="166" r="7" class="fill-argile" />
-        </g>
-      </>
-    )}
-  </g>
-  <path d="M50 236V120a110 110 0 0 1 220 0v116" fill="none" class="stroke-olive" stroke-width="1.5" opacity="0.35" />
-</svg>
+// Illustrations du site : trait fin olive, une touche d'argile, sur une forme organique douce.
+// Statiques, centrées, sans cadre. Une par technique (hypnose, nemo) et une par accompagnement
+// (clé = slug français de la page).
+const names = ['hypnose', 'nemo', 'stress-anxiete', 'gestion-des-emotions', 'souvenirs-douloureux-deuil-separation', 'phobies-peurs-blocages', 'confiance-en-soi', 'sommeil', 'arret-tabac-alimentation'] as const;
+export type IllustrationName = (typeof names)[number];
 
-<style>
-  .nemo-iris,
-  .nemo-wand {
-    animation: nemo-look 4.8s ease-in-out infinite;
-  }
-  .nemo-iris {
-    animation-name: nemo-iris;
-  }
-  @keyframes nemo-look {
-    0%, 100% { transform: translateX(-60px); }
-    50% { transform: translateX(60px); }
-  }
-  @keyframes nemo-iris {
-    0%, 100% { transform: translateX(-26px); }
-    50% { transform: translateX(26px); }
-  }
-</style>
+interface Props {
+  name: IllustrationName;
+  class?: string;
+  tone?: 'lin' | 'lin-fonce'; // couleur de la forme de fond (contraste avec la section)
+  title?: string; // si fourni, l'illustration est annoncée aux lecteurs d'écran
+}
+const { name, class: cls = '', tone = 'lin-fonce', title } = Astro.props;
+const uid = `il-${name}-${Math.random().toString(36).slice(2, 7)}`;
+const leaf = 'M0 0q14-11 30 0q-16 11-30 0z';
+const star = 'M0 -8l2 6 6 2-6 2-2 6-2-6-6-2 6-2z';
+---
+<svg
+  viewBox="0 0 320 240"
+  class:list={['mx-auto block h-auto w-full', cls]}
+  role={title ? 'img' : undefined}
+  aria-label={title}
+  aria-hidden={title ? undefined : 'true'}
+  focusable="false"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path
+    d="M164 20c64 2 120 40 122 100s-52 104-126 102S34 184 36 120 100 18 164 20z"
+    class={tone === 'lin' ? 'fill-lin' : 'fill-lin-fonce'}
+  />
+
+  {name === 'hypnose' && (
+    <>
+      <!-- un soleil qui se couche à l'intérieur : l'attention qui se tourne vers soi -->
+      <path d="M128 98a32 32 0 0 1 64 0z" class="fill-argile" />
+      <g class="stroke-olive" stroke-width="3">
+        <path d="M96 98h128" opacity="0.6" />
+        <path d="M120 112q10-6 20 0t20 0t20 0t20 0" opacity="0.4" stroke-width="2.5" />
+        <path d="M102 150q58 36 116 0" />
+        <path d="M123 161l-6 11M146 168l-3 12M174 168l3 12M197 161l6 11" stroke-width="2.5" />
+      </g>
+    </>
+  )}
+
+  {name === 'nemo' && (
+    <>
+      <defs><clipPath id={`${uid}-eye`}><path d="M98 108q62-56 124 0q-62 56-124 0z" /></clipPath></defs>
+      <path d="M98 108q62-56 124 0q-62 56-124 0z" class="fill-lin stroke-olive" stroke-width="3" />
+      <g clip-path={`url(#${uid}-eye)`}>
+        <circle cx="180" cy="108" r="21" class="fill-olive" />
+        <circle cx="180" cy="108" r="8.5" class="fill-noyer" />
+        <circle cx="186" cy="102" r="3.5" class="fill-lin" />
+      </g>
+      <g class="stroke-olive" stroke-width="2.5">
+        <path d="M110 180h100" stroke-dasharray="1 9" />
+        <path d="M100 180l9-7M100 180l9 7M220 180l-9-7M220 180l-9 7" />
+      </g>
+      <path d="M236 206l-8-46" class="stroke-noyer" stroke-width="2.5" opacity="0.7" />
+      <circle cx="227" cy="153" r="7" class="fill-argile" />
+      <path d="M246 140c7 7 7 19 0 26M256 132c11 11 11 31 0 42" class="stroke-olive" stroke-width="2" opacity="0.45" />
+    </>
+  )}
+
+  {name === 'stress-anxiete' && (
+    <g class="stroke-olive" stroke-width="3">
+      <path d="M66 198h188" opacity="0.45" />
+      <path d="M52 210h26M242 210h26" opacity="0.3" />
+      <ellipse cx="160" cy="180" rx="54" ry="16" class="fill-lin" />
+      <ellipse cx="160" cy="151" rx="40" ry="13" class="fill-lin" />
+      <ellipse cx="160" cy="127" rx="27" ry="11" class="fill-lin" />
+      <ellipse cx="160" cy="107" rx="16" ry="9" class="fill-argile" stroke="none" />
+      <path d="M232 92q14-14 28 0" opacity="0.5" />
+      <path d="M70 110q12-12 24 0" opacity="0.35" />
+    </g>
+  )}
+
+  {name === 'gestion-des-emotions' && (
+    <>
+      <path d="M160 58c11 17 19 28 19 38a19 19 0 0 1-38 0c0-10 8-21 19-38z" class="fill-argile" />
+      <path d="M160 128v14" class="stroke-argile" stroke-width="2.5" stroke-dasharray="2 6" opacity="0.6" />
+      <g class="stroke-olive" stroke-width="3">
+        <ellipse cx="160" cy="170" rx="28" ry="7" />
+        <ellipse cx="160" cy="172" rx="62" ry="15" opacity="0.55" />
+        <ellipse cx="160" cy="174" rx="98" ry="24" opacity="0.25" />
+      </g>
+    </>
+  )}
+
+  {name === 'souvenirs-douloureux-deuil-separation' && (
+    <>
+      <path d="M64 92c44 12 92 6 132-14s62-14 72-10" class="stroke-olive" stroke-width="3" />
+      <g class="fill-olive" opacity="0.85">
+        <path d={leaf} transform="translate(96 99) rotate(-32)" />
+        <path d={leaf} transform="translate(124 101) rotate(24)" />
+        <path d={leaf} transform="translate(156 90) rotate(-40)" />
+        <path d={leaf} transform="translate(188 77) rotate(28)" />
+        <path d={leaf} transform="translate(226 64) rotate(-22)" />
+      </g>
+      <path d="M204 84c-22 30 26 46 2 76" class="stroke-argile" stroke-width="2.5" stroke-dasharray="3 8" opacity="0.6" />
+      <path d={leaf} transform="translate(186 180) rotate(30) scale(1.15)" class="fill-argile" />
+      <path d="M100 206h120" class="stroke-olive" stroke-width="3" opacity="0.4" />
+    </>
+  )}
+
+  {name === 'phobies-peurs-blocages' && (
+    <>
+      <g class="stroke-olive" stroke-width="3">
+        <circle cx="128" cy="66" r="6" />
+        <path d="M128 72v8" />
+        <path d="M88 196v-76a40 40 0 0 1 80 0v76" />
+        <path d="M108 196V85.4M128 196V80M148 196v-36" />
+        <path d="M80 196h96" stroke-width="4" />
+        <path d="M168 136l36-14v62l-36 12" class="fill-lin" />
+        <path d="M180 140v40M192 135v40" stroke-width="2" opacity="0.6" />
+      </g>
+      <path d="M190 150c22-18 30-38 44-48" class="stroke-argile" stroke-width="2.5" stroke-dasharray="3 8" opacity="0.55" />
+      <path d="M226 98q10-12 20 0q10-12 20 0" class="stroke-argile" stroke-width="3.5" />
+      <path d="M260 66q6-8 12 0q6-8 12 0" class="stroke-argile" stroke-width="3" opacity="0.7" />
+    </>
+  )}
+
+  {name === 'confiance-en-soi' && (
+    <>
+      <circle cx="238" cy="70" r="20" class="fill-argile" />
+      <path d="M238 40v-10M266 48l7-7M268 76h10" class="stroke-argile" stroke-width="2.5" opacity="0.6" />
+      <path d="M92 198c22-22 114-22 136 0z" class="fill-rotin stroke-olive" stroke-width="3" fill-opacity="0.25" />
+      <path d="M160 190c0-30-4-58 4-92" class="stroke-olive" stroke-width="3" />
+      <path d="M160 146c-30-4-46-20-50-38c24 0 44 12 50 38z" class="fill-olive" opacity="0.85" />
+      <path d="M162 122c26-6 40-24 42-42c-22 2-40 16-42 42z" class="fill-olive" opacity="0.6" />
+    </>
+  )}
+
+  {name === 'sommeil' && (
+    <>
+      <path d="M182 60a56 56 0 1 0 52 82a46 46 0 0 1-52-82z" class="fill-rotin" opacity="0.85" />
+      <g class="fill-olive">
+        <path d={star} transform="translate(236 72)" />
+        <path d={star} transform="translate(258 116) scale(0.6)" />
+        <path d={star} transform="translate(104 78) scale(0.75)" />
+      </g>
+      <path d="M96 182h98a20 20 0 0 0-3-40a28 28 0 0 0-53-7a22 22 0 0 0-42 47z" class="fill-lin stroke-olive" stroke-width="3" />
+      <path d="M210 196q10-8 20 0q10-8 20 0" class="stroke-argile" stroke-width="2.5" opacity="0.5" />
+    </>
+  )}
+
+  {name === 'arret-tabac-alimentation' && (
+    <>
+      <path d="M148.6 98.3A40 40 0 1 0 152.6 144c20 12 44 6 62-10s32-22 46-18" class="stroke-olive" stroke-width="3" />
+      <path d={leaf} transform="translate(262 116) rotate(-24) scale(1.2)" class="fill-argile" />
+      <path d="M88 196h144" class="stroke-olive" stroke-width="3" opacity="0.35" />
+    </>
+  )}
+</svg>

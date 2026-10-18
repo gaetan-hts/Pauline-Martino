@@ -1,0 +1,12 @@
+---
+// Pages thématiques en anglais : contenu dans src/content/accompagnements-en/
+import ServicePage from '../../components/pages/ServicePage.astro';
+import { getServices } from '../../data/services';
+import { englishEnabled } from '../../i18n/config';
+
+export async function getStaticPaths() {
+  if (!englishEnabled) return [];
+  return (await getServices('en')).map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+---
+<ServicePage lang="en" service={Astro.props.service} />

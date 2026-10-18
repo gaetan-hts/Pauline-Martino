@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { site } from '../data/site';
+import { legalPath } from '../i18n/config';
 ---
-<Layout title="Mentions légales | Pauline Martino" description="Mentions légales et politique de confidentialité du site de Pauline Martino, hypnothérapeute à La Farlède." campaign="mentions">
+<Layout title="Mentions légales | Pauline Martino" description="Mentions légales et politique de confidentialité du site de Pauline Martino, hypnothérapeute à La Farlède." campaign="mentions" alternates={legalPath}>
   <section class="wrap max-w-3xl py-16">
     <h1 class="text-4xl">Mentions légales et confidentialité</h1>
     <div class="prose-pauline mt-8 text-noyer/85">

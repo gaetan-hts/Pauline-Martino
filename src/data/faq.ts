@@ -1,6 +1,8 @@
 // Questions fréquentes : affichées sur la home ET envoyées à Google (FAQPage).
 // Chaque réponse est un tableau de paragraphes (texte brut).
-export const faq: { q: string; a: string[] }[] = [
+type Faq = { q: string; a: string[] }[];
+
+const fr: Faq = [
   {
     q: 'Qu’est-ce que l’hypnose ?',
     a: [
@@ -54,3 +56,60 @@ export const faq: { q: string; a: string[] }[] = [
     ],
   },
 ];
+
+const en: Faq = [
+  {
+    q: 'What is hypnosis?',
+    a: [
+      'Hypnosis is an altered state of consciousness that we all experience naturally every day without realising it: when you drive from A to B and forget the journey, or when you are completely absorbed in a film.',
+      'Unlike stage hypnosis, which is directive, the hypnosis I use is permissive. There is no test to see whether you are receptive: we all are, to different degrees. I suggest paths to your unconscious mind and together we create your own session.',
+    ],
+  },
+  {
+    q: 'What is NLP?',
+    a: [
+      'Neuro-linguistic programming brings together communication and personal development techniques that aim to identify, understand and change our behaviours and ways of thinking.',
+      'A phrase from Grinder and Bandler, the founders of NLP, sums up the practice beautifully: “A problem is a solution that has aged badly.”',
+    ],
+  },
+  {
+    q: 'What is emotional cleansing through eye movements (NEMO-EMDR)?',
+    a: [
+      'Eye movements happen naturally, especially during sleep, when the brain sorts the information received during the day.',
+      'NEMO uses alternating bilateral stimulation to help the brain “digest” a memory that has stayed stuck. It is emotion that marks the memory: we work on the emotion and the related memory is filed away. It loses its emotional charge, and you can think about it again without being overwhelmed.',
+    ],
+  },
+  {
+    q: 'How does a session work?',
+    a: [
+      'A session starts with a conversation of about twenty minutes to understand your needs. I then use Ericksonian hypnosis, NEMO or NLP questions. Each session is personalised and adapted to your pace.',
+    ],
+  },
+  {
+    q: 'How many sessions will I need?',
+    a: [
+      'It is impossible to say in advance: it is different for everyone. Some issues can be addressed in a single session, others in one to three sessions, or with longer support.',
+    ],
+  },
+  {
+    q: 'Are hypnosis and NEMO suitable for children?',
+    a: [
+      'Yes. These brief therapies can help children from the age of 5 with stress and school anxiety, attention difficulties, emotional difficulties or sleep problems, in a playful and caring way.',
+    ],
+  },
+  {
+    q: 'Do sessions work online?',
+    a: [
+      'Yes. My voice guides you just as it does at the practice, and for eye movements you follow the wand I move in front of the camera. Many people enjoy experiencing the session at home, in familiar surroundings.',
+      'All you need is a quiet place, a comfortable armchair or sofa, a computer, tablet or phone set up so it stays still, a good connection and, if possible, headphones. The video link is sent to you before the appointment.',
+    ],
+  },
+  {
+    q: 'Are sessions reimbursed?',
+    a: [
+      'Sessions are not covered by the French state health insurance (Assurance maladie). Some complementary health insurers (mutuelles) reimburse part of the cost under alternative medicine: check with yours. An invoice is provided on request.',
+    ],
+  },
+];
+
+export const faq = { fr, en };

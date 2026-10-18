@@ -12,11 +12,12 @@ Développeur : Gaëtan Honthaas. Cliente : Pauline.
 
 ## Stack et commandes
 
-- **Astro 5.18** (volontairement pas Astro 7 : API v5 connue et stable), génération 100 % statique, `build.format: 'file'`
+- **Astro 5.18** (volontairement pas Astro 7 : API v5 connue et stable), génération 100 % statique, `build.format: 'directory'` + `trailingSlash: 'always'` (une page = `dossier/index.html`, les URL marchent sur n'importe quel hébergeur ou serveur local ; **tous les liens internes finissent par `/`**)
 - **Tailwind CSS 4** via `@tailwindcss/vite`. Les tokens sont dans `src/styles/global.css` (`@theme`)
 - `@astrojs/sitemap`, `sharp` (images), polices auto-hébergées via Fontsource
 - Zéro framework JS côté client. Seul script : le toggle du menu mobile dans `Header.astro`
-- Hébergement prévu : Cloudflare Pages (gratuit). Domaine provisoire : `https://www.pauline-martino-hypnose.fr`
+- Hébergement : **Cloudflare Workers** (projet `pauline-martino`, Workers Builds depuis GitHub `master` : `npm run build` puis `npx wrangler deploy`, config `wrangler.jsonc`). Domaine `pauline-martino-hypnose.fr` (registrar IONOS, DNS à passer chez Cloudflare), URL canonique `https://www.pauline-martino-hypnose.fr`. Procédure dans le README.
+- **Mot de passe de préversion :** `worker/index.js` (Basic Auth devant tous les fichiers grâce à `run_worker_first`, mot de passe en dur `Paupau1337`, `X-Robots-Tag: noindex`). Ouvrir au public : variable `SITE_PUBLIC=true` sur le Worker, puis redéployer. Ne pas recréer de dossier `functions/` : c'est une fonctionnalité Cloudflare Pages, ignorée par un Worker.
 
 ```bash
 npm install
@@ -40,10 +41,17 @@ src/
   data/llms.ts            ← contenu de /llms.txt et /llms-full.txt, généré depuis site.ts, faq.ts
                             et la collection (pages/llms.txt.ts, pages/llms-full.txt.ts)
   content.config.ts       ← schéma Zod de la collection « accompagnements »
-  content/accompagnements/*.md  ← les 7 pages thématiques (nom de fichier = URL)
-  pages/index.astro       ← home (one-page longue, ancres #accompagnements #qui-suis-je
+  content/accompagnements/*.md     ← les 7 pages thématiques FR (nom de fichier = URL)
+  content/accompagnements-en/*.md  ← leur traduction EN (champ `fr` = slug français, pour hreflang)
+  data/services.ts        ← getServices(lang) : pages thématiques triées + URL + URL de la traduction
+  i18n/config.ts          ← langues, chemins (homePath, legalPath, servicePath, anchor)
+  i18n/ui.ts              ← textes d'interface FR/EN (header, footer, boutons, gabarit, avis)
+  i18n/home.ts            ← textes de la home FR (texte de Pauline) / EN (traduction)
+  components/pages/       ← HomePage, ServicePage : gabarits communs aux deux langues
+  pages/index.astro, pages/en/index.astro ← <HomePage lang=…/> : home (one-page longue, ancres #accompagnements #qui-suis-je
                             #techniques #formation #infos-pratiques #avis #faq)
-  pages/[slug].astro      ← gabarit des pages thématiques
+  pages/[slug].astro, pages/en/[slug].astro ← <ServicePage/> : pages thématiques
+  pages/en/legal-notice.astro ← mentions légales EN
   pages/mentions-legales.astro
   layouts/Layout.astro    ← <head> SEO, OG, JSON-LD LocalBusiness commun, header/footer
   components/             ← Header, Footer, BookingButton, Quote, OliveMark (logo provisoire),
@@ -60,10 +68,20 @@ docs/
 scripts/screenshots.mjs
 ```
 
+## Version anglaise (désactivée)
+
+- **Désactivée** (`englishEnabled = false` dans `i18n/config.ts`) : Pauline ne fait pas de séances en anglais. Aucune page `/en/`, pas de sélecteur ni de hreflang. Tout le code et les traductions restent en place ; passer le flag à `true` suffit à tout réactiver.
+
+- Le français est la langue principale (racine `/`), l'anglais est sous `/en/` avec des slugs anglais. Chaque page déclare ses `alternates` → balises hreflang (fr, en, x-default = fr) + sélecteur FR/EN.
+- Toute modification de texte se fait **dans les deux langues** : `i18n/home.ts`, `i18n/ui.ts`, `data/faq.ts` (`faq.fr` / `faq.en`), `siteEn` dans `site.ts`, et le `.md` correspondant dans `accompagnements-en/`.
+- La traduction anglaise est à faire relire par Pauline. Les avis restent en français (`lang="fr"`, mention « Reviews are shown in their original French »).
+- `typo-fr.mjs` ignore les pages `<html lang="en">` (pas d'espace avant « ? ! : ; » en anglais).
+- Campagnes UTM des pages EN préfixées `en-` (`en-home-hero`, `en-sleep-pratique`…).
+
 ## Contenu : règles
 
 1. **Les textes viennent de Pauline** (`docs/brief-*.md`). On garde sa voix et ses formulations, en se limitant à corriger l'orthographe et la ponctuation, et à couper les paragraphes trop longs. Pas de réécriture marketing.
-2. **Ne jamais inventer d'avis, de témoignages, de chiffres ou de résultats.** La section `#avis` affiche les notes Google (5/5, 106) et Medoucine (4,9/5, 59) relevées à la main le 16/10/2026, et 6 avis Medoucine copiés mot pour mot (`avis.ts`). Pas d'API : on met à jour à la main.
+2. **Ne jamais inventer d'avis, de témoignages, de chiffres ou de résultats.** La section `#avis` affiche les notes Google (5/5, 106) et Medoucine (4,9/5, 59) relevées à la main le 16/10/2026, et les 7 avis choisis par Pauline (6 Google, 1 Medoucine) copiés mot pour mot, fautes comprises (`avis.ts`). Un avis Google s'affiche « avis Google », seul Medoucine est « avis vérifié ». Pas d'API : on met à jour à la main.
 3. **Pas d'allégations thérapeutiques.** La liste « Accroches par problématique » / « Mots clés » en fin de `brief-presentation-pauline.md` (cancer, épilepsie, endométriose, allergies, AVC, troubles sexuels, etc.) **ne doit pas être utilisée** dans le site. Raisons : risque DGCCRF / exercice illégal de la médecine, pénalité Google sur les sujets santé (YMYL), et une liste de mots-clés n'a aucun effet SEO. Gaëtan a validé ce point. Le SEO passe par les 7 pages thématiques.
 4. La mention « ne remplace pas un suivi médical ou psychologique » a été retirée partout à la demande de Gaëtan (oct. 2026). Ne pas la remettre sans qu'il le demande ; les règles 2 et 3 (rien d'inventé, aucune allégation thérapeutique) restent d'autant plus importantes.
 5. Les citations de Pauline (`quotes` dans `site.ts`) sont réparties sur le site en bandeaux (`<Quote>`, ton `olive` ou `lin`). Elle tient à les voir « sur l'ensemble du site ».
@@ -104,21 +122,22 @@ La palette est tirée des photos du cabinet. Le pari visuel : **l'arche** (porte
 - **Typo :** `Young Serif` pour les titres et les citations (`font-serif`), `Figtree Variable` pour le texte (`font-sans`). Corps 17 px, interligne 1,65.
 - **À éviter :** labels en MAJUSCULES espacées, mot isolé en couleur ou en italique dans un titre, numérotation 01/02/03 décorative, animations d'entrée sur chaque section, cartes identiques avec ombre grise.
 - **Logo provisoire :** `OliveMark.astro` (rameau d'olivier SVG) + `public/favicon.svg`. Pauline veut un logo « cerveau avec ramification d'olivier », à remplacer quand il sera fourni.
-- **Responsive :** la nav desktop apparaît à partir de `xl` (1280 px). En dessous, bouton menu + icône téléphone. Le header utilise `max-w-7xl`, le contenu `max-w-6xl` (`.wrap`).
+- **Header :** 4 entrées seulement (« Accompagnements » avec menu déroulant CSS des 7 pages au survol / focus, Qui suis-je, Hypnose et NEMO, Infos pratiques). La FAQ est dans le footer et le menu mobile. Téléphone en icône, sélecteur FR/EN, bouton « Rendez-vous ».
+- **Responsive :** la nav desktop apparaît à partir de `xl` (1280 px). En dessous, bouton menu (pages thématiques + sections + FAQ + langue) + icône téléphone. Le header utilise `max-w-7xl`, le contenu `max-w-6xl` (`.wrap`).
 - **Accessibilité :** focus visible (outline argile), lien d'évitement « Aller au contenu », `prefers-reduced-motion` respecté.
 
 ### Photos (`src/assets/photos/`)
 
 | Fichier | Contenu | Utilisée sur |
 |---|---|---|
-| `pauline-portrait.jpg` | portrait, veste taupe, fond sculpté blanc | hero home, confiance-en-soi, image OG par défaut |
-| `pauline-bord-de-mer.jpg` | Pauline souriante, coucher de soleil | qui suis-je, phobies |
-| `coucher-soleil-coeur.jpg` | mains en cœur autour du soleil | souvenirs douloureux |
-| `cabinet-fauteuil-hypnose.jpg` | fauteuil gris, niche vert olive | galerie « Le cabinet » (qui suis-je), stress-anxiété |
-| `cabinet-salle.jpg` | vue de la salle, suspensions rotin | galerie « Le cabinet », sommeil |
-| `cabinet-bureau-lampe.jpg` | bureau, lampe de sel | galerie « Le cabinet », émotions |
-| `cabinet-bureau-jour.jpg` | bureau en lumière naturelle | galerie « Le cabinet », habitudes à changer |
-| `cabinet-vue-ensemble.jpg` | salle, fauteuil vintage, lampe | galerie « Le cabinet », bandeau final home |
+| `pauline-portrait.jpg` | portrait, veste taupe, fond sculpté blanc | hero home, image OG par défaut (et OG de confiance-en-soi) |
+| `pauline-bord-de-mer.jpg` | Pauline souriante, coucher de soleil | qui suis-je (OG de phobies) |
+| `coucher-soleil-coeur.jpg` | mains en cœur autour du soleil | OG de souvenirs douloureux uniquement |
+| `cabinet-fauteuil-hypnose.jpg` | fauteuil gris, niche vert olive | section #cabinet (grande photo) |
+| `cabinet-salle.jpg` | vue de la salle, suspensions rotin | section #cabinet |
+| `cabinet-bureau-lampe.jpg` | bureau, lampe de sel | section #cabinet |
+| `cabinet-bureau-jour.jpg` | bureau en lumière naturelle | section #cabinet |
+| `cabinet-vue-ensemble.jpg` | salle, fauteuil vintage, lampe | bandeau final home |
 | `pauline-christophe.jpg` | Pauline et Christophe Rodrik | section « Ma formation » (#formation) |
 
 ## Pièges connus
@@ -165,6 +184,9 @@ La palette est tirée des photos du cabinet. Le pari visuel : **l'arche** (porte
 10. MVP2 : prise de RDV Cal.com (voir plus haut)
 
 ## Images
+
+- Les pages thématiques n'ont plus de photo : une illustration par thème (`Illustration.astro`, clé = slug FR), aussi dans les cartes « Les autres accompagnements ». Le champ `image` des `.md` ne sert plus qu'à l'image de partage (OG).
+- Style des illustrations : forme organique `lin-fonce` (ou `lin` sur fond foncé, prop `tone`), trait olive 3 px arrondi, une seule touche d'argile, statiques, sans cadre.
 
 - Pas d'images générées façon « photo » (faux cabinet, fausses personnes) : sur un site de thérapeute, l'authenticité compte. Là où une image manque, on dessine une illustration SVG dans la charte (`Illustration.astro` : arche, olive, argile, lin).
 - Hors bandeaux photo, les illustrations animées respectent `prefers-reduced-motion` (règle globale dans `global.css`).

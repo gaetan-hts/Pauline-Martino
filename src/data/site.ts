@@ -81,3 +81,47 @@ export const quotes = [
     author: 'Frédéric Lenoir',
   },
 ];
+
+// Version anglaise des données affichées (le reste de `site` est commun aux deux langues)
+export const siteEn = {
+  job: 'Hypnotherapist and NEMO practitioner',
+  hours: 'Monday, Wednesday and Saturday, 9 am to 7 pm, by appointment',
+  duration: 'one hour',
+  formations: [
+    { year: '2025', items: ['Evidence® training: NLP levels 1 and 2', 'Evidence® training: NEMO-EMDR'] },
+    {
+      year: '2024',
+      items: [
+        'Evidence® training: personal development and holistic coaching',
+        'Evidence® training: Ericksonian trance hypnosis',
+        'Evidence® training: conversational hypnosis',
+      ],
+    },
+  ],
+  parkings: parkings.map(([name, time]) => [name, time.replace('à pied', 'walk')]),
+  quotes: [
+    {
+      text: 'Until you make the unconscious conscious, it will direct your life and you will call it fate.',
+      author: 'Carl Gustav Jung',
+    },
+    {
+      text: 'When a flower doesn’t bloom, you fix the environment in which it grows, not the flower.',
+      author: 'Paulo Amaro',
+    },
+    {
+      text: 'What you deny submits you. What you accept transforms you.',
+      author: 'Carl Gustav Jung',
+    },
+    {
+      text: 'The whole path of life is to move from ignorance to knowledge, from darkness to light, from the unaccomplished to the accomplished, from unconsciousness to consciousness, from fear to love.',
+      author: 'Frédéric Lenoir',
+    },
+  ],
+};
+
+/** Données affichées dans la langue demandée */
+export function siteText(lang: 'fr' | 'en') {
+  return lang === 'en'
+    ? siteEn
+    : { job: site.job, hours: site.hours, duration: site.duration, formations, parkings, quotes };
+}

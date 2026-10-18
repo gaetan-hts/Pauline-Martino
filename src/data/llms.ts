@@ -1,16 +1,15 @@
 // Contenu de /llms.txt et /llms-full.txt (https://llmstxt.org) : un résumé en Markdown
 // pour les assistants IA (ChatGPT, Claude, Perplexity…), généré à partir des mêmes
 // données que le site pour ne jamais se désynchroniser.
-import { getCollection } from 'astro:content';
 import { site, formations, parkings, bookingUrl } from './site';
 import { faq } from './faq';
 import { platforms } from './avis';
+import { getServices } from './services';
+import { englishEnabled } from '../i18n/config';
 
 const url = (path: string) => new URL(path, site.url).href;
 
-async function pages() {
-  return (await getCollection('accompagnements')).sort((a, b) => a.data.order - b.data.order);
-}
+const pages = async () => (await getServices('fr')).map((s) => ({ ...s.entry, url: s.url }));
 
 function header() {
   const a = site.address;
@@ -29,8 +28,11 @@ function header() {
 }
 
 export async function llmsTxt() {
+  const en = (await getServices('en'))
+    .map((p) => `- [${p.entry.data.title}](${url(p.url)}): ${p.entry.data.summary}.`)
+    .join('\n');
   const list = (await pages())
-    .map((p) => `- [${p.data.title}](${url(`/${p.id}`)}) : ${p.data.menuLabel}. ${p.data.summary}.`)
+    .map((p) => `- [${p.data.title}](${url(p.url)}) : ${p.data.menuLabel}. ${p.data.summary}.`)
     .join('\n');
 
   return `${header()}
@@ -49,10 +51,17 @@ ${list}
 - [Informations pratiques](${url('/#infos-pratiques')}) : adresse, horaires, stationnement, tarif, annulation
 - [Questions fréquentes](${url('/#faq')})
 
-## Optional
+${englishEnabled ? `## English
+
+The whole site is also available in English. Sessions take place at the practice in La Farlède (Var, France) or online by video.
+
+- [Home (English)](${url('/en/')})
+${en}
+
+` : ''}## Optional
 
 - [Version complète de ce fichier](${url('/llms-full.txt')}) : tous les textes du site en un seul document
-- [Mentions légales](${url('/mentions-legales')})
+- [Mentions légales](${url('/mentions-legales/')})
 - [Instagram](${site.social.instagram})
 - [Facebook](${site.social.facebook})
 - [LinkedIn](${site.social.linkedin})
@@ -67,7 +76,7 @@ export async function llmsFullTxt() {
       const d = p.data;
       return [
         `### ${d.title}`,
-        `URL : ${url(`/${p.id}`)}`,
+        `URL : ${url(p.url)}`,
         d.intro,
         d.extra ? `**${d.extra.title}**\n\n${d.extra.text}` : '',
         `**Vous vous reconnaissez ?**\n\n${d.signs.map((s) => `- ${s}`).join('\n')}`,
@@ -84,7 +93,7 @@ export async function llmsFullTxt() {
   const reviewsLine = platforms
     .map((p) => `- ${p.source} : ${p.rating}/5 sur ${p.count} avis (relevé le ${p.checkedAt}), [lire les avis](${p.url})`)
     .join('\n');
-  const questions = faq.map((f) => `### ${f.q}\n\n${f.a.join('\n\n')}`).join('\n\n');
+  const questions = faq.fr.map((f) => `### ${f.q}\n\n${f.a.join('\n\n')}`).join('\n\n');
 
   return `${header()}
 

@@ -1,0 +1,325 @@
+---
+// Page d'accueil, commune au français (/) et à l'anglais (/en/). Textes : src/i18n/home.ts
+import { Image, getImage } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import BookingButton from '../BookingButton.astro';
+import Quote from '../Quote.astro';
+import OliveMark from '../OliveMark.astro';
+import Illustration from '../Illustration.astro';
+import Reviews from '../Reviews.astro';
+import { site, siteText } from '../../data/site';
+import { faq as faqs } from '../../data/faq';
+import { getServices } from '../../data/services';
+import { home } from '../../i18n/home';
+import { ui } from '../../i18n/ui';
+import { homePath, type Lang } from '../../i18n/config';
+
+import portrait from '../../assets/photos/pauline-portrait.jpg';
+import mer from '../../assets/photos/pauline-bord-de-mer.jpg';
+import salle from '../../assets/photos/cabinet-salle.jpg';
+import fauteuil from '../../assets/photos/cabinet-fauteuil-hypnose.jpg';
+import bureauLampe from '../../assets/photos/cabinet-bureau-lampe.jpg';
+import bureauJour from '../../assets/photos/cabinet-bureau-jour.jpg';
+import vue from '../../assets/photos/cabinet-vue-ensemble.jpg';
+import duo from '../../assets/photos/pauline-christophe.jpg';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = home[lang];
+const u = ui[lang];
+const s = siteText(lang);
+const faq = faqs[lang];
+const services = await getServices(lang);
+const c = lang === 'fr' ? 'accueil' : 'en-home'; // préfixe des campagnes UTM
+
+const portraitOg = await getImage({ src: portrait, width: 800, format: 'jpg' });
+const pageUrl = new URL(homePath[lang], site.url).href;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: lang,
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a.join(' ') },
+  })),
+};
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Pauline Martino',
+  jobTitle: s.job,
+  url: pageUrl,
+  image: new URL(portraitOg.src, site.url).href,
+  worksFor: { '@id': `${site.url}/#cabinet` },
+  knowsAbout: t.knowsAbout,
+  hasCredential: s.formations.flatMap((f) =>
+    f.items.map((name) => ({
+      '@type': 'EducationalOccupationalCredential',
+      name,
+      dateCreated: f.year,
+      recognizedBy: { '@type': 'Organization', name: 'Evidence Relationnelle' },
+    })),
+  ),
+  sameAs: Object.values(site.social),
+};
+---
+<Layout
+  lang={lang}
+  title={t.title}
+  description={t.description}
+  campaign={c}
+  alternates={homePath}
+  jsonLd={[personSchema, faqSchema]}
+>
+  <!-- Accueil -->
+  <section class="relative overflow-hidden">
+    <div class="wrap grid items-center gap-10 py-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16 md:py-20">
+      <div>
+        <p class="text-lg text-olive">{t.hero.kicker}</p>
+        <h1 class="mt-4 text-[2.4rem] sm:text-5xl lg:text-[3.6rem]">{t.hero.h1}</h1>
+        <p class="mt-6 max-w-xl text-xl leading-relaxed text-noyer/85">{t.hero.lead}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <BookingButton lang={lang} campaign={`${c}-hero`} />
+          <a class="btn btn-ghost" href={site.phoneHref}>{u.call(site.phone)}</a>
+        </div>
+        <p class="mt-6 text-noyer/70">{t.hero.note(site.price)}</p>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-sm md:max-w-none">
+        <OliveMark class="absolute -top-6 -left-8 z-10 h-24 w-24 -rotate-12 text-olive sm:h-28 sm:w-28" />
+        <div class="arch aspect-[4/5] bg-lin-fonce">
+          <Image
+            src={portrait}
+            alt={t.hero.portraitAlt}
+            widths={[400, 640, 900]}
+            sizes="(min-width: 768px) 40vw, 90vw"
+            class="h-full w-full object-cover object-[50%_30%]"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accompagnements -->
+  <section id="accompagnements" class="border-t border-noyer/10 py-16 sm:py-24">
+    <div class="wrap grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <h2 class="text-3xl sm:text-4xl">{t.why.title}</h2>
+        <div class="prose-pauline mt-6 max-w-prose text-noyer/85">
+          {t.why.paras.map((p) => <p>{p}</p>)}
+        </div>
+        <p class="mt-6 max-w-prose text-noyer/85">
+          <strong class="font-semibold text-olive">{t.why.forWhoLabel}</strong> {t.why.forWho}
+        </p>
+      </div>
+
+      <ul class="border-t border-noyer/15">
+        {services.map(({ entry, url }) => (
+          <li class="border-b border-noyer/15">
+            <a href={url} class="group flex items-center justify-between gap-6 py-6">
+              <span>
+                <span class="block font-serif text-2xl text-noyer transition-colors group-hover:text-argile sm:text-[1.7rem]">{entry.data.menuLabel}</span>
+                <span class="mt-1 block text-noyer/70">{entry.data.summary}</span>
+              </span>
+              <svg viewBox="0 0 24 24" class="h-6 w-6 shrink-0 text-olive transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Quote {...s.quotes[0]} />
+
+  <!-- Qui suis-je -->
+  <section id="qui-suis-je" class="py-16 sm:py-24">
+    <div class="wrap grid items-start gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+      <div class="arch mx-auto aspect-[3/4] w-full max-w-sm md:sticky md:top-28">
+        <Image src={mer} alt={t.about.photoAlt} widths={[400, 700]} sizes="(min-width: 768px) 35vw, 90vw" class="h-full w-full object-cover" />
+      </div>
+      <div>
+        <h2 class="text-3xl sm:text-4xl">{t.about.title}</h2>
+        <div class="prose-pauline mt-6 max-w-prose text-[1.1rem] text-noyer/85">
+          {t.about.paras.map((p) => <p>{p}</p>)}
+        </div>
+
+        <h3 class="mt-12 text-2xl">{t.about.pathTitle}</h3>
+        <div class="prose-pauline mt-4 max-w-prose text-noyer/85">
+          {t.about.path.map((p) => <p>{p}</p>)}
+        </div>
+        <BookingButton lang={lang} campaign={`${c}-qui-suis-je`} class="mt-8" />
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Techniques -->
+  <section id="techniques" class="bg-lin-fonce py-16 sm:py-24">
+    <div class="wrap">
+      <h2 class="max-w-2xl text-3xl sm:text-4xl">{t.techniques.title}</h2>
+      <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-16">
+        <div>
+          <Illustration name="hypnose" tone="lin" class="mb-8 max-w-xs" />
+          <h3 class="text-2xl text-olive">{t.techniques.hypnosisTitle}</h3>
+          <div class="prose-pauline mt-4 text-noyer/85">
+            {t.techniques.hypnosis.map((p) => <p>{p}</p>)}
+          </div>
+        </div>
+        <div>
+          <Illustration name="nemo" tone="lin" class="mb-8 max-w-xs" />
+          <h3 class="text-2xl text-olive">{t.techniques.nemoTitle}</h3>
+          <div class="prose-pauline mt-4 text-noyer/85">
+            {t.techniques.nemo.map((p) => <p>{p}</p>)}
+          </div>
+        </div>
+      </div>
+      <p class="mt-12 max-w-3xl border-l-2 border-argile pl-6 text-lg">{t.techniques.summary}</p>
+    </div>
+  </section>
+
+  <!-- Formation et accompagnement à deux voix -->
+  <section id="formation" class="py-16 sm:py-24">
+    <div class="wrap grid items-start gap-12 md:grid-cols-[0.85fr_1.15fr] md:gap-16">
+      <div class="overflow-hidden rounded-3xl md:sticky md:top-28">
+        <Image src={duo} alt={t.training.photoAlt} widths={[500, 800]} sizes="(min-width: 768px) 40vw, 95vw" class="aspect-[4/5] w-full object-cover object-top" />
+      </div>
+      <div>
+        <h2 class="text-3xl sm:text-4xl">{t.training.title}</h2>
+        <div class="prose-pauline mt-6 max-w-prose text-[1.1rem] text-noyer/85">
+          {t.training.paras.map((p) => <p>{p}</p>)}
+        </div>
+
+        <h3 class="mt-10 text-xl">{t.training.certTitle}</h3>
+        <ol class="relative mt-5 border-l border-olive/40 pl-8">
+          {s.formations.map((f) => (
+            <li class="relative pb-6 last:pb-0">
+              <span class="absolute top-1.5 -left-[2.4rem] h-3 w-3 rounded-full bg-olive ring-4 ring-lin" aria-hidden="true"></span>
+              <p class="font-serif text-2xl text-olive">{f.year}</p>
+              <ul class="mt-2 space-y-1.5 text-noyer/85">
+                {f.items.map((i) => <li>{i}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ol>
+
+        <div class="mt-12 rounded-3xl bg-lin-fonce p-7 sm:p-9">
+          <h3 class="text-2xl">{t.training.duoTitle}</h3>
+          <div class="prose-pauline mt-4 text-noyer/85">
+            {t.training.duo.map((p) => <p>{p}</p>)}
+          </div>
+          <a class="btn btn-ghost mt-6" href={site.phoneHref}>{t.training.duoCta}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Quote {...s.quotes[1]} tone="lin" />
+
+  <!-- Le cabinet -->
+  <section id="cabinet" class="pt-16 sm:pt-24">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <h2 class="text-3xl sm:text-4xl">{t.office.title}</h2>
+        <p class="max-w-md text-noyer/80">{t.office.text(site.address.street, site.address.city)}</p>
+      </div>
+      <!-- Hauteurs fixes en desktop : les photos remplissent leur case sans trou -->
+      <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 md:h-[34rem] md:grid-cols-4 md:grid-rows-2">
+        <div class="col-span-2 aspect-[4/3] overflow-hidden rounded-3xl md:row-span-2 md:aspect-auto">
+          <Image src={fauteuil} alt={t.office.alt.fauteuil} widths={[500, 800, 1100]} sizes="(min-width: 768px) 50vw, 95vw" class="h-full w-full object-cover" />
+        </div>
+        <div class="col-span-2 aspect-[16/9] overflow-hidden rounded-3xl md:aspect-auto">
+          <Image src={salle} alt={t.office.alt.salle} widths={[500, 800, 1100]} sizes="(min-width: 768px) 50vw, 95vw" class="h-full w-full object-cover" />
+        </div>
+        <div class="aspect-square overflow-hidden rounded-3xl md:aspect-auto">
+          <Image src={bureauLampe} alt={t.office.alt.bureauLampe} widths={[300, 500]} sizes="(min-width: 768px) 25vw, 47vw" class="h-full w-full object-cover" />
+        </div>
+        <div class="aspect-square overflow-hidden rounded-3xl md:aspect-auto">
+          <Image src={bureauJour} alt={t.office.alt.bureauJour} widths={[300, 500]} sizes="(min-width: 768px) 25vw, 47vw" class="h-full w-full object-cover" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Infos pratiques -->
+  <section id="infos-pratiques" class="py-16 sm:py-24">
+    <div class="wrap">
+      <h2 class="text-3xl sm:text-4xl">{t.practical.title}</h2>
+      <div class="mt-10 grid gap-10 lg:grid-cols-[1fr_1fr_0.9fr]">
+        <div>
+          <h3 class="text-xl">{t.practical.office}</h3>
+          <address class="mt-3 not-italic text-noyer/85">{site.address.street}<br />{site.address.postalCode} {site.address.city}</address>
+          <a class="mt-2 inline-block font-semibold text-olive underline underline-offset-4 hover:text-argile" href={site.mapsUrl} target="_blank" rel="noopener">{t.practical.directions}</a>
+          <h3 class="mt-8 text-xl">{t.practical.hours}</h3>
+          <p class="mt-3 text-noyer/85">{s.hours}.</p>
+          <h3 class="mt-8 text-xl">{t.practical.parking}</h3>
+          <ul class="mt-3 space-y-2 text-noyer/85">
+            {s.parkings.map(([name, time]) => <li>{name} <span class="text-noyer/60">({time})</span></li>)}
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-xl">{t.practical.sessions}</h3>
+          <p class="mt-3 text-noyer/85">{t.practical.sessionsText(s.duration)}</p>
+          <h3 class="mt-8 text-xl">{t.practical.price}</h3>
+          <p class="mt-3 text-noyer/85"><span class="font-serif text-3xl text-noyer">{site.price}</span> {t.practical.perSession}</p>
+          <h3 class="mt-8 text-xl">{t.practical.refund}</h3>
+          <p class="mt-3 text-noyer/85">{t.practical.refundText}</p>
+          <h3 class="mt-8 text-xl">{t.practical.cancel}</h3>
+          <p class="mt-3 text-noyer/85">{t.practical.cancelText}</p>
+        </div>
+
+        <div class="self-start rounded-3xl bg-olive-nuit p-8 text-lin">
+          <h3 class="text-2xl text-lin">{t.practical.bookTitle}</h3>
+          <p class="mt-3 text-lin/80">{t.practical.bookText}</p>
+          <BookingButton lang={lang} campaign={`${c}-infos`} class="mt-6 w-full" />
+          <a class="btn mt-3 w-full border border-lin/30 text-lin hover:bg-lin/10" href={site.phoneHref}>{site.phone}</a>
+          <p class="mt-6 text-sm text-lin/70">{t.practical.byEmail}<br /><a class="break-all text-lin underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Avis -->
+  <Reviews lang={lang} />
+
+  <!-- FAQ -->
+  <section id="faq" class="border-t border-noyer/10 py-16 sm:py-24">
+    <div class="wrap max-w-3xl">
+      <h2 class="text-3xl sm:text-4xl">{t.faqTitle}</h2>
+      <div class="mt-8 space-y-3">
+        {faq.map((f) => (
+          <details class="faq group rounded-2xl border border-noyer/10 bg-white/35 transition-colors open:border-olive/25 open:bg-white/60">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 px-5 py-5 font-serif text-xl transition-colors hover:text-olive sm:px-7 [&::-webkit-details-marker]:hidden">
+              {f.q}
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="prose-pauline px-5 pb-6 text-noyer/85 sm:px-7">
+              {f.a.map((p) => <p>{p}</p>)}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Dernier appel -->
+  <section class="relative overflow-hidden bg-olive py-16 text-lin sm:py-20">
+    <div class="wrap grid items-center gap-10 md:grid-cols-[1.3fr_0.7fr]">
+      <div>
+        <h2 class="text-3xl text-lin sm:text-4xl">{t.final.title}</h2>
+        <p class="mt-4 max-w-xl text-lg text-lin/85">{t.final.text}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <BookingButton lang={lang} campaign={`${c}-fin`} />
+          <a class="btn border border-lin/40 text-lin hover:bg-lin/10" href={site.phoneHref}>{site.phone}</a>
+        </div>
+      </div>
+      <div class="arch mx-auto hidden aspect-[3/4] w-56 md:block">
+        <Image src={vue} alt="" widths={[300, 450]} sizes="14rem" class="h-full w-full object-cover" />
+      </div>
+    </div>
+  </section>
+</Layout>

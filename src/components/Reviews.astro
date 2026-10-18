@@ -2,9 +2,17 @@
 // Section avis de la home : notes réelles par plateforme + extraits choisis (src/data/avis.ts).
 // Pas de balisage AggregateRating : Google ne l'affiche pas pour un site qui se note lui-même.
 import { platforms, reviews } from '../data/avis';
+import { ui, dateLocale } from '../i18n/ui';
+import type { Lang } from '../i18n/config';
 
-const fmtDate = (iso: string, opts: Intl.DateTimeFormatOptions) =>
-  new Intl.DateTimeFormat('fr-FR', opts).format(new Date(iso));
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const u = ui[lang].reviews;
+const loc = dateLocale[lang];
+const fmtDay = (iso: string) => new Intl.DateTimeFormat(loc, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
+// « 2025 » ou « 2026-04 » → « 2025 » / « avril 2026 » / « April 2026 »
+const fmtMonth = (d: string) => (d.length === 4 ? d : new Intl.DateTimeFormat(loc, { month: 'long', year: 'numeric' }).format(new Date(`${d}-15`)));
+const fmtRating = (r: number) => r.toLocaleString(loc, { minimumFractionDigits: r % 1 ? 1 : 0 });
 const solo = platforms.length === 1; // une seule plateforme : carte large, en ligne
 const star = 'M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z';
 ---
@@ -12,10 +20,8 @@ const star = 'M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9
   <div class="wrap">
     <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
       <div>
-        <h2 class="text-3xl sm:text-4xl">Ce qu’en disent les personnes accompagnées</h2>
-        <p class="mt-4 max-w-md text-lg text-noyer/80">
-          Douceur, écoute, bienveillance : ce sont les mots qui reviennent le plus souvent. Lisez-les directement là où ils ont été déposés.
-        </p>
+        <h2 class="text-3xl sm:text-4xl">{u.title}</h2>
+        <p class="mt-4 max-w-md text-lg text-noyer/80">{u.intro}</p>
       </div>
 
       <ul class:list={['grid gap-4', !solo && 'sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2']}>
@@ -23,28 +29,28 @@ const star = 'M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9
           <li>
             <a href={p.url} target="_blank" rel="noopener" class:list={['card group flex h-full rounded-3xl border border-noyer/10 bg-lin p-7', solo ? 'flex-col gap-6 sm:flex-row sm:items-center sm:gap-10 sm:p-10' : 'flex-col']}>
               <div class:list={[solo && 'shrink-0 sm:border-r sm:border-noyer/10 sm:pr-10']}>
-              <p class="text-sm font-semibold text-olive">Sur {p.source}</p>
-              <p class="mt-3 flex items-baseline gap-2">
-                <span class="font-serif text-5xl text-noyer">{p.rating.toLocaleString('fr-FR', { minimumFractionDigits: p.rating % 1 ? 1 : 0 })}</span>
-                <span class="text-noyer/60">/ 5</span>
-              </p>
-              <span class="mt-2 flex gap-1 text-argile" role="img" aria-label={`Note de ${p.rating} sur 5`}>
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
-                    <path d={star} fill={i <= Math.round(p.rating) ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                  </svg>
-                ))}
-              </span>
+                <p class="text-sm font-semibold text-olive">{u.on(p.source)}</p>
+                <p class="mt-3 flex items-baseline gap-2">
+                  <span class="font-serif text-5xl text-noyer">{fmtRating(p.rating)}</span>
+                  <span class="text-noyer/60">/ 5</span>
+                </p>
+                <span class="mt-2 flex gap-1 text-argile" role="img" aria-label={u.rating(p.rating)}>
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                      <path d={star} fill={i <= Math.round(p.rating) ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                    </svg>
+                  ))}
+                </span>
               </div>
               <div class="flex flex-1 flex-col">
-              <p class:list={['font-semibold', solo ? 'text-xl' : 'mt-4']}>{p.count} avis</p>
-              {p.note && <p class="mt-1 flex-1 text-sm text-noyer/70">{p.note}</p>}
-              <span class="mt-5 inline-flex items-center gap-2 font-semibold text-olive group-hover:text-argile">
-                Lire les avis
-                <svg viewBox="0 0 24 24" class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span class="sr-only">(ouvre {p.source} dans un nouvel onglet)</span>
-              </span>
-              <p class="mt-3 text-xs text-noyer/55">Relevé le {fmtDate(p.checkedAt, { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <p class:list={['font-semibold', solo ? 'text-xl' : 'mt-4']}>{u.count(p.count)}</p>
+                {p.note && lang === 'fr' && <p class="mt-1 flex-1 text-sm text-noyer/70">{p.note}</p>}
+                <span class="mt-5 inline-flex items-center gap-2 font-semibold text-olive group-hover:text-argile">
+                  {u.read}
+                  <svg viewBox="0 0 24 24" class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="sr-only">{u.newTab(p.source)}</span>
+                </span>
+                <p class="mt-3 text-xs text-noyer/55">{u.checked(fmtDay(p.checkedAt))}</p>
               </div>
             </a>
           </li>
@@ -53,31 +59,36 @@ const star = 'M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9
     </div>
 
     {reviews.length > 0 && (
-      <ul class="mt-12 gap-5 md:columns-2 lg:columns-3">
-        {reviews.map((r) => (
-          <li class="mb-5 break-inside-avoid rounded-3xl bg-lin p-7">
-            <div class="flex items-center justify-between gap-4">
-              <span class="rounded-full bg-lin-fonce px-3 py-1 text-sm text-olive">{r.topic}</span>
-              <span class="flex gap-0.5 text-argile" role="img" aria-label="Note de 5 sur 5">
-                {[1, 2, 3, 4, 5].map(() => (
-                  <svg viewBox="0 0 24 24" class="h-4 w-4" aria-hidden="true"><path d={star} fill="currentColor" /></svg>
-                ))}
-              </span>
-            </div>
-            <blockquote class="mt-5 text-noyer/85"><p>« {r.text} »</p></blockquote>
-            <p class="mt-5 text-sm">
-              <span class="font-semibold">{r.author}</span>
-              <span class="text-noyer/60"> · avis vérifié {r.source}, {r.date}</span>
-            </p>
-          </li>
-        ))}
-      </ul>
+      <>
+        {u.originalLang && <p class="mt-12 text-sm text-noyer/65">{u.originalLang}</p>}
+        <ul class:list={['gap-5 md:columns-2 lg:columns-3', u.originalLang ? 'mt-4' : 'mt-12']}>
+          {reviews.map((r) => (
+            <li class="mb-5 break-inside-avoid rounded-3xl bg-lin p-7">
+              <div class="flex items-center justify-between gap-4">
+                <span class="rounded-full bg-lin-fonce px-3 py-1 text-sm text-olive">{r.topic[lang]}</span>
+                <span class="flex gap-0.5 text-argile" role="img" aria-label={u.rating(5)}>
+                  {[1, 2, 3, 4, 5].map(() => (
+                    <svg viewBox="0 0 24 24" class="h-4 w-4" aria-hidden="true"><path d={star} fill="currentColor" /></svg>
+                  ))}
+                </span>
+              </div>
+              <blockquote lang="fr" class="mt-5 text-noyer/85">
+                <p>« {r.text.split('\n').map((line, i) => <>{i > 0 && <br />}{line}</>)} »</p>
+              </blockquote>
+              <p class="mt-5 text-sm">
+                <span class="font-semibold">{r.author}</span>
+                <span class="text-noyer/60"> · {u.verified(r.source)}, {fmtMonth(r.date)}</span>
+              </p>
+            </li>
+          ))}
+        </ul>
+      </>
     )}
 
     <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
       {platforms.map((p) => (
         <a href={p.url} target="_blank" rel="noopener" class="font-semibold text-olive underline underline-offset-4 hover:text-argile">
-          Voir les {p.count} avis sur {p.source}<span class="sr-only"> (nouvel onglet)</span>
+          {u.seeAll(p.count, p.source)}<span class="sr-only"> {u.newTab(p.source)}</span>
         </a>
       ))}
     </div>

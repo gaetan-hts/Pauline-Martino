@@ -1,9 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
 import { site } from '../data/site';
+import { getServices } from '../data/services';
+import { ui } from '../i18n/ui';
+import { anchor, englishEnabled, homePath, legalPath, type Alternates, type Lang } from '../i18n/config';
 import OliveMark from './OliveMark.astro';
 import BookingButton from './BookingButton.astro';
-const pages = (await getCollection('accompagnements')).sort((a, b) => a.data.order - b.data.order);
+
+interface Props { lang: Lang; alternates?: Alternates }
+const { lang, alternates } = Astro.props;
+const u = ui[lang];
+const services = await getServices(lang);
+const other = u.switchTo.lang as Lang;
 const year = new Date().getFullYear();
 ---
 <footer class="bg-olive-nuit text-lin/90">
@@ -13,19 +20,20 @@ const year = new Date().getFullYear();
         <OliveMark class="h-10 w-10 text-sauge" />
         <p class="font-serif text-2xl text-lin">Pauline Martino</p>
       </div>
-      <p class="mt-4 max-w-sm">Hypnothérapeute et praticienne NEMO à La Farlède, à 15 minutes de Toulon. Séances au cabinet, pour La Farlède et les environs ({site.neighbours.join(", ")}), ou en visio.</p>
-      <BookingButton campaign="footer" class="mt-6" />
+      <p class="mt-4 max-w-sm">{u.footer.intro(site.neighbours.join(', '))}</p>
+      <BookingButton lang={lang} campaign={lang === 'fr' ? 'footer' : 'en-footer'} class="mt-6" />
     </div>
 
     <div>
-      <h2 class="font-sans text-base font-semibold text-lin">Accompagnements</h2>
+      <h2 class="font-sans text-base font-semibold text-lin">{u.footer.services}</h2>
       <ul class="mt-4 space-y-2">
-        {pages.map((p) => <li><a class="hover:text-argile-clair" href={`/${p.id}`}>{p.data.menuLabel}</a></li>)}
+        {services.map((s) => <li><a class="hover:text-argile-clair" href={s.url}>{s.entry.data.menuLabel}</a></li>)}
+        <li class="pt-2"><a class="hover:text-argile-clair" href={anchor(lang, 'faq')}>{u.nav.faq}</a></li>
       </ul>
     </div>
 
     <div>
-      <h2 class="font-sans text-base font-semibold text-lin">Le cabinet</h2>
+      <h2 class="font-sans text-base font-semibold text-lin">{u.footer.office}</h2>
       <address class="mt-4 not-italic">
         {site.address.street}<br />{site.address.postalCode} {site.address.city}
       </address>
@@ -40,8 +48,11 @@ const year = new Date().getFullYear();
   </div>
   <div class="border-t border-lin/15">
     <div class="wrap flex flex-col gap-2 py-6 text-sm text-lin/65 sm:flex-row sm:justify-between">
-      <p>© {year} Pauline Martino, hypnothérapeute à La Farlède.</p>
-      <p><a href="/mentions-legales" class="hover:text-lin">Mentions légales et confidentialité</a></p>
+      <p>© {year} {u.footer.copyright}</p>
+      <p class="flex flex-wrap gap-x-5 gap-y-1">
+        {englishEnabled && <a href={alternates?.[other] ?? homePath[other]} hreflang={other} lang={other} class="hover:text-lin">{u.switchTo.title}</a>}
+        <a href={legalPath[lang]} class="hover:text-lin">{u.footer.legal}</a>
+      </p>
     </div>
   </div>
 </footer>

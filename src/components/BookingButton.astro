@@ -1,9 +1,11 @@
 ---
 import { bookingUrl } from '../data/site';
-interface Props { campaign: string; label?: string; class?: string }
-const { campaign, label = 'Prendre rendez-vous', class: cls = '' } = Astro.props;
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/config';
+interface Props { campaign: string; label?: string; class?: string; lang?: Lang }
+const { campaign, lang = 'fr', label = ui[lang].book, class: cls = '' } = Astro.props;
 ---
 <a class:list={['btn btn-rdv', cls]} href={bookingUrl(campaign)} target="_blank" rel="noopener">
   {label}
-  <span class="sr-only"> (ouvre Medoucine dans un nouvel onglet)</span>
+  <span class="sr-only"> {ui[lang].bookSr}</span>
 </a>
