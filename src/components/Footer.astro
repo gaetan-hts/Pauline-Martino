@@ -2,8 +2,9 @@
 import { site } from '../data/site';
 import { getServices } from '../data/services';
 import { ui } from '../i18n/ui';
-import { anchor, englishEnabled, homePath, legalPath, type Alternates, type Lang } from '../i18n/config';
-import OliveMark from './OliveMark.astro';
+import { anchor, englishEnabled, homePath, legalPath, writingsPath, type Alternates, type Lang } from '../i18n/config';
+import Logo from './Logo.astro';
+import SocialIcons from './SocialIcons.astro';
 import BookingButton from './BookingButton.astro';
 
 interface Props { lang: Lang; alternates?: Alternates }
@@ -13,45 +14,43 @@ const services = await getServices(lang);
 const other = u.switchTo.lang as Lang;
 const year = new Date().getFullYear();
 ---
-<footer class="bg-olive-nuit text-lin/90">
+<footer class="bg-grenat text-creme/90">
   <div class="wrap grid gap-12 py-16 md:grid-cols-[1.3fr_1fr_1fr]">
     <div>
       <div class="flex items-center gap-3">
-        <OliveMark class="h-10 w-10 text-sauge" />
-        <p class="font-serif text-2xl text-lin">Pauline Martino</p>
+        <Logo class="h-11 w-auto text-poudre" />
+        <p class="font-serif text-2xl text-creme">Pauline Martino</p>
       </div>
       <p class="mt-4 max-w-sm">{u.footer.intro(site.neighbours.join(', '))}</p>
       <BookingButton lang={lang} campaign={lang === 'fr' ? 'footer' : 'en-footer'} class="mt-6" />
     </div>
 
     <div>
-      <h2 class="font-sans text-base font-semibold text-lin">{u.footer.services}</h2>
+      <h2 class="font-sans text-base font-semibold text-creme">{u.footer.services}</h2>
       <ul class="mt-4 space-y-2">
-        {services.map((s) => <li><a class="hover:text-argile-clair" href={s.url}>{s.entry.data.menuLabel}</a></li>)}
-        <li class="pt-2"><a class="hover:text-argile-clair" href={anchor(lang, 'faq')}>{u.nav.faq}</a></li>
+        {services.map((s) => <li><a class="hover:text-peche" href={s.url}>{s.entry.data.menuLabel}</a></li>)}
+        <li class="pt-2"><a class="hover:text-peche" href={anchor(lang, 'techniques')}>{u.nav.techniques}</a></li>
+        <li><a class="hover:text-peche" href={writingsPath}>{u.nav.writings}</a></li>
+        <li><a class="hover:text-peche" href={anchor(lang, 'faq')}>{u.nav.faq}</a></li>
       </ul>
     </div>
 
     <div>
-      <h2 class="font-sans text-base font-semibold text-lin">{u.footer.office}</h2>
+      <h2 class="font-sans text-base font-semibold text-creme">{u.footer.office}</h2>
       <address class="mt-4 not-italic">
         {site.address.street}<br />{site.address.postalCode} {site.address.city}
       </address>
-      <p class="mt-3"><a class="font-semibold hover:text-argile-clair" href={site.phoneHref}>{site.phone}</a></p>
-      <p><a class="break-all hover:text-argile-clair" href={`mailto:${site.email}`}>{site.email}</a></p>
-      <ul class="mt-4 flex gap-4">
-        <li><a class="hover:text-argile-clair" href={site.social.instagram} rel="noopener" target="_blank">Instagram</a></li>
-        <li><a class="hover:text-argile-clair" href={site.social.facebook} rel="noopener" target="_blank">Facebook</a></li>
-        <li><a class="hover:text-argile-clair" href={site.social.linkedin} rel="noopener" target="_blank">LinkedIn</a></li>
-      </ul>
+      <p class="mt-3"><a class="font-semibold hover:text-peche" href={site.phoneHref}>{site.phone}</a></p>
+      <p><a class="break-all hover:text-peche" href={`mailto:${site.email}`}>{site.email}</a></p>
+      <SocialIcons class="mt-5" />
     </div>
   </div>
-  <div class="border-t border-lin/15">
-    <div class="wrap flex flex-col gap-2 py-6 text-sm text-lin/65 sm:flex-row sm:justify-between">
+  <div class="border-t border-creme/15">
+    <div class="wrap flex flex-col gap-2 py-6 text-sm text-creme/65 sm:flex-row sm:justify-between">
       <p>© {year} {u.footer.copyright}</p>
       <p class="flex flex-wrap gap-x-5 gap-y-1">
-        {englishEnabled && <a href={alternates?.[other] ?? homePath[other]} hreflang={other} lang={other} class="hover:text-lin">{u.switchTo.title}</a>}
-        <a href={legalPath[lang]} class="hover:text-lin">{u.footer.legal}</a>
+        {englishEnabled && <a href={alternates?.[other] ?? homePath[other]} hreflang={other} lang={other} class="hover:text-creme">{u.switchTo.title}</a>}
+        <a href={legalPath[lang]} class="hover:text-creme">{u.footer.legal}</a>
       </p>
     </div>
   </div>

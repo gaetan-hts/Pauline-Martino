@@ -7,6 +7,7 @@ export const ogLocale: Record<Lang, string> = { fr: 'fr_FR', en: 'en_GB' };
 
 export const homePath: Record<Lang, string> = { fr: '/', en: '/en/' };
 export const legalPath: Record<Lang, string> = { fr: '/mentions-legales/', en: '/en/legal-notice/' };
+export const writingsPath = '/mes-ecrits/'; // page en français uniquement
 export const servicePath = (lang: Lang, slug: string) => (lang === 'fr' ? `/${slug}/` : `/en/${slug}/`);
 /** Ancre de la home dans la bonne langue, ex. anchor('en', 'faq') → /en/#faq */
 export const anchor = (lang: Lang, id: string) => `${homePath[lang]}#${id}`;

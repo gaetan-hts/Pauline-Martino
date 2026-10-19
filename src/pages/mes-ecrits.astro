@@ -1,0 +1,93 @@
+---
+// Mes écrits : textes de Pauline (collection src/content/ecrits/), en avant-première de son livre.
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Illustration from '../components/Illustration.astro';
+import { site } from '../data/site';
+
+const ecrits = (await getCollection('ecrits')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(ecrits.map(async (e) => ({ entry: e, Content: (await render(e)).Content })));
+const pageUrl = new URL('/mes-ecrits/', site.url).href;
+
+const mail = (subject: string, body = '') =>
+  `mailto:${site.email}?subject=${encodeURIComponent(subject)}${body ? `&body=${encodeURIComponent(body)}` : ''}`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Mes écrits',
+  url: pageUrl,
+  inLanguage: 'fr',
+  author: { '@type': 'Person', name: 'Pauline Martino' },
+  hasPart: ecrits.map((e) => ({
+    '@type': 'Article',
+    headline: e.data.title,
+    url: `${pageUrl}#${e.id}`,
+    inLanguage: 'fr',
+    author: { '@type': 'Person', name: 'Pauline Martino', url: site.url },
+  })),
+};
+---
+<Layout
+  title="Mes écrits | Pauline Martino, hypnothérapeute à La Farlède"
+  description="Les textes de Pauline Martino, hypnothérapeute à La Farlède : quelques pages de son premier livre en avant-première, et des textes plus courts."
+  campaign="ecrits"
+  jsonLd={[schema]}
+>
+  <section>
+    <div class="wrap pt-6">
+      <nav aria-label="Fil d’Ariane" class="text-sm text-brun/65">
+        <a href="/" class="hover:text-mandarine">Accueil</a>
+        <span aria-hidden="true" class="mx-1.5">/</span>
+        <span aria-current="page">Mes écrits</span>
+      </nav>
+    </div>
+    <div class="wrap grid items-center gap-10 pt-8 pb-14 md:grid-cols-[1.15fr_0.85fr] md:gap-16 md:pb-20">
+      <div>
+        <h1 class="text-[2.6rem] sm:text-6xl">Mes écrits</h1>
+        <div class="prose-pauline mt-6 max-w-xl text-xl leading-relaxed text-brun/85">
+          <p>Avant d’accompagner les autres, j’ai toujours écrit. Écrire, c’est ma façon de comprendre ce qui se passe en nous, de mettre des mots sur nos maux. L’écriture m’apparaît comme une thérapie, un moment propice à la liberté.</p>
+          <p>Mon premier livre est en cours de réécriture. Ici je partage quelques pages à découvrir en avant-première, et des textes plus courts, publiés au fil du temps.</p>
+          <p>Prenez ce qui vous parle, revenez quand vous voulez.</p>
+        </div>
+      </div>
+      <Illustration name="ecrits" class="max-w-md md:max-w-none" />
+    </div>
+  </section>
+
+  {rendered.map(({ entry, Content }) => (
+    <article id={entry.id} class="bg-sable py-16 sm:py-24">
+      <div class="wrap grid gap-12 lg:grid-cols-[minmax(0,40rem)_1fr] lg:gap-16">
+        <div>
+          <h2 class="text-3xl sm:text-4xl">{entry.data.title}</h2>
+          <div class="prose-ecrits mt-8">
+            <Content />
+          </div>
+        </div>
+        {entry.data.pullQuote && (
+          <aside class="lg:pt-24" aria-hidden="true">
+            <p class="font-serif text-3xl leading-snug text-pivoine lg:sticky lg:top-32">
+              « {entry.data.pullQuote} »
+            </p>
+          </aside>
+        )}
+      </div>
+    </article>
+  ))}
+
+  <section class="py-16 sm:py-24">
+    <div class="wrap grid gap-5 md:grid-cols-2">
+      <div class="flex flex-col rounded-3xl bg-grenat p-8 text-creme sm:p-10">
+        <h2 class="text-2xl text-creme sm:text-3xl">Être prévenu de la parution</h2>
+        <p class="mt-4 flex-1 text-lg text-creme/85">Laissez-moi votre adresse e-mail, je vous écrirai le jour où le livre sortira.</p>
+        <a class="btn btn-rdv mt-8 self-start" href={mail('Prévenez-moi de la parution de votre livre', 'Bonjour Pauline,\n\nJe souhaite être prévenu(e) de la parution de votre livre.\n\n')}>M’inscrire par e-mail</a>
+      </div>
+      <div class="flex flex-col rounded-3xl bg-sable p-8 sm:p-10">
+        <h2 class="text-2xl sm:text-3xl">Un mot sur vos lectures ?</h2>
+        <p class="mt-4 flex-1 text-lg text-brun/85">Un texte vous a touché, questionné, fait sourire ? Écrivez-moi, je vous lirai avec plaisir.</p>
+        <a class="btn btn-ghost mt-8 self-start" href={mail('Un mot sur vos écrits')}>Écrire à Pauline</a>
+      </div>
+    </div>
+    <p class="wrap mt-10 text-sm text-brun/60">Textes © Pauline Martino. Toute reproduction, même partielle, nécessite son accord.</p>
+  </section>
+</Layout>

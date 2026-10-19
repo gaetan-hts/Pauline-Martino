@@ -32,6 +32,7 @@ export const home = {
         'J’utilise des outils puissants et rapides, la PNL, l’hypnose et les mouvements oculaires (NEMO-EMDR), que j’ai adaptés à ma pratique. Les clients me disent souvent : « J’ai déjà fait de l’hypnose, mais je n’ai jamais vécu ça ! »',
       ],
       pathTitle: 'Mon parcours',
+      writingsCta: 'Lire mes écrits',
       path: [
         'Depuis mon adolescence, je suis animée par le désir d’aider mon prochain. J’ai d’abord transformé ce désir en vocation en suivant la voie de l’avocature. Au fil des années, je m’éloignais pourtant de mon essence profonde et de mes émotions.',
         'Lorsque j’ai accepté d’écouter le message de ma tristesse et celui de mon corps, j’ai pu reprendre ma vie en main. En quête de sens, j’ai choisi un chemin qui fait sens avec qui je suis. L’hypnose s’est naturellement frayé une voie jusqu’à moi : c’est maintenant un choix de vie, qui allie deux de mes passions, l’être humain et l’écriture.',
@@ -137,6 +138,7 @@ export const home = {
         'I use powerful, fast-acting tools, NLP, hypnosis and eye movements (NEMO-EMDR), which I have adapted to my practice. Clients often tell me: “I’ve done hypnosis before, but I’ve never experienced anything like this!”',
       ],
       pathTitle: 'My journey',
+      writingsCta: 'Read my writing',
       path: [
         'Ever since I was a teenager, I have been driven by the wish to help others. I first turned that wish into a vocation by pursuing a career in law. Over the years, though, I was drifting away from my true self and my emotions.',
         'When I agreed to listen to what my sadness and my body were telling me, I was able to take my life back in hand. Looking for meaning, I chose a path that fits who I am. Hypnosis found its way to me naturally: it is now a life choice that brings together two of my passions, people and writing.',

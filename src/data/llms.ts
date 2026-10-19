@@ -47,7 +47,8 @@ ${list}
 - [Qui suis-je ?](${url('/#qui-suis-je')}) : parcours de Pauline Martino
 - [L’hypnose et NEMO](${url('/#techniques')}) : en quoi consistent les deux approches
 - [Ma formation](${url('/#formation')}) : formée par Christophe Rodrik, certifications, accompagnement à deux voix
-- [Avis](${url('/#avis')}) : notes et avis vérifiés
+- [Mes écrits](${url('/mes-ecrits/')}) : textes de Pauline Martino, pages de son premier livre en avant-première
+- [Avis](${url('/#avis')}) : avis de personnes accompagnées (Google, Medoucine)
 - [Informations pratiques](${url('/#infos-pratiques')}) : adresse, horaires, stationnement, tarif, annulation
 - [Questions fréquentes](${url('/#faq')})
 
@@ -91,7 +92,7 @@ export async function llmsFullTxt() {
   const training = formations.map((f) => `- ${f.year} : ${f.items.join(' ; ')}`).join('\n');
   const parking = parkings.map(([name, time]) => `- ${name} (${time})`).join('\n');
   const reviewsLine = platforms
-    .map((p) => `- ${p.source} : ${p.rating}/5 sur ${p.count} avis (relevé le ${p.checkedAt}), [lire les avis](${p.url})`)
+    .map((p) => `- [Lire tous les avis sur ${p.source}](${p.url})`)
     .join('\n');
   const questions = faq.fr.map((f) => `### ${f.q}\n\n${f.a.join('\n\n')}`).join('\n\n');
 

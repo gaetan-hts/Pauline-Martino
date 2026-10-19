@@ -13,8 +13,8 @@ const pages = [
   ['accueil', '/'],
   ...(await slugs('src/content/accompagnements')).map((s) => [s, `/${s}/`]),
   ['mentions-legales', '/mentions-legales/'],
-  ['en-home', '/en/'],
-  ...(await slugs('src/content/accompagnements-en')).map((s) => [`en-${s}`, `/en/${s}/`]),
+  ['mes-ecrits', '/mes-ecrits/'],
+  // version anglaise désactivée (englishEnabled) : ajouter /en/ et accompagnements-en ici si on la réactive
 ];
 
 const devices = [

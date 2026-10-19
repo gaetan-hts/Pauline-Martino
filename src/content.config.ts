@@ -29,4 +29,15 @@ const accompagnementsEn = defineCollection({
   schema: (ctx) => z.object({ ...fields(ctx), fr: z.string() }),
 });
 
-export const collections = { accompagnements, accompagnementsEn };
+// Mes écrits : un texte = un fichier Markdown (src/content/ecrits/*.md), affichés sur /mes-ecrits/
+// dans l'ordre de `order`. Dans le texte, « --- » sépare les passages (ornement à l'affichage).
+const ecrits = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/ecrits' }),
+  schema: z.object({
+    title: z.string(),
+    order: z.number(),
+    pullQuote: z.string().optional(), // phrase du texte mise en exergue
+  }),
+});
+
+export const collections = { accompagnements, accompagnementsEn, ecrits };

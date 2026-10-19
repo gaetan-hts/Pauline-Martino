@@ -37,7 +37,8 @@ src/
   data/site.ts            ← téléphone, e-mail, adresse, horaires, tarif, réseaux, communes voisines,
                             bookingUrl(campaign) vers Medoucine, citations
   data/faq.ts             ← FAQ (affichée sur la home + JSON-LD FAQPage)
-  data/avis.ts            ← notes par plateforme (Medoucine, Google) + extraits d'avis choisis par Pauline
+  data/avis.ts            ← avis choisis par Pauline (mot pour mot) + liens vers Google / Medoucine
+  content/ecrits/*.md     ← Mes écrits : les textes de Pauline (page /mes-ecrits/)
   data/llms.ts            ← contenu de /llms.txt et /llms-full.txt, généré depuis site.ts, faq.ts
                             et la collection (pages/llms.txt.ts, pages/llms-full.txt.ts)
   content.config.ts       ← schéma Zod de la collection « accompagnements »
@@ -54,7 +55,7 @@ src/
   pages/en/legal-notice.astro ← mentions légales EN
   pages/mentions-legales.astro
   layouts/Layout.astro    ← <head> SEO, OG, JSON-LD LocalBusiness commun, header/footer
-  components/             ← Header, Footer, BookingButton, Quote, OliveMark (logo provisoire),
+  components/             ← Header, Footer, BookingButton, Quote, Logo, SocialIcons,
                             Reviews (section avis), Illustration (SVG hypnose / nemo dans l'arche)
   styles/global.css       ← tokens Tailwind + .wrap .arch .btn .btn-rdv .btn-ghost .prose-pauline
   typo-fr.mjs             ← intégration Astro : espaces insécables FR + apostrophes courbes au build
@@ -81,7 +82,7 @@ scripts/screenshots.mjs
 ## Contenu : règles
 
 1. **Les textes viennent de Pauline** (`docs/brief-*.md`). On garde sa voix et ses formulations, en se limitant à corriger l'orthographe et la ponctuation, et à couper les paragraphes trop longs. Pas de réécriture marketing.
-2. **Ne jamais inventer d'avis, de témoignages, de chiffres ou de résultats.** La section `#avis` affiche les notes Google (5/5, 106) et Medoucine (4,9/5, 59) relevées à la main le 16/10/2026, et les 7 avis choisis par Pauline (6 Google, 1 Medoucine) copiés mot pour mot, fautes comprises (`avis.ts`). Un avis Google s'affiche « avis Google », seul Medoucine est « avis vérifié ». Pas d'API : on met à jour à la main.
+2. **Ne jamais inventer d'avis, de témoignages, de chiffres ou de résultats.** La section `#avis` n'affiche **aucune note ni nombre d'avis** (ils évoluent et seraient vite faux) : les 7 avis choisis par Pauline (6 Google, 1 Medoucine) copiés mot pour mot, fautes comprises (`avis.ts`). Un avis Google s'affiche « avis Google », seul Medoucine est « avis vérifié ». Pas d'API. Liens « Lire tous les avis sur Google / Medoucine ».
 3. **Pas d'allégations thérapeutiques.** La liste « Accroches par problématique » / « Mots clés » en fin de `brief-presentation-pauline.md` (cancer, épilepsie, endométriose, allergies, AVC, troubles sexuels, etc.) **ne doit pas être utilisée** dans le site. Raisons : risque DGCCRF / exercice illégal de la médecine, pénalité Google sur les sujets santé (YMYL), et une liste de mots-clés n'a aucun effet SEO. Gaëtan a validé ce point. Le SEO passe par les 7 pages thématiques.
 4. La mention « ne remplace pas un suivi médical ou psychologique » a été retirée partout à la demande de Gaëtan (oct. 2026). Ne pas la remettre sans qu'il le demande ; les règles 2 et 3 (rien d'inventé, aucune allégation thérapeutique) restent d'autant plus importantes.
 5. Les citations de Pauline (`quotes` dans `site.ts`) sont réparties sur le site en bandeaux (`<Quote>`, ton `olive` ou `lin`). Elle tient à les voir « sur l'ensemble du site ».
@@ -105,24 +106,24 @@ scripts/screenshots.mjs
 
 ## Charte graphique
 
-La palette est tirée des photos du cabinet. Le pari visuel : **l'arche** (portes cannées du buffet, miroir soleil en rotin), appliquée aux photos principales via la classe `.arch`. Ne pas multiplier les formes : arche pour les photos phares, `rounded-2xl/3xl` pour le reste.
+Palette **solaire** (oct. 2026) : fond crème, rose et orange. Photos phares en arche (`.arch`), le reste en `rounded-2xl/3xl`.
 
 | Token | Hex | Rôle |
 |---|---|---|
-| `lin` | `#f2ece1` | fond principal |
-| `lin-fonce` | `#e6dbc8` | sections alternées, fonds d'image |
-| `olive` | `#56622f` | accents texte, bandeau final, titres H3 |
-| `olive-nuit` | `#353d1e` | citations, footer, encarts « En pratique » / RDV |
-| `sauge` | `#a7ae86` | texte secondaire sur fond olive |
-| `argile` | `#a14d2c` | **réservé aux boutons « Prendre rendez-vous »** + puces, focus |
-| `argile-clair` | `#e9c4ad` | hover de liens sur fond sombre |
-| `rotin` | `#c39a5d` | réserve (non utilisé pour l'instant) |
-| `noyer` | `#2e2219` | texte |
+| `creme` | `#fbf4ea` | fond principal |
+| `sable` | `#f6e3cf` | sections alternées, fonds de cartes |
+| `pivoine` | `#b5475b` | rose profond : accents texte, titres H3, liens, bandeau final |
+| `grenat` | `#5b2333` | sombre : citations, footer, encarts « En pratique » / RDV |
+| `poudre` | `#f3c1bc` | rose pâle : texte secondaire sur fond sombre, illustrations |
+| `mandarine` | `#c24e22` | orange : **réservé aux boutons « Prendre rendez-vous »** + puces, focus |
+| `peche` | `#ffd3b0` | survol des liens sur fond sombre, illustrations |
+| `soleil` | `#f0a63a` | jaune orangé : illustrations, étoiles des avis, touches décoratives |
+| `brun` | `#3a2420` | texte |
 
 - **Typo :** `Young Serif` pour les titres et les citations (`font-serif`), `Figtree Variable` pour le texte (`font-sans`). Corps 17 px, interligne 1,65.
 - **À éviter :** labels en MAJUSCULES espacées, mot isolé en couleur ou en italique dans un titre, numérotation 01/02/03 décorative, animations d'entrée sur chaque section, cartes identiques avec ombre grise.
-- **Logo provisoire :** `OliveMark.astro` (rameau d'olivier SVG) + `public/favicon.svg`. Pauline veut un logo « cerveau avec ramification d'olivier », à remplacer quand il sera fourni.
-- **Header :** 4 entrées seulement (« Accompagnements » avec menu déroulant CSS des 7 pages au survol / focus, Qui suis-je, Hypnose et NEMO, Infos pratiques). La FAQ est dans le footer et le menu mobile. Téléphone en icône, sélecteur FR/EN, bouton « Rendez-vous ».
+- **Logo :** `Logo.astro` (cerveau dont l'intérieur est un arbre en feuilles, vectorisé depuis le fichier de Pauline, en `currentColor`) + `public/favicon.svg` (même tracé en pivoine).
+- **Header :** 4 entrées seulement (« Accompagnements » avec menu déroulant CSS des 7 pages au survol / focus, Qui suis-je, Mes écrits, Infos pratiques). « Hypnose et NEMO » et la FAQ sont dans le menu mobile et le footer. Téléphone en icône, bouton « Rendez-vous ». Réseaux sociaux en icônes dans le footer (`SocialIcons.astro`).
 - **Responsive :** la nav desktop apparaît à partir de `xl` (1280 px). En dessous, bouton menu (pages thématiques + sections + FAQ + langue) + icône téléphone. Le header utilise `max-w-7xl`, le contenu `max-w-6xl` (`.wrap`).
 - **Accessibilité :** focus visible (outline argile), lien d'évitement « Aller au contenu », `prefers-reduced-motion` respecté.
 
@@ -167,7 +168,7 @@ La palette est tirée des photos du cabinet. Le pari visuel : **l'arche** (porte
 ## Reste à faire (par priorité)
 
 1. Retours de Pauline sur le draft (couleurs, textes, choix des photos)
-2. **Page « Mes écrits »** : collection de contenu `ecrits` (Markdown), listing + page article (`Article` JSON-LD). Contenu de départ dans `brief-presentation-pauline.md` (section « Mes écrits »). Ajouter :
+2. ~~Page « Mes écrits »~~ **faite** (`/mes-ecrits/`, collection `src/content/ecrits/`, un texte = un .md, « --- » = ornement entre passages, `pullQuote` = exergue). Reste : formulaire Brevo pour « Être prévenu de la parution » (aujourd'hui un lien mailto), Keystatic. Ancien plan : collection de contenu `ecrits` (Markdown), listing + page article (`Article` JSON-LD). Contenu de départ dans `brief-presentation-pauline.md` (section « Mes écrits »). Ajouter :
    - un formulaire « Être prévenu de la parution » (Brevo, liste gratuite)
    - un « Un mot sur vos lectures ? » (formulaire Web3Forms ou mailto)
    - la mention © du texte
@@ -186,7 +187,7 @@ La palette est tirée des photos du cabinet. Le pari visuel : **l'arche** (porte
 ## Images
 
 - Les pages thématiques n'ont plus de photo : une illustration par thème (`Illustration.astro`, clé = slug FR), aussi dans les cartes « Les autres accompagnements ». Le champ `image` des `.md` ne sert plus qu'à l'image de partage (OG).
-- Style des illustrations : forme organique `lin-fonce` (ou `lin` sur fond foncé, prop `tone`), trait olive 3 px arrondi, une seule touche d'argile, statiques, sans cadre.
+- Style des illustrations : **papiers découpés** (esprit Matisse) : aplats qui se chevauchent en soleil, mandarine, pivoine, poudre et pêche, presque sans trait (seules les tiges en grenat), un disque soleil récurrent, statiques, centrées, sans cadre ni forme de fond. Une aussi pour Mes écrits (`ecrits`).
 
 - Pas d'images générées façon « photo » (faux cabinet, fausses personnes) : sur un site de thérapeute, l'authenticité compte. Là où une image manque, on dessine une illustration SVG dans la charte (`Illustration.astro` : arche, olive, argile, lin).
 - Hors bandeaux photo, les illustrations animées respectent `prefers-reduced-motion` (règle globale dans `global.css`).

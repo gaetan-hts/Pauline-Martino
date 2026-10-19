@@ -2,18 +2,18 @@
 @import '@fontsource/young-serif';
 @import '@fontsource-variable/figtree';
 
-/* Palette tirée du cabinet : le lin des murs, le vert olive de la niche,
-   la terre cuite de la lampe et des chaises, le rotin, le noyer de la porte. */
+/* Palette solaire : fond crème, rose (pivoine, poudre) et orange (mandarine, soleil, pêche).
+   Contrastes AA : brun et pivoine sur crème, crème sur grenat et pivoine, blanc sur mandarine. */
 @theme {
-  --color-lin: #f2ece1;
-  --color-lin-fonce: #e6dbc8;
-  --color-olive: #56622f;
-  --color-olive-nuit: #353d1e;
-  --color-sauge: #a7ae86;
-  --color-argile: #a14d2c;
-  --color-argile-clair: #e9c4ad;
-  --color-rotin: #c39a5d;
-  --color-noyer: #2e2219;
+  --color-creme: #fbf4ea; /* fond principal */
+  --color-sable: #f6e3cf; /* sections alternées */
+  --color-pivoine: #b5475b; /* rose profond : accents, titres H3, liens */
+  --color-grenat: #5b2333; /* sombre : footer, citations, encarts */
+  --color-poudre: #f3c1bc; /* rose pâle : texte secondaire sur fond sombre, illustrations */
+  --color-mandarine: #c24e22; /* orange : réservé aux boutons « Prendre rendez-vous », puces, focus */
+  --color-peche: #ffd3b0; /* survol des liens sur fond sombre, illustrations */
+  --color-soleil: #f0a63a; /* jaune orangé : illustrations */
+  --color-brun: #3a2420; /* texte */
 
   --font-serif: 'Young Serif', Georgia, serif;
   --font-sans: 'Figtree Variable', system-ui, sans-serif;
@@ -26,14 +26,14 @@
     interpolate-size: allow-keywords; /* permet d'animer jusqu'à height: auto (FAQ) */
   }
   body {
-    @apply bg-lin font-sans text-noyer antialiased;
+    @apply bg-creme font-sans text-brun antialiased;
     font-size: 1.0625rem;
     line-height: 1.65;
   }
   h1,
   h2,
   h3 {
-    @apply font-serif text-noyer;
+    @apply font-serif text-brun;
     line-height: 1.15;
     text-wrap: balance;
   }
@@ -41,7 +41,7 @@
     text-wrap: pretty;
   }
   :focus-visible {
-    outline: 3px solid var(--color-argile);
+    outline: 3px solid var(--color-mandarine);
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -72,10 +72,10 @@
     min-height: 48px;
   }
   .btn-rdv {
-    @apply bg-argile text-white hover:bg-[#87401f];
+    @apply bg-mandarine text-white hover:bg-[#a33f17];
   }
   .btn-ghost {
-    @apply border border-noyer/25 text-noyer hover:border-noyer hover:bg-white/40;
+    @apply border border-brun/25 text-brun hover:border-brun hover:bg-white/40;
   }
   /* FAQ : ouverture en douceur (navigateurs récents, sinon ouverture instantanée)
      et icône « + » en deux traits qui devient « − » en pivotant sur son centre */
@@ -93,7 +93,7 @@
     opacity: 1;
   }
   .faq-icon {
-    @apply relative h-9 w-9 shrink-0 rounded-full border border-noyer/20 text-olive transition-colors;
+    @apply relative h-9 w-9 shrink-0 rounded-full border border-brun/20 text-pivoine transition-colors;
   }
   .faq-icon::before,
   .faq-icon::after {
@@ -112,13 +112,13 @@
     transform: rotate(90deg);
   }
   .faq[open] .faq-icon {
-    @apply border-olive bg-olive text-lin;
+    @apply border-pivoine bg-pivoine text-creme;
   }
   .faq[open] .faq-icon::after {
     transform: rotate(0deg);
   }
   .faq summary:hover .faq-icon {
-    @apply border-olive;
+    @apply border-pivoine;
   }
   .card {
     transition:
@@ -128,12 +128,35 @@
   }
   .card:hover {
     translate: 0 -4px;
-    @apply border-argile/40 bg-white/60;
+    @apply border-mandarine/40 bg-white/60;
   }
   .prose-pauline p + p {
     margin-top: 1rem;
   }
   .prose-pauline strong {
-    @apply font-semibold text-olive;
+    @apply font-semibold text-pivoine;
+  }
+}
+
+/* Mes écrits : lecture confortable, passages séparés par un ornement (« --- » en Markdown) */
+@layer components {
+  .prose-ecrits {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    @apply text-brun/90;
+  }
+  .prose-ecrits p + p {
+    margin-top: 1.1rem;
+  }
+  .prose-ecrits hr {
+    border: 0;
+    margin: 2.75rem 0;
+    text-align: center;
+    @apply text-pivoine;
+  }
+  .prose-ecrits hr::before {
+    content: '•  •  •';
+    white-space: pre;
+    letter-spacing: 0.4em;
   }
 }

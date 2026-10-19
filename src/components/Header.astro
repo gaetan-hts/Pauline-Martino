@@ -2,8 +2,8 @@
 import { site } from '../data/site';
 import { getServices } from '../data/services';
 import { ui } from '../i18n/ui';
-import { anchor, englishEnabled, homePath, type Alternates, type Lang } from '../i18n/config';
-import OliveMark from './OliveMark.astro';
+import { anchor, englishEnabled, homePath, writingsPath, type Alternates, type Lang } from '../i18n/config';
+import Logo from './Logo.astro';
 import BookingButton from './BookingButton.astro';
 
 interface Props { lang: Lang; campaign: string; alternates?: Alternates }
@@ -13,74 +13,80 @@ const services = await getServices(lang);
 const other = u.switchTo.lang as Lang;
 const switchHref = alternates?.[other] ?? homePath[other];
 
-// Nav volontairement courte : 4 entrées, la FAQ est dans le footer
+// Nav desktop volontairement courte : 4 entrées. « Hypnose et NEMO » et la FAQ sont dans le menu mobile et le footer.
 const nav = [
   { href: anchor(lang, 'qui-suis-je'), label: u.nav.about },
-  { href: anchor(lang, 'techniques'), label: u.nav.techniques },
+  { href: writingsPath, label: u.nav.writings },
   { href: anchor(lang, 'infos-pratiques'), label: u.nav.practical },
+];
+const mobileNav = [
+  { href: anchor(lang, 'qui-suis-je'), label: u.nav.about },
+  { href: anchor(lang, 'techniques'), label: u.nav.techniques },
+  { href: writingsPath, label: u.nav.writings },
+  { href: anchor(lang, 'infos-pratiques'), label: u.nav.practical },
+  { href: anchor(lang, 'faq'), label: u.nav.faq },
 ];
 const phoneIcon = 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2';
 ---
-<header class="sticky top-0 z-40 border-b border-noyer/10 bg-lin/95 backdrop-blur">
+<header class="sticky top-0 z-40 border-b border-brun/10 bg-creme/95 backdrop-blur">
   <div class="wrap max-w-7xl! flex h-18 items-center justify-between gap-4 py-3">
-    <a href={homePath[lang]} class="flex items-center gap-2.5 text-noyer no-underline">
-      <OliveMark class="h-9 w-9 text-olive" />
+    <a href={homePath[lang]} class="flex items-center gap-2.5 text-brun no-underline">
+      <Logo class="h-10 w-auto text-pivoine" />
       <span class="leading-tight whitespace-nowrap">
         <span class="block font-serif text-lg">Pauline Martino</span>
-        <span class="block text-xs text-noyer/70">{u.tagline}</span>
+        <span class="block text-xs text-brun/70">{u.tagline}</span>
       </span>
     </a>
 
     <nav aria-label={u.nav.main} class="hidden xl:block">
       <ul class="flex items-center gap-7 text-[0.95rem] whitespace-nowrap">
         <li class="group relative">
-          <a class="inline-flex items-center gap-1 py-2 hover:text-argile" href={anchor(lang, 'accompagnements')} aria-haspopup="true">
+          <a class="inline-flex items-center gap-1 py-2 hover:text-mandarine" href={anchor(lang, 'accompagnements')} aria-haspopup="true">
             {u.nav.services}
             <svg viewBox="0 0 24 24" class="h-4 w-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <!-- Menu déroulant au survol ou au clavier (focus-within), sans JavaScript -->
           <div class="invisible absolute top-full left-1/2 w-80 -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-            <ul class="rounded-2xl border border-noyer/10 bg-lin p-2 shadow-[0_12px_32px_-12px_rgb(46_34_25/0.25)]">
+            <ul class="rounded-2xl border border-brun/10 bg-creme p-2 shadow-[0_12px_32px_-12px_rgb(46_34_25/0.25)]">
               {services.map((s) => (
                 <li>
-                  <a href={s.url} class="block rounded-xl px-4 py-2.5 whitespace-normal hover:bg-lin-fonce">
-                    <span class="block font-semibold text-noyer">{s.entry.data.menuLabel}</span>
-                    <span class="block text-sm text-noyer/65">{s.entry.data.summary}</span>
+                  <a href={s.url} class="block rounded-xl px-4 py-2.5 whitespace-normal hover:bg-sable">
+                    <span class="block font-semibold text-brun">{s.entry.data.menuLabel}</span>
+                    <span class="block text-sm text-brun/65">{s.entry.data.summary}</span>
                   </a>
                 </li>
               ))}
             </ul>
           </div>
         </li>
-        {nav.map((l) => <li><a class="py-2 hover:text-argile" href={l.href}>{l.label}</a></li>)}
+        {nav.map((l) => <li><a class="py-2 hover:text-mandarine" href={l.href}>{l.label}</a></li>)}
       </ul>
     </nav>
 
     <div class="flex items-center gap-2">
-      {englishEnabled && <a href={switchHref} hreflang={other} lang={other} title={u.switchTo.title} class="hidden h-11 min-w-11 items-center justify-center rounded-full px-2 text-sm font-semibold text-olive hover:text-argile sm:inline-flex">
+      {englishEnabled && <a href={switchHref} hreflang={other} lang={other} title={u.switchTo.title} class="hidden h-11 min-w-11 items-center justify-center rounded-full px-2 text-sm font-semibold text-pivoine hover:text-mandarine sm:inline-flex">
         {u.switchTo.label}<span class="sr-only"> : {u.switchTo.title}</span>
       </a>}
-      <a href={site.phoneHref} class="grid h-11 w-11 place-items-center rounded-full border border-noyer/20 text-olive hover:border-olive" aria-label={u.call(site.phone)} title={site.phone}>
+      <a href={site.phoneHref} class="grid h-11 w-11 place-items-center rounded-full border border-brun/20 text-pivoine hover:border-pivoine" aria-label={u.call(site.phone)} title={site.phone}>
         <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d={phoneIcon} stroke-linejoin="round"/></svg>
       </a>
       <BookingButton lang={lang} campaign={`header-${campaign}`} label={u.bookShort} class="hidden px-5! whitespace-nowrap sm:inline-flex" />
-      <button type="button" data-menu-toggle aria-expanded="false" aria-controls="menu-mobile" class="grid h-11 w-11 place-items-center rounded-full border border-noyer/20 xl:hidden">
+      <button type="button" data-menu-toggle aria-expanded="false" aria-controls="menu-mobile" class="grid h-11 w-11 place-items-center rounded-full border border-brun/20 xl:hidden">
         <span class="sr-only">{u.nav.menu}</span>
         <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
 
-  <nav id="menu-mobile" aria-label={u.nav.mobile} class="hidden max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-noyer/10 xl:hidden" data-menu>
+  <nav id="menu-mobile" aria-label={u.nav.mobile} class="hidden max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-brun/10 xl:hidden" data-menu>
     <div class="wrap py-3">
-      <p class="pt-2 text-sm font-semibold text-olive">{u.nav.services}</p>
+      <p class="pt-2 text-sm font-semibold text-pivoine">{u.nav.services}</p>
       <ul class="mt-1 grid sm:grid-cols-2 sm:gap-x-6">
         {services.map((s) => <li><a class="block py-2.5 text-lg" href={s.url}>{s.entry.data.menuLabel}</a></li>)}
       </ul>
-      <ul class="mt-3 border-t border-noyer/10 pt-3">
-        {nav.map((l) => <li><a class="block py-2.5 text-lg" href={l.href}>{l.label}</a></li>)}
-        <li><a class="block py-2.5 text-lg" href={anchor(lang, 'faq')}>{u.nav.faq}</a></li>
-        {englishEnabled && <li><a class="block py-2.5 text-lg font-semibold text-olive" href={switchHref} hreflang={other} lang={other}>{u.switchTo.title}</a></li>}
+      <ul class="mt-3 border-t border-brun/10 pt-3">
+        {mobileNav.map((l) => <li><a class="block py-2.5 text-lg" href={l.href}>{l.label}</a></li>)}
+        {englishEnabled && <li><a class="block py-2.5 text-lg font-semibold text-pivoine" href={switchHref} hreflang={other} lang={other}>{u.switchTo.title}</a></li>}
       </ul>
       <div class="pt-3 pb-2"><BookingButton lang={lang} campaign={`menu-${campaign}`} class="w-full" /></div>
     </div>
