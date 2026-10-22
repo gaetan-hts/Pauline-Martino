@@ -2,6 +2,10 @@
 // Illustrations du site, style « éditorial » : petites scènes douces (un mur, un sol, un grain de papier)
 // avec un personnage et une métaphore légère. Couleurs pastel saumon, doré, ciel, sauge.
 // Une par technique (hypnose, nemo), une par accompagnement (clé = slug français), une pour Mes écrits.
+// Les personnages sont générés depuis un squelette aux proportions d'adulte : ./illustration/figure.ts
+import Shapes from './illustration/Shapes.astro';
+import { figure, standing, type Pose } from './illustration/figure';
+
 const names = ['hypnose', 'nemo', 'stress-anxiete', 'gestion-des-emotions', 'souvenirs-douloureux-deuil-separation', 'phobies-peurs-blocages', 'confiance-en-soi', 'sommeil', 'arret-tabac-alimentation', 'ecrits'] as const;
 export type IllustrationName = (typeof names)[number];
 
@@ -16,8 +20,8 @@ const uid = `il-${name}-${Math.random().toString(36).slice(2, 7)}`;
 // Couleurs propres aux illustrations (en plus des tokens du site)
 const c = {
   peau: '#ecc4a8',
-  peauOmbre: '#dfaa8d',
   cheveux: '#6e4b3b',
+  chaussures: '#5c4a43',
   mur: '#f3e8dc',
   murSaumon: '#f4d7cc',
   murPeche: '#f6e1d1',
@@ -29,15 +33,75 @@ const c = {
   saumon: '#e8a598',
   sauge: '#a9b8a2',
   bleu: '#b7c9d6',
+  ardoise: '#7b8a97',
   creme: '#faf5ef',
   miel: '#c9a25a',
   champagne: '#eedfc0',
-  peche: '#f5d2bd',
   encre: '#3d3431',
 };
+const habits = (top: string, bottom: string = c.ardoise) => ({ top, bottom, skin: c.peau, hair: c.cheveux, shoes: c.chaussures });
 const cloud = (x: number, y: number, s = 1) =>
   `M${x} ${y}a${22 * s} ${22 * s} 0 0 1 ${20 * s}-${28 * s}a${28 * s} ${28 * s} 0 0 1 ${48 * s}-${8 * s}a${22 * s} ${22 * s} 0 0 1 ${32 * s} ${22 * s}a${18 * s} ${18 * s} 0 0 1-${6 * s} ${34 * s}H${x + 8 * s}a${18 * s} ${18 * s} 0 0 1-${8 * s}-${20 * s}Z`;
 const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
+
+// --- Poses ---------------------------------------------------------------
+const poses: Partial<Record<IllustrationName, Pose[]>> = {
+  // assise en tailleur, de face
+  hypnose: [{
+    view: 'front', s: 1.05,
+    head: [160, 131], neck: [160, 144],
+    shL: [142, 151], shR: [178, 151], elL: [129, 177], elR: [191, 177], wrL: [122, 199], wrR: [198, 199],
+    hipL: [151, 201], hipR: [169, 201], knL: [120, 208], knR: [200, 208], anL: [168, 216], anR: [152, 216],
+    colors: { ...habits(c.saumon, c.bleu), shoes: c.peau },
+  }],
+  // assise dans un fauteuil, de profil, le regard levé vers la baguette
+  nemo: [{
+    view: 'side', dir: 1, s: 1.12, tilt: -10,
+    head: [136, 98], neck: [132, 111],
+    shL: [118, 118], shR: [142, 120], elL: [138, 146], elR: [140, 148], wrL: [163, 157], wrR: [166, 159],
+    hipL: [118, 168], hipR: [138, 168], knL: [170, 167], knR: [174, 169], anL: [174, 205], anR: [178, 207],
+    colors: habits(c.sauge, c.bleu),
+  }],
+  // assise par terre, les genoux serrés, la tête posée dessus
+  'stress-anxiete': [{
+    view: 'side', dir: 1, s: 1.1, tilt: 22,
+    head: [151, 141], neck: [139, 150],
+    shL: [121, 152], shR: [143, 156], elL: [150, 183], elR: [152, 184], wrL: [162, 165], wrR: [165, 166],
+    hipL: [113, 206], hipR: [133, 205], knL: [148, 173], knR: [152, 172], anL: [158, 209], anR: [162, 209],
+    colors: habits(c.sauge, c.creme),
+  }],
+  // de dos, en buste
+  'gestion-des-emotions': [{ ...standing(160, 101, 2.3, 'back'), colors: habits(`url(#${uid}-rayures)`) }],
+  // de dos, petite, face à la porte ouverte
+  'souvenirs-douloureux-deuil-separation': [{ ...standing(181, 141, 0.6, 'back'), colors: habits(c.saumon) }],
+  // de dos face au miroir, et son reflet de face qui lève les bras
+  'confiance-en-soi': [
+    { ...standing(104, 84, 0.95, 'back'), hair: 'long', colors: habits(c.saumon, c.bleu) },
+  ],
+  // elle marche et sort du cercle, de profil
+  'arret-tabac-alimentation': [{
+    view: 'side', dir: 1, s: 0.8,
+    head: [234, 109], neck: [232, 119],
+    shL: [226, 123], shR: [240, 123], elL: [240, 147], wrL: [248, 163], elR: [226, 147], wrR: [220, 166],
+    hipL: [225, 161], hipR: [239, 161], knL: [226, 189], anL: [213, 211], knR: [243, 188], anR: [252, 212],
+    colors: habits(c.sauge),
+  }],
+  // toute petite, assise sur la page, de profil
+  ecrits: [{
+    view: 'side', dir: -1, s: 0.42,
+    head: [221, 144], neck: [222, 149],
+    shL: [226, 153], shR: [218, 153], elL: [214, 163], elR: [213, 164], wrL: [205, 157], wrR: [204, 158],
+    hipL: [226, 172], hipR: [218, 172], knL: [207, 171], knR: [205, 172], anL: [205, 185], anR: [203, 186],
+    colors: habits(c.saumon, c.bleu),
+  }],
+};
+
+// Reflet dans le miroir : de face, bras levés
+const reflet: Pose = (() => {
+  const b = standing(212, 79, 0.62, 'front');
+  return { ...b, hair: 'long', elL: [193, 82], elR: [231, 82], wrL: [189, 67], wrR: [235, 67], colors: habits(c.saumon, c.bleu) };
+})();
+const figures = (poses[name] ?? []).map(figure);
 ---
 <svg
   viewBox="0 0 320 240"
@@ -55,41 +119,40 @@ const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
       <feColorMatrix type="saturate" values="0" />
       <feComponentTransfer><feFuncA type="linear" slope="0.07" /></feComponentTransfer>
     </filter>
+    <pattern id={`${uid}-rayures`} width="20" height="16" patternUnits="userSpaceOnUse">
+      <rect width="20" height="16" fill={c.creme} />
+      <rect width="20" height="6" fill={c.sauge} />
+    </pattern>
   </defs>
 
   <g clip-path={`url(#${uid}-scene)`}>
     {name === 'hypnose' && (
       <>
         <!-- assise en tailleur, la tête dans un nuage : l'état d'hypnose -->
-        <rect width="320" height="170" fill={c.mur} />
-        <rect y="170" width="320" height="70" fill={c.sol} />
-        <ellipse cx="160" cy="208" rx="74" ry="10" fill={c.encre} opacity="0.08" />
-        <path d="M100 204C108 184 140 182 160 192C180 182 212 184 220 204C200 214 120 214 100 204Z" fill={c.bleu} />
-        <path d="M134 198C128 162 136 132 160 130C184 132 192 162 186 198Z" fill={c.saumon} />
-        <path d="M140 146C126 162 120 180 116 194M180 146C194 162 200 180 204 194" stroke={c.saumon} stroke-width="12" stroke-linecap="round" fill="none" />
-        <circle cx="116" cy="197" r="6" fill={c.peau} />
-        <circle cx="204" cy="197" r="6" fill={c.peau} />
-        <rect x="154" y="112" width="12" height="20" rx="5" fill={c.peau} />
-        <circle cx="160" cy="104" r="16" fill={c.peau} />
-        <path d={cloud(112, 108, 1.05)} fill={c.nuage} />
-        <path d="M128 114h82" stroke={c.ciel} stroke-width="5" stroke-linecap="round" opacity="0.7" />
+        <rect width="320" height="172" fill={c.mur} />
+        <rect y="172" width="320" height="68" fill={c.sol} />
+        <ellipse cx="160" cy="214" rx="72" ry="9" fill={c.encre} opacity="0.08" />
+        {figures.map((f) => <Shapes els={f} />)}
+        <path d={cloud(110, 128, 1)} fill={c.nuage} />
+        <path d="M126 136h80" stroke={c.ciel} stroke-width="5" stroke-linecap="round" opacity="0.7" />
       </>
     )}
 
     {name === 'nemo' && (
       <>
-        <!-- de profil, le regard suit la baguette d'un côté à l'autre -->
-        <rect width="320" height="240" fill={c.murSaumon} />
-        <path d="M60 240C60 198 88 176 124 176C146 176 164 186 172 200L176 240Z" fill={c.sauge} />
-        <rect x="112" y="140" width="24" height="44" rx="10" fill={c.peauOmbre} />
-        <path d="M96 116C96 90 116 76 138 78C156 80 166 94 166 108C172 112 174 116 168 120C168 128 164 132 160 134C160 142 154 148 144 148C126 150 110 144 102 134C98 128 96 122 96 116Z" fill={c.peau} />
-        <path d="M94 116C90 90 108 72 136 74C156 76 166 88 164 98C152 94 142 94 132 100C124 106 120 118 122 130C112 134 100 130 94 116Z" fill={c.cheveux} />
-        <circle cx="96" cy="100" r="13" fill={c.cheveux} />
-        <ellipse cx="153" cy="108" rx="2.5" ry="3" fill={c.encre} />
-        <path d="M158 108L228 122" stroke={c.encre} stroke-width="1.5" stroke-dasharray="2 6" opacity="0.35" />
-        <path d="M200 86Q240 60 280 86" stroke={c.encre} stroke-width="2.5" stroke-dasharray="1 8" stroke-linecap="round" fill="none" opacity="0.5" />
-        <path d="M262 218L234 132" stroke={c.cheveux} stroke-width="4" stroke-linecap="round" />
-        <circle cx="232" cy="126" r="8" fill={c.miel} />
+        <!-- dans le fauteuil, le regard suit la baguette d'un côté à l'autre -->
+        <rect width="320" height="208" fill={c.murSaumon} />
+        <rect y="208" width="320" height="32" fill={c.sol} />
+        <path d="M96 100Q96 90 106 90H118Q128 90 128 100V180H96Z" fill={c.champagne} />
+        <rect x="96" y="168" width="94" height="20" rx="8" fill={c.champagne} />
+        <path d="M102 188v18M184 188v18" stroke={c.miel} stroke-width="4" stroke-linecap="round" />
+        {figures.map((f) => <Shapes els={f} />)}
+        <path d="M200 76Q240 50 280 76" stroke={c.encre} stroke-width="2.5" stroke-dasharray="1 8" stroke-linecap="round" fill="none" opacity="0.5" />
+        <path d="M270 70l10 6-11 3" stroke={c.encre} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5" />
+        <path d="M330 176L276 156" stroke={c.creme} stroke-width="10" stroke-linecap="round" />
+        <path d="M273 156L247 104" stroke={c.cheveux} stroke-width="3.5" stroke-linecap="round" />
+        <circle cx="271" cy="154" r="5.4" fill={c.peau} />
+        <circle cx="245" cy="98" r="7.5" fill={c.miel} />
       </>
     )}
 
@@ -101,17 +164,10 @@ const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
         <rect x="238" y="112" width="24" height="28" rx="5" fill={c.creme} />
         <circle cx="246" cy="126" r="2" fill={c.encre} opacity="0.5" />
         <circle cx="254" cy="126" r="2" fill={c.encre} opacity="0.5" />
-        <ellipse cx="150" cy="214" rx="66" ry="10" fill={c.encre} opacity="0.1" />
-        <path d="M114 196C96 208 104 226 150 226S246 214 248 150" stroke={c.encre} stroke-width="3" fill="none" opacity="0.6" />
+        <ellipse cx="140" cy="214" rx="56" ry="8" fill={c.encre} opacity="0.1" />
+        <path d="M112 196C94 208 102 226 150 226S246 214 248 150" stroke={c.encre} stroke-width="3" fill="none" opacity="0.55" />
         <rect x="243" y="138" width="10" height="14" rx="2" fill={c.encre} opacity="0.7" />
-        <path d="M120 212C122 186 140 168 168 164L178 176C162 182 150 196 148 212Z" fill={c.creme} />
-        <path d="M164 160L180 158L194 208L178 212Z" fill={c.creme} />
-        <ellipse cx="190" cy="212" rx="12" ry="5" fill={c.peau} />
-        <path d="M116 212C108 180 110 150 128 136C140 128 156 132 160 144L166 170C150 180 140 196 140 212Z" fill={c.sauge} />
-        <path d="M136 150C150 160 162 164 176 166" stroke={c.sauge} stroke-width="11" stroke-linecap="round" fill="none" />
-        <circle cx="179" cy="166" r="6" fill={c.peau} />
-        <circle cx="146" cy="122" r="16" fill={c.peau} />
-        <path d="M128 120C126 102 140 94 154 98C166 102 168 112 162 120C156 112 146 112 140 120C138 130 136 140 128 150C122 140 124 128 128 120Z" fill={c.cheveux} />
+        {figures.map((f) => <Shapes els={f} />)}
       </>
     )}
 
@@ -119,19 +175,13 @@ const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
       <>
         <!-- de dos, les émotions qui flottent au-dessus de la tête -->
         <rect width="320" height="240" fill={c.murPeche} />
-        <path d="M84 240C84 198 114 182 160 182C206 182 236 198 236 240Z" fill={c.creme} />
-        <path d="M88 214C120 208 200 208 232 214M86 230C120 224 200 224 234 230M96 198C124 194 196 194 224 198" stroke={c.sauge} stroke-width="6" fill="none" />
-        <rect x="148" y="158" width="24" height="30" rx="8" fill={c.peauOmbre} />
-        <circle cx="126" cy="146" r="7" fill={c.peau} />
-        <circle cx="194" cy="146" r="7" fill={c.peau} />
-        <circle cx="160" cy="138" r="34" fill={c.cheveux} />
-        <circle cx="160" cy="98" r="15" fill={c.cheveux} />
-        <path d="M0 4C0-4 10-6 12 2C14-6 24-4 24 4C24 12 12 20 12 20S0 12 0 4Z" transform="translate(200 48) scale(0.9)" fill={c.saumon} />
-        <path d={cloud(92, 70, 0.42)} fill={c.ciel} />
-        <path d="M104 78l-3 8M114 78l-3 8M124 78l-3 8" stroke={c.ciel} stroke-width="2.5" stroke-linecap="round" />
-        <path d="M232 104c-1-7 8-9 10-3s-5 12-11 9-6-15 3-17" stroke={c.miel} stroke-width="3" stroke-linecap="round" fill="none" />
-        <path d={star} transform="translate(94 122)" fill={c.miel} />
-        <path d="M146 44l6-7 5 8 6-8 5 8" stroke="#a5513f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7" />
+        {figures.map((f) => <Shapes els={f} />)}
+        <path d="M0 4C0-4 10-6 12 2C14-6 24-4 24 4C24 12 12 20 12 20S0 12 0 4Z" transform="translate(204 40) scale(0.9)" fill={c.saumon} />
+        <path d={cloud(88, 64, 0.42)} fill={c.ciel} />
+        <path d="M100 72l-3 8M110 72l-3 8M120 72l-3 8" stroke={c.ciel} stroke-width="2.5" stroke-linecap="round" />
+        <path d="M236 96c-1-7 8-9 10-3s-5 12-11 9-6-15 3-17" stroke={c.miel} stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d={star} transform="translate(92 118)" fill={c.miel} />
+        <path d="M148 30l6-7 5 8 6-8 5 8" stroke="#a5513f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7" />
       </>
     )}
 
@@ -146,10 +196,8 @@ const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
         <path d="M136 38L110 50V184L136 190Z" fill={c.creme} />
         <circle cx="116" cy="120" r="2.5" fill={c.miel} />
         <path d="M136 190H226L270 240H104Z" fill={c.nuage} opacity="0.45" />
-        <rect x="172" y="200" width="8" height="32" rx="3" fill="#6f7f8d" />
-        <rect x="183" y="200" width="8" height="32" rx="3" fill="#6f7f8d" />
-        <path d="M166 206C163 182 168 160 181 158C194 160 199 182 196 206Z" fill={c.saumon} />
-        <circle cx="181" cy="148" r="10" fill={c.cheveux} />
+        <ellipse cx="181" cy="230" rx="16" ry="3.5" fill={c.encre} opacity="0.1" />
+        {figures.map((f) => <Shapes els={f} />)}
       </>
     )}
 
@@ -158,13 +206,15 @@ const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
         <!-- une main qui sort du trou : sortir de ce qui bloque -->
         <rect width="320" height="110" fill={c.mur} />
         <rect y="110" width="320" height="130" fill={c.sol} />
-        <ellipse cx="164" cy="178" rx="62" ry="19" fill={c.encre} opacity="0.85" />
-        <ellipse cx="164" cy="176" rx="62" ry="17" fill="none" stroke={c.creme} stroke-width="3" opacity="0.5" />
-        <path d="M164 178V150" stroke={c.bleu} stroke-width="20" stroke-linecap="round" />
-        <path d="M164 156C162 132 160 112 156 94" stroke={c.peau} stroke-width="14" stroke-linecap="round" fill="none" />
-        <circle cx="155" cy="86" r="10" fill={c.peau} />
-        <path d="M148 80l-6-12M154 76l-2-14M160 76l2-13M165 80l6-10" stroke={c.peau} stroke-width="5" stroke-linecap="round" />
-        <path d="M210 70c8-6 16-6 22 0M222 54c6-5 12-5 17 0" stroke={c.miel} stroke-width="2.5" stroke-linecap="round" fill="none" />
+        <ellipse cx="164" cy="180" rx="62" ry="19" fill="#5a4c47" />
+        <path d="M164 182V150" stroke={c.bleu} stroke-width="19" stroke-linecap="round" />
+        <path d="M164 152L161 112" stroke={c.peau} stroke-width="12" stroke-linecap="round" />
+        <!-- main ouverte -->
+        <path d="M151 108C150 98 154 92 161 92C168 92 172 98 171 108C170 114 166 118 161 118C156 118 152 114 151 108Z" fill={c.peau} />
+        <path d="M154 96l-2-14M159 93l0-16M164 93l2-15M169 97l3-12" stroke={c.peau} stroke-width="4.4" stroke-linecap="round" />
+        <path d="M152 106l-9-6" stroke={c.peau} stroke-width="4.6" stroke-linecap="round" />
+        <path d="M102 180A62 19 0 0 0 226 180Z" fill="#5a4c47" />
+        <path d="M214 62c8-6 16-6 22 0M226 46c6-5 12-5 17 0" stroke={c.miel} stroke-width="2.5" stroke-linecap="round" fill="none" />
       </>
     )}
 
@@ -172,27 +222,17 @@ const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
       <>
         <!-- face au miroir, son reflet ose lever les bras -->
         <defs><clipPath id={`${uid}-glace`}><circle cx="212" cy="112" r="56" /></clipPath></defs>
-        <rect width="320" height="186" fill={c.murSaumon} />
-        <rect y="186" width="320" height="54" fill={c.sol} />
-        <rect x="206" y="160" width="12" height="40" fill={c.miel} />
+        <rect width="320" height="190" fill={c.murSaumon} />
+        <rect y="190" width="320" height="50" fill={c.sol} />
+        <rect x="206" y="160" width="12" height="44" fill={c.miel} />
+        <ellipse cx="212" cy="206" rx="22" ry="5" fill={c.miel} />
         <circle cx="212" cy="112" r="64" fill={c.miel} />
         <circle cx="212" cy="112" r="56" fill="#e7eef2" />
         <g clip-path={`url(#${uid}-glace)`}>
-          <path d="M196 170C194 140 200 122 212 120C224 122 230 140 228 170Z" fill={c.saumon} />
-          <path d="M200 128L184 88M224 128L240 88" stroke={c.saumon} stroke-width="9" stroke-linecap="round" />
-          <circle cx="183" cy="84" r="5" fill={c.peau} />
-          <circle cx="241" cy="84" r="5" fill={c.peau} />
-          <circle cx="212" cy="106" r="11" fill={c.peau} />
-          <path d="M201 104C200 92 208 88 214 89C222 90 225 98 223 104C218 98 208 98 201 104Z" fill={c.cheveux} />
-          <path d="M196 170h32v40h-32z" fill={c.bleu} />
+          <Shapes els={figure(reflet)} />
         </g>
-        <ellipse cx="110" cy="226" rx="34" ry="7" fill={c.encre} opacity="0.1" />
-        <rect x="98" y="178" width="10" height="46" rx="4" fill={c.bleu} />
-        <rect x="112" y="178" width="10" height="46" rx="4" fill={c.bleu} />
-        <path d="M92 184C90 150 96 128 110 126C124 128 130 150 128 184Z" fill={c.saumon} />
-        <rect x="104" y="108" width="12" height="20" rx="5" fill={c.peauOmbre} />
-        <circle cx="110" cy="102" r="14" fill={c.cheveux} />
-        <path d="M98 108C94 120 96 132 100 138C104 130 104 118 104 110Z" fill={c.cheveux} />
+        <ellipse cx="104" cy="230" rx="30" ry="6" fill={c.encre} opacity="0.1" />
+        {figures.map((f) => <Shapes els={f} />)}
       </>
     )}
 
@@ -206,10 +246,12 @@ const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
         <path d={star} transform="translate(286 128) scale(0.6)" fill={c.creme} />
         <path d="M54 196a28 28 0 0 1 24-38a36 36 0 0 1 62-14a32 32 0 0 1 56-4a30 30 0 0 1 54 18a24 24 0 0 1 4 38Z" fill={c.nuage} />
         <path d="M70 192h176" stroke={c.ciel} stroke-width="6" stroke-linecap="round" opacity="0.6" />
-        <path d="M96 150C124 136 196 136 234 148C236 156 228 162 216 162H104C96 162 92 156 96 150Z" fill={c.saumon} />
-        <circle cx="96" cy="146" r="13" fill={c.peau} />
-        <path d="M84 146C82 132 92 126 100 128C106 130 108 136 104 140C98 136 90 140 88 150C86 156 80 156 84 146Z" fill={c.cheveux} />
-        <path d="M100 148q4 3 8 0" stroke={c.encre} stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6" />
+        <!-- oreiller, tête, puis le corps sous la couverture (proportions d'un adulte allongé) -->
+        <ellipse cx="96" cy="158" rx="22" ry="7" fill={c.creme} />
+        <ellipse cx="96" cy="146" rx="10.6" ry="9.8" fill={c.cheveux} />
+        <ellipse cx="99" cy="149" rx="9" ry="8.2" fill={c.peau} />
+        <path d="M100 151q3.5 2.5 7 0" stroke={c.encre} stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.6" />
+        <path d="M110 160C110 146 120 141 134 142C148 143 156 148 170 147C184 146 196 147 210 150C222 152 230 152 234 156C236 160 234 162 230 162H112C110 162 110 161 110 160Z" fill={c.saumon} />
       </>
     )}
 
@@ -218,22 +260,17 @@ const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
         <!-- sortir du cercle dont le sol est usé par les mêmes pas -->
         <rect width="320" height="118" fill={c.mur} />
         <rect y="118" width="320" height="122" fill={c.sol} />
-        <ellipse cx="122" cy="186" rx="76" ry="24" fill="none" stroke={c.miel} stroke-width="4" />
+        <ellipse cx="118" cy="190" rx="78" ry="24" fill="none" stroke={c.miel} stroke-width="4" />
         <g fill={c.encre} opacity="0.18">
-          <ellipse cx="80" cy="180" rx="4" ry="7" transform="rotate(-70 80 180)" />
-          <ellipse cx="104" cy="196" rx="4" ry="7" transform="rotate(-85 104 196)" />
-          <ellipse cx="136" cy="198" rx="4" ry="7" transform="rotate(-95 136 198)" />
-          <ellipse cx="164" cy="186" rx="4" ry="7" transform="rotate(-115 164 186)" />
-          <ellipse cx="146" cy="172" rx="4" ry="7" transform="rotate(-250 146 172)" />
-          <ellipse cx="108" cy="172" rx="4" ry="7" transform="rotate(-265 108 172)" />
+          <ellipse cx="76" cy="184" rx="3.2" ry="6" transform="rotate(-70 76 184)" />
+          <ellipse cx="100" cy="200" rx="3.2" ry="6" transform="rotate(-85 100 200)" />
+          <ellipse cx="132" cy="202" rx="3.2" ry="6" transform="rotate(-95 132 202)" />
+          <ellipse cx="160" cy="190" rx="3.2" ry="6" transform="rotate(-115 160 190)" />
+          <ellipse cx="142" cy="176" rx="3.2" ry="6" transform="rotate(-250 142 176)" />
+          <ellipse cx="104" cy="176" rx="3.2" ry="6" transform="rotate(-265 104 176)" />
         </g>
-        <ellipse cx="236" cy="214" rx="30" ry="7" fill={c.encre} opacity="0.1" />
-        <path d="M228 178L216 212M236 178L254 208" stroke="#6f7f8d" stroke-width="9" stroke-linecap="round" />
-        <path d="M222 182C220 150 226 128 236 126C248 128 252 150 250 182Z" fill={c.sauge} />
-        <path d="M226 140L210 166M246 140L258 164" stroke={c.sauge} stroke-width="8" stroke-linecap="round" />
-        <rect x="231" y="108" width="11" height="20" rx="5" fill={c.peau} />
-        <circle cx="237" cy="102" r="13" fill={c.peau} />
-        <path d="M224 100C222 88 232 82 240 84C248 86 252 94 250 100C244 94 232 94 224 100Z" fill={c.cheveux} />
+        <ellipse cx="234" cy="218" rx="26" ry="5" fill={c.encre} opacity="0.1" />
+        {figures.map((f) => <Shapes els={f} />)}
       </>
     )}
 
@@ -246,13 +283,10 @@ const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
         <path d="M160 92C194 76 244 72 286 82V196C244 186 194 190 160 206Z" fill="#fffaf4" />
         <path d="M160 92V206" stroke={c.encre} stroke-width="2" opacity="0.25" />
         <path d="M54 110C84 104 120 106 144 114M54 128C84 122 120 124 144 132M54 146C84 140 120 142 144 150M54 164C84 158 110 160 130 166" stroke={c.encre} stroke-width="2" stroke-linecap="round" opacity="0.18" fill="none" />
-        <path d="M178 116C204 108 236 106 266 110M178 134C204 126 230 124 250 126" stroke={c.encre} stroke-width="2" stroke-linecap="round" opacity="0.18" fill="none" />
-        <path d="M262 32L196 150L190 162L200 154L268 38Z" fill={c.miel} />
-        <path d="M262 32L268 38L274 30L270 26Z" fill={c.saumon} />
-        <path d="M206 168L222 168L226 186L210 186Z" fill={c.bleu} />
-        <path d="M208 170C206 150 210 136 218 134C226 136 228 150 226 170Z" fill={c.saumon} />
-        <circle cx="218" cy="128" r="7" fill={c.cheveux} />
-        <path d="M212 152L200 156" stroke={c.saumon} stroke-width="5" stroke-linecap="round" />
+        <path d="M176 116C190 112 200 110 210 110" stroke={c.encre} stroke-width="2" stroke-linecap="round" opacity="0.18" fill="none" />
+        <path d="M250 40L201 152L199 162L206 155L256 44Z" fill={c.miel} />
+        <path d="M250 40L256 44L260 36L255 33Z" fill={c.saumon} />
+        {figures.map((f) => <Shapes els={f} />)}
       </>
     )}
 

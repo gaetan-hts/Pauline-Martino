@@ -188,6 +188,7 @@ Palette **sobre, pastel saumon et doré** (oct. 2026). Aucun bloc sombre : fonds
 
 - Les pages thématiques n'ont plus de photo : une illustration par thème (`Illustration.astro`, clé = slug FR), aussi dans les cartes « Les autres accompagnements ». Le champ `image` des `.md` ne sert plus qu'à l'image de partage (OG).
 - Style des illustrations : **éditorial** (références Pinterest de Gaëtan) : petites scènes douces (mur + sol, grain de papier léger via un filtre SVG), un personnage simple sans visage détaillé, une métaphore (tête dans un nuage, porte ouverte sur le ciel, main qui sort d'un trou, reflet dans le miroir…). Palette pastel propre aux illustrations dans l'objet `c` de `Illustration.astro`.
+- **Personnages** : jamais dessinés à main levée. Ils sont générés par `src/components/illustration/figure.ts` à partir d'un squelette (tête, épaules, coudes, poignets, hanches, genoux, chevilles) aux proportions d'adulte (`standing(x, haut, échelle)` donne une pose debout de base, que l'on modifie). On place les articulations, `figure()` dessine buste, membres, mains, chaussures et cheveux (vue de face, de dos ou de profil).
 
 - Pas d'images générées façon « photo » (faux cabinet, fausses personnes) : sur un site de thérapeute, l'authenticité compte. Là où une image manque, on dessine une illustration SVG dans la charte (`Illustration.astro` : arche, olive, argile, lin).
 - Hors bandeaux photo, les illustrations animées respectent `prefers-reduced-motion` (règle globale dans `global.css`).

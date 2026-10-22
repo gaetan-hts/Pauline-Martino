@@ -1,0 +1,9 @@
+---
+// Affiche les formes générées par figure() (personnages des illustrations)
+import type { El } from './figure';
+interface Props { els: El[] }
+const { els } = Astro.props;
+---
+{els.map((e) =>
+  e.tag === 'path' ? <path {...e.a} /> : e.tag === 'circle' ? <circle {...e.a} /> : <ellipse {...e.a} />,
+)}
