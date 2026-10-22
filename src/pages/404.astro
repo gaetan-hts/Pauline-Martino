@@ -8,15 +8,15 @@ const pages = await getServices('fr');
 ---
 <Layout title="Page introuvable | Pauline Martino" description="Cette page n’existe pas ou a été déplacée." campaign="404" noindex>
   <section class="wrap max-w-3xl py-20 sm:py-28">
-    <p class="text-lg text-framboise">Erreur 404</p>
+    <p class="text-lg text-cuivre">Erreur 404</p>
     <h1 class="mt-3 text-4xl sm:text-5xl">Cette page n’existe pas, ou plus</h1>
-    <p class="mt-6 text-xl text-prune/85">Le lien est peut-être ancien ou mal recopié. Voici où vous pouvez aller :</p>
+    <p class="mt-6 text-xl text-encre/85">Le lien est peut-être ancien ou mal recopié. Voici où vous pouvez aller :</p>
     <ul class="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-      <li><a class="font-semibold text-framboise underline underline-offset-4 hover:text-corail" href="/">Accueil</a></li>
+      <li><a class="font-semibold text-cuivre underline underline-offset-4 hover:text-miel" href="/">Accueil</a></li>
       {pages.map((p) => (
-        <li><a class="font-semibold text-framboise underline underline-offset-4 hover:text-corail" href={p.url}>{p.entry.data.menuLabel}</a></li>
+        <li><a class="font-semibold text-cuivre underline underline-offset-4 hover:text-miel" href={p.url}>{p.entry.data.menuLabel}</a></li>
       ))}
-      <li><a class="font-semibold text-framboise underline underline-offset-4 hover:text-corail" href="/#infos-pratiques">Informations pratiques</a></li>
+      <li><a class="font-semibold text-cuivre underline underline-offset-4 hover:text-miel" href="/#infos-pratiques">Informations pratiques</a></li>
     </ul>
     <div class="mt-10 flex flex-wrap gap-3">
       <BookingButton campaign="404" />

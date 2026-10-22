@@ -106,21 +106,20 @@ scripts/screenshots.mjs
 
 ## Charte graphique
 
-Palette **joyeuse** (oct. 2026), reprise des visuels Instagram de Pauline : crème beige, jaune citron, orange, rose bonbon, framboise, vert feuille. Aucun bloc sombre : tous les fonds sont clairs, texte prune partout. Photos phares en arche (`.arch`), le reste en `rounded-2xl/3xl`.
+Palette **sobre, pastel saumon et doré** (oct. 2026). Aucun bloc sombre : fonds clairs, texte encre (gris chaud) partout. Photos phares en arche (`.arch`), le reste en `rounded-2xl/3xl`.
 
 | Token | Hex | Rôle |
 |---|---|---|
-| `creme` | `#f8eddc` | fond principal |
-| `sable` | `#f2e2c8` | sections alternées, fonds de cartes |
-| `framboise` | `#c8166a` | accents texte, titres H3, liens (4,8:1 sur crème) |
-| `corail` | `#f4923a` | orange : **boutons « Prendre rendez-vous »** (texte prune, 6:1), bandeau final, étoiles des avis |
-| `soleil` | `#f5d33f` | jaune citron : encarts « En pratique » / RDV, illustrations |
-| `poudre` | `#f5a6b8` | rose bonbon : footer, bandeau de citation, illustrations |
-| `peche` | `#fad7a8` | illustrations |
-| `feuille` | `#3e9b4f` | vert : feuilles des illustrations |
-| `prune` | `#3a1f2b` | texte, contour de focus |
+| `creme` | `#faf5ef` | fond principal |
+| `sable` | `#f3e8dc` | sections alternées, fonds de cartes |
+| `cuivre` | `#a5513f` | saumon profond : accents texte, titres H3, liens (5:1 sur crème) |
+| `miel` | `#c9a25a` | doré : **boutons « Prendre rendez-vous »** (texte encre, 6,4:1), bandeau final, étoiles des avis |
+| `champagne` | `#eedfc0` | doré pâle : encarts « En pratique » / RDV |
+| `saumon` | `#efc3b6` | saumon pastel : footer, bandeau de citation |
+| `peche`, `sauge`, `ciel` | `#f5dccb`, `#a9b8a2`, `#c9d8e0` | illustrations |
+| `encre` | `#3d3431` | texte, contour de focus |
 
-- Sur un bloc coloré (soleil, corail), le bouton RDV prend la classe `btn-on-color` (fond crème) pour ressortir.
+- Sur un bloc coloré (champagne, miel), le bouton RDV prend la classe `btn-on-color` (fond crème) pour ressortir.
 - **Typo :** `Young Serif` pour les titres et les citations (`font-serif`), `Figtree Variable` pour le texte (`font-sans`). Corps 17 px, interligne 1,65.
 - **À éviter :** labels en MAJUSCULES espacées, mot isolé en couleur ou en italique dans un titre, numérotation 01/02/03 décorative, animations d'entrée sur chaque section, cartes identiques avec ombre grise.
 - **Logo :** `Logo.astro` (cerveau dont l'intérieur est un arbre en feuilles, vectorisé depuis le fichier de Pauline, en `currentColor`) + `public/favicon.svg` (même tracé en pivoine).
@@ -188,7 +187,7 @@ Palette **joyeuse** (oct. 2026), reprise des visuels Instagram de Pauline : crè
 ## Images
 
 - Les pages thématiques n'ont plus de photo : une illustration par thème (`Illustration.astro`, clé = slug FR), aussi dans les cartes « Les autres accompagnements ». Le champ `image` des `.md` ne sert plus qu'à l'image de partage (OG).
-- Style des illustrations : **papiers découpés** (esprit Matisse) : aplats qui se chevauchent en soleil, mandarine, pivoine, poudre et pêche, presque sans trait (seules les tiges en grenat), un disque soleil récurrent, statiques, centrées, sans cadre ni forme de fond. Une aussi pour Mes écrits (`ecrits`).
+- Style des illustrations : **éditorial** (références Pinterest de Gaëtan) : petites scènes douces (mur + sol, grain de papier léger via un filtre SVG), un personnage simple sans visage détaillé, une métaphore (tête dans un nuage, porte ouverte sur le ciel, main qui sort d'un trou, reflet dans le miroir…). Palette pastel propre aux illustrations dans l'objet `c` de `Illustration.astro`.
 
 - Pas d'images générées façon « photo » (faux cabinet, fausses personnes) : sur un site de thérapeute, l'authenticité compte. Là où une image manque, on dessine une illustration SVG dans la charte (`Illustration.astro` : arche, olive, argile, lin).
 - Hors bandeaux photo, les illustrations animées respectent `prefers-reduced-motion` (règle globale dans `global.css`).

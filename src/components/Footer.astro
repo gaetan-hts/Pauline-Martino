@@ -14,43 +14,43 @@ const services = await getServices(lang);
 const other = u.switchTo.lang as Lang;
 const year = new Date().getFullYear();
 ---
-<footer class="bg-poudre text-prune/90">
+<footer class="bg-saumon text-encre/90">
   <div class="wrap grid gap-12 py-16 md:grid-cols-[1.3fr_1fr_1fr]">
     <div>
       <div class="flex items-center gap-3">
-        <Logo class="h-11 w-auto text-framboise" />
-        <p class="font-serif text-2xl text-prune">Pauline Martino</p>
+        <Logo class="h-11 w-auto text-cuivre" />
+        <p class="font-serif text-2xl text-encre">Pauline Martino</p>
       </div>
       <p class="mt-4 max-w-sm">{u.footer.intro(site.neighbours.join(', '))}</p>
       <BookingButton lang={lang} campaign={lang === 'fr' ? 'footer' : 'en-footer'} class="mt-6" />
     </div>
 
     <div>
-      <h2 class="font-sans text-base font-semibold text-prune">{u.footer.services}</h2>
+      <h2 class="font-sans text-base font-semibold text-encre">{u.footer.services}</h2>
       <ul class="mt-4 space-y-2">
-        {services.map((s) => <li><a class="hover:text-framboise" href={s.url}>{s.entry.data.menuLabel}</a></li>)}
-        <li class="pt-2"><a class="hover:text-framboise" href={anchor(lang, 'techniques')}>{u.nav.techniques}</a></li>
-        <li><a class="hover:text-framboise" href={writingsPath}>{u.nav.writings}</a></li>
-        <li><a class="hover:text-framboise" href={anchor(lang, 'faq')}>{u.nav.faq}</a></li>
+        {services.map((s) => <li><a class="hover:text-cuivre" href={s.url}>{s.entry.data.menuLabel}</a></li>)}
+        <li class="pt-2"><a class="hover:text-cuivre" href={anchor(lang, 'techniques')}>{u.nav.techniques}</a></li>
+        <li><a class="hover:text-cuivre" href={writingsPath}>{u.nav.writings}</a></li>
+        <li><a class="hover:text-cuivre" href={anchor(lang, 'faq')}>{u.nav.faq}</a></li>
       </ul>
     </div>
 
     <div>
-      <h2 class="font-sans text-base font-semibold text-prune">{u.footer.office}</h2>
+      <h2 class="font-sans text-base font-semibold text-encre">{u.footer.office}</h2>
       <address class="mt-4 not-italic">
         {site.address.street}<br />{site.address.postalCode} {site.address.city}
       </address>
-      <p class="mt-3"><a class="font-semibold hover:text-framboise" href={site.phoneHref}>{site.phone}</a></p>
-      <p><a class="break-all hover:text-framboise" href={`mailto:${site.email}`}>{site.email}</a></p>
+      <p class="mt-3"><a class="font-semibold hover:text-cuivre" href={site.phoneHref}>{site.phone}</a></p>
+      <p><a class="break-all hover:text-cuivre" href={`mailto:${site.email}`}>{site.email}</a></p>
       <SocialIcons class="mt-5" />
     </div>
   </div>
-  <div class="border-t border-prune/15">
-    <div class="wrap flex flex-col gap-2 py-6 text-sm text-prune/70 sm:flex-row sm:justify-between">
+  <div class="border-t border-encre/15">
+    <div class="wrap flex flex-col gap-2 py-6 text-sm text-encre/70 sm:flex-row sm:justify-between">
       <p>© {year} {u.footer.copyright}</p>
       <p class="flex flex-wrap gap-x-5 gap-y-1">
-        {englishEnabled && <a href={alternates?.[other] ?? homePath[other]} hreflang={other} lang={other} class="hover:text-framboise">{u.switchTo.title}</a>}
-        <a href={legalPath[lang]} class="hover:text-framboise">{u.footer.legal}</a>
+        {englishEnabled && <a href={alternates?.[other] ?? homePath[other]} hreflang={other} lang={other} class="hover:text-cuivre">{u.switchTo.title}</a>}
+        <a href={legalPath[lang]} class="hover:text-cuivre">{u.footer.legal}</a>
       </p>
     </div>
   </div>

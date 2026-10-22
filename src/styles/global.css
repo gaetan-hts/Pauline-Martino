@@ -2,19 +2,19 @@
 @import '@fontsource/young-serif';
 @import '@fontsource-variable/figtree';
 
-/* Palette joyeuse, reprise des visuels Instagram de Pauline : crème beige, jaune citron, orange,
-   rose bonbon, framboise pour les accents, vert feuille. Aucun bloc sombre, texte prune partout.
-   Contrastes AA : prune sur corail 6:1, sur soleil 9:1, sur poudre 7,9:1 ; framboise sur crème 4,8:1. */
+/* Palette sobre, pastel saumon et doré. Aucun bloc sombre, texte encre (gris chaud) partout.
+   Contrastes AA : encre sur miel 6,4:1, sur champagne et saumon > 9:1 ; cuivre sur crème 5:1. */
 @theme {
-  --color-creme: #f8eddc; /* fond principal */
-  --color-sable: #f2e2c8; /* sections alternées */
-  --color-framboise: #c8166a; /* accents texte, titres H3, liens */
-  --color-corail: #f4923a; /* orange : boutons « Prendre rendez-vous », bandeau final, illustrations */
-  --color-soleil: #f5d33f; /* jaune citron : encarts « En pratique » / RDV, illustrations */
-  --color-poudre: #f5a6b8; /* rose bonbon : footer, bandeau de citation, illustrations */
-  --color-peche: #fad7a8; /* abricot clair : illustrations */
-  --color-feuille: #3e9b4f; /* vert : feuilles des illustrations */
-  --color-prune: #3a1f2b; /* texte, contour de focus */
+  --color-creme: #faf5ef; /* fond principal */
+  --color-sable: #f3e8dc; /* sections alternées, fonds de cartes */
+  --color-cuivre: #a5513f; /* saumon profond : accents texte, titres H3, liens */
+  --color-miel: #c9a25a; /* doré : boutons « Prendre rendez-vous », bandeau final, étoiles des avis */
+  --color-champagne: #eedfc0; /* doré pâle : encarts « En pratique » / RDV */
+  --color-saumon: #efc3b6; /* saumon pastel : footer, bandeau de citation */
+  --color-peche: #f5dccb; /* illustrations */
+  --color-sauge: #a9b8a2; /* vert sauge : illustrations */
+  --color-ciel: #c9d8e0; /* bleu ciel pastel : illustrations */
+  --color-encre: #3d3431; /* texte, contour de focus */
 
   --font-serif: 'Young Serif', Georgia, serif;
   --font-sans: 'Figtree Variable', system-ui, sans-serif;
@@ -27,14 +27,14 @@
     interpolate-size: allow-keywords; /* permet d'animer jusqu'à height: auto (FAQ) */
   }
   body {
-    @apply bg-creme font-sans text-prune antialiased;
+    @apply bg-creme font-sans text-encre antialiased;
     font-size: 1.0625rem;
     line-height: 1.65;
   }
   h1,
   h2,
   h3 {
-    @apply font-serif text-prune;
+    @apply font-serif text-encre;
     line-height: 1.15;
     text-wrap: balance;
   }
@@ -42,7 +42,7 @@
     text-wrap: pretty;
   }
   :focus-visible {
-    outline: 3px solid var(--color-prune);
+    outline: 3px solid var(--color-encre);
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -73,14 +73,14 @@
     min-height: 48px;
   }
   .btn-rdv {
-    @apply bg-corail text-prune hover:bg-[#e8801f];
+    @apply bg-miel text-encre hover:bg-[#b8904a];
   }
   /* Bouton RDV posé sur un bloc coloré (corail, soleil) : fond crème pour qu'il ressorte */
   .btn-rdv.btn-on-color {
     @apply bg-creme hover:bg-white;
   }
   .btn-ghost {
-    @apply border border-prune/25 text-prune hover:border-prune hover:bg-white/40;
+    @apply border border-encre/25 text-encre hover:border-encre hover:bg-white/40;
   }
   /* FAQ : ouverture en douceur (navigateurs récents, sinon ouverture instantanée)
      et icône « + » en deux traits qui devient « − » en pivotant sur son centre */
@@ -98,7 +98,7 @@
     opacity: 1;
   }
   .faq-icon {
-    @apply relative h-9 w-9 shrink-0 rounded-full border border-prune/20 text-framboise transition-colors;
+    @apply relative h-9 w-9 shrink-0 rounded-full border border-encre/20 text-cuivre transition-colors;
   }
   .faq-icon::before,
   .faq-icon::after {
@@ -117,13 +117,13 @@
     transform: rotate(90deg);
   }
   .faq[open] .faq-icon {
-    @apply border-framboise bg-framboise text-creme;
+    @apply border-cuivre bg-cuivre text-creme;
   }
   .faq[open] .faq-icon::after {
     transform: rotate(0deg);
   }
   .faq summary:hover .faq-icon {
-    @apply border-framboise;
+    @apply border-cuivre;
   }
   .card {
     transition:
@@ -133,13 +133,13 @@
   }
   .card:hover {
     translate: 0 -4px;
-    @apply border-corail/40 bg-white/60;
+    @apply border-miel/40 bg-white/60;
   }
   .prose-pauline p + p {
     margin-top: 1rem;
   }
   .prose-pauline strong {
-    @apply font-semibold text-framboise;
+    @apply font-semibold text-cuivre;
   }
 }
 
@@ -148,7 +148,7 @@
   .prose-ecrits {
     font-size: 1.1rem;
     line-height: 1.75;
-    @apply text-prune/90;
+    @apply text-encre/90;
   }
   .prose-ecrits p + p {
     margin-top: 0.6rem;
@@ -168,7 +168,7 @@
   }
   /* première phrase plus grande, comme une ouverture de chapitre */
   .prose-ecrits .ouverture {
-    @apply font-serif text-2xl leading-snug text-prune;
+    @apply font-serif text-2xl leading-snug text-encre;
   }
   .ornement {
     margin: 1.4rem 0 !important;
@@ -176,7 +176,7 @@
     white-space: pre;
     letter-spacing: 0.4em;
     break-inside: avoid;
-    @apply text-framboise;
+    @apply text-cuivre;
   }
   .exergue {
     column-span: all;

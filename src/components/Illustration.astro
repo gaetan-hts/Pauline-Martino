@@ -1,7 +1,7 @@
 ---
-// Illustrations du site, façon papiers découpés : aplats de couleurs solaires qui se chevauchent,
-// sans contour ni cadre. Une par technique (hypnose, nemo) et une par accompagnement
-// (clé = slug français de la page). Statiques et centrées.
+// Illustrations du site, style « éditorial » : petites scènes douces (un mur, un sol, un grain de papier)
+// avec un personnage et une métaphore légère. Couleurs pastel saumon, doré, ciel, sauge.
+// Une par technique (hypnose, nemo), une par accompagnement (clé = slug français), une pour Mes écrits.
 const names = ['hypnose', 'nemo', 'stress-anxiete', 'gestion-des-emotions', 'souvenirs-douloureux-deuil-separation', 'phobies-peurs-blocages', 'confiance-en-soi', 'sommeil', 'arret-tabac-alimentation', 'ecrits'] as const;
 export type IllustrationName = (typeof names)[number];
 
@@ -11,9 +11,33 @@ interface Props {
   title?: string; // si fourni, l'illustration est annoncée aux lecteurs d'écran
 }
 const { name, class: cls = '', title } = Astro.props;
-const leaf = 'M0 0C20-26 60-30 90 0C60 30 20 26 0 0Z';
-const star = 'M0-11C2-3 3-2 11 0C3 2 2 3 0 11C-2 3-3 2-11 0C-3-2-2-3 0-11Z';
-const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 10Z';
+const uid = `il-${name}-${Math.random().toString(36).slice(2, 7)}`;
+
+// Couleurs propres aux illustrations (en plus des tokens du site)
+const c = {
+  peau: '#ecc4a8',
+  peauOmbre: '#dfaa8d',
+  cheveux: '#6e4b3b',
+  mur: '#f3e8dc',
+  murSaumon: '#f4d7cc',
+  murPeche: '#f6e1d1',
+  murNuit: '#d9e1e8',
+  sol: '#e8d6c4',
+  solBleu: '#c3d3de',
+  ciel: '#c9d8e0',
+  nuage: '#ffffff',
+  saumon: '#e8a598',
+  sauge: '#a9b8a2',
+  bleu: '#b7c9d6',
+  creme: '#faf5ef',
+  miel: '#c9a25a',
+  champagne: '#eedfc0',
+  peche: '#f5d2bd',
+  encre: '#3d3431',
+};
+const cloud = (x: number, y: number, s = 1) =>
+  `M${x} ${y}a${22 * s} ${22 * s} 0 0 1 ${20 * s}-${28 * s}a${28 * s} ${28 * s} 0 0 1 ${48 * s}-${8 * s}a${22 * s} ${22 * s} 0 0 1 ${32 * s} ${22 * s}a${18 * s} ${18 * s} 0 0 1-${6 * s} ${34 * s}H${x + 8 * s}a${18 * s} ${18 * s} 0 0 1-${8 * s}-${20 * s}Z`;
+const star = 'M0-7C1-2 2-1 7 0C2 1 1 2 0 7C-1 2-2 1-7 0C-2-1-1-2 0-7Z';
 ---
 <svg
   viewBox="0 0 320 240"
@@ -23,135 +47,215 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
   aria-hidden={title ? undefined : 'true'}
   focusable="false"
 >
-  {name === 'hypnose' && (
-    <>
-      <!-- un soleil qui se couche derrière des bandes de couleur : l'attention qui se pose -->
-      <circle cx="160" cy="116" r="64" class="fill-soleil" />
-      <path d="M58 148C110 134 210 134 262 148C274 151 274 161 262 164C210 174 110 174 58 164C46 161 46 151 58 148Z" class="fill-peche" />
-      <path d="M78 172C122 160 200 160 244 172C254 175 254 183 244 186C200 196 122 196 78 186C68 183 68 175 78 172Z" class="fill-poudre" />
-      <path d="M104 194C134 186 186 186 216 194C224 196 224 202 216 204C186 212 134 212 104 204C96 202 96 196 104 194Z" class="fill-framboise" />
-    </>
-  )}
+  <defs>
+    <clipPath id={`${uid}-scene`}><rect width="320" height="240" rx="24" /></clipPath>
+    <!-- grain de papier très léger -->
+    <filter id={`${uid}-grain`} x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.07" /></feComponentTransfer>
+    </filter>
+  </defs>
 
-  {name === 'nemo' && (
-    <>
-      <circle cx="84" cy="62" r="20" class="fill-soleil" />
-      <path d="M66 120C108 66 212 66 254 120C212 174 108 174 66 120Z" class="fill-peche" />
-      <circle cx="184" cy="120" r="31" class="fill-corail" />
-      <circle cx="184" cy="120" r="12" class="fill-prune" />
-      <circle cx="193" cy="110" r="5" class="fill-creme" />
-      <circle cx="118" cy="200" r="6" class="fill-poudre" />
-      <circle cx="148" cy="200" r="8" class="fill-poudre" />
-      <circle cx="182" cy="200" r="10" class="fill-framboise" />
-      <circle cx="222" cy="200" r="13" class="fill-corail" />
-    </>
-  )}
+  <g clip-path={`url(#${uid}-scene)`}>
+    {name === 'hypnose' && (
+      <>
+        <!-- assise en tailleur, la tête dans un nuage : l'état d'hypnose -->
+        <rect width="320" height="170" fill={c.mur} />
+        <rect y="170" width="320" height="70" fill={c.sol} />
+        <ellipse cx="160" cy="208" rx="74" ry="10" fill={c.encre} opacity="0.08" />
+        <path d="M100 204C108 184 140 182 160 192C180 182 212 184 220 204C200 214 120 214 100 204Z" fill={c.bleu} />
+        <path d="M134 198C128 162 136 132 160 130C184 132 192 162 186 198Z" fill={c.saumon} />
+        <path d="M140 146C126 162 120 180 116 194M180 146C194 162 200 180 204 194" stroke={c.saumon} stroke-width="12" stroke-linecap="round" fill="none" />
+        <circle cx="116" cy="197" r="6" fill={c.peau} />
+        <circle cx="204" cy="197" r="6" fill={c.peau} />
+        <rect x="154" y="112" width="12" height="20" rx="5" fill={c.peau} />
+        <circle cx="160" cy="104" r="16" fill={c.peau} />
+        <path d={cloud(112, 108, 1.05)} fill={c.nuage} />
+        <path d="M128 114h82" stroke={c.ciel} stroke-width="5" stroke-linecap="round" opacity="0.7" />
+      </>
+    )}
 
-  {name === 'stress-anxiete' && (
-    <>
-      <circle cx="214" cy="88" r="48" class="fill-soleil" />
-      <path d="M100 194C100 176 130 168 160 168S222 176 222 192C222 206 196 210 160 210S100 208 100 194Z" class="fill-framboise" />
-      <path d="M118 158C118 146 140 140 160 140S204 146 204 158C204 170 184 174 160 174S118 172 118 158Z" class="fill-poudre" />
-      <path d="M132 128C132 118 146 114 160 114S190 118 190 128C190 138 176 142 160 142S132 140 132 128Z" class="fill-peche" />
-      <path d="M146 104C146 96 154 92 162 92S178 96 178 104C178 111 170 116 162 116S146 111 146 104Z" class="fill-corail" />
-      <ellipse cx="82" cy="204" rx="14" ry="8" class="fill-poudre" />
-    </>
-  )}
+    {name === 'nemo' && (
+      <>
+        <!-- de profil, le regard suit la baguette d'un côté à l'autre -->
+        <rect width="320" height="240" fill={c.murSaumon} />
+        <path d="M60 240C60 198 88 176 124 176C146 176 164 186 172 200L176 240Z" fill={c.sauge} />
+        <rect x="112" y="140" width="24" height="44" rx="10" fill={c.peauOmbre} />
+        <path d="M96 116C96 90 116 76 138 78C156 80 166 94 166 108C172 112 174 116 168 120C168 128 164 132 160 134C160 142 154 148 144 148C126 150 110 144 102 134C98 128 96 122 96 116Z" fill={c.peau} />
+        <path d="M94 116C90 90 108 72 136 74C156 76 166 88 164 98C152 94 142 94 132 100C124 106 120 118 122 130C112 134 100 130 94 116Z" fill={c.cheveux} />
+        <circle cx="96" cy="100" r="13" fill={c.cheveux} />
+        <ellipse cx="153" cy="108" rx="2.5" ry="3" fill={c.encre} />
+        <path d="M158 108L228 122" stroke={c.encre} stroke-width="1.5" stroke-dasharray="2 6" opacity="0.35" />
+        <path d="M200 86Q240 60 280 86" stroke={c.encre} stroke-width="2.5" stroke-dasharray="1 8" stroke-linecap="round" fill="none" opacity="0.5" />
+        <path d="M262 218L234 132" stroke={c.cheveux} stroke-width="4" stroke-linecap="round" />
+        <circle cx="232" cy="126" r="8" fill={c.miel} />
+      </>
+    )}
 
-  {name === 'gestion-des-emotions' && (
-    <>
-      <!-- une silhouette, et les émotions qui gravitent autour d'elle -->
-      <circle cx="160" cy="98" r="32" class="fill-poudre" />
-      <path d="M98 214C98 168 126 142 160 142S222 168 222 214Z" class="fill-poudre" />
-      <path d="M0 4C0-4 10-6 12 2C14-6 24-4 24 4C24 12 12 20 12 20S0 12 0 4Z" transform="translate(212 52) scale(1.25)" class="fill-framboise" />
-      <path d="M58 82l11-12 9 13 11-13 9 13" class="stroke-corail" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-      <path d={star} transform="translate(86 140) scale(1.3)" class="fill-soleil" />
-      <path d="M244 148c-1-8 9-11 12-4s-6 14-13 10-7-17 3-20" class="stroke-feuille" stroke-width="4" stroke-linecap="round" fill="none" />
-      <circle cx="116" cy="46" r="7" class="fill-corail" />
-      <circle cx="252" cy="104" r="5" class="fill-soleil" />
-      <circle cx="68" cy="116" r="4" class="fill-framboise" opacity="0.7" />
-      <circle cx="204" cy="28" r="4" class="fill-feuille" opacity="0.8" />
-    </>
-  )}
+    {name === 'stress-anxiete' && (
+      <>
+        <!-- assise, les genoux serrés, branchée au mur pour se recharger -->
+        <rect width="320" height="150" fill={c.mur} />
+        <rect y="150" width="320" height="90" fill={c.solBleu} />
+        <rect x="238" y="112" width="24" height="28" rx="5" fill={c.creme} />
+        <circle cx="246" cy="126" r="2" fill={c.encre} opacity="0.5" />
+        <circle cx="254" cy="126" r="2" fill={c.encre} opacity="0.5" />
+        <ellipse cx="150" cy="214" rx="66" ry="10" fill={c.encre} opacity="0.1" />
+        <path d="M114 196C96 208 104 226 150 226S246 214 248 150" stroke={c.encre} stroke-width="3" fill="none" opacity="0.6" />
+        <rect x="243" y="138" width="10" height="14" rx="2" fill={c.encre} opacity="0.7" />
+        <path d="M120 212C122 186 140 168 168 164L178 176C162 182 150 196 148 212Z" fill={c.creme} />
+        <path d="M164 160L180 158L194 208L178 212Z" fill={c.creme} />
+        <ellipse cx="190" cy="212" rx="12" ry="5" fill={c.peau} />
+        <path d="M116 212C108 180 110 150 128 136C140 128 156 132 160 144L166 170C150 180 140 196 140 212Z" fill={c.sauge} />
+        <path d="M136 150C150 160 162 164 176 166" stroke={c.sauge} stroke-width="11" stroke-linecap="round" fill="none" />
+        <circle cx="179" cy="166" r="6" fill={c.peau} />
+        <circle cx="146" cy="122" r="16" fill={c.peau} />
+        <path d="M128 120C126 102 140 94 154 98C166 102 168 112 162 120C156 112 146 112 140 120C138 130 136 140 128 150C122 140 124 128 128 120Z" fill={c.cheveux} />
+      </>
+    )}
 
-  {name === 'souvenirs-douloureux-deuil-separation' && (
-    <>
-      <circle cx="250" cy="172" r="30" class="fill-soleil" />
-      <path d="M56 116C120 104 176 92 260 58" class="stroke-prune" stroke-width="5" stroke-linecap="round" fill="none" />
-      <path d={leaf} transform="translate(86 111) rotate(-42) scale(0.62)" class="fill-framboise" />
-      <path d={leaf} transform="translate(118 106) rotate(32) scale(0.56)" class="fill-feuille" />
-      <path d={leaf} transform="translate(156 97) rotate(-52) scale(0.62)" class="fill-peche" />
-      <path d={leaf} transform="translate(194 84) rotate(26) scale(0.56)" class="fill-framboise" />
-      <path d={leaf} transform="translate(232 69) rotate(-34) scale(0.5)" class="fill-feuille" />
-      <!-- le chemin de la feuille qui tombe -->
-      <g class="fill-framboise">
-        <circle cx="206" cy="102" r="2.5" opacity="0.45" />
-        <circle cx="197" cy="116" r="3" opacity="0.55" />
-        <circle cx="190" cy="130" r="3.2" opacity="0.65" />
-        <circle cx="193" cy="145" r="3.5" opacity="0.75" />
-        <circle cx="185" cy="160" r="3.8" opacity="0.85" />
-      </g>
-      <path d={leaf} transform="translate(150 184) rotate(18) scale(0.66)" class="fill-corail" />
-    </>
-  )}
+    {name === 'gestion-des-emotions' && (
+      <>
+        <!-- de dos, les émotions qui flottent au-dessus de la tête -->
+        <rect width="320" height="240" fill={c.murPeche} />
+        <path d="M84 240C84 198 114 182 160 182C206 182 236 198 236 240Z" fill={c.creme} />
+        <path d="M88 214C120 208 200 208 232 214M86 230C120 224 200 224 234 230M96 198C124 194 196 194 224 198" stroke={c.sauge} stroke-width="6" fill="none" />
+        <rect x="148" y="158" width="24" height="30" rx="8" fill={c.peauOmbre} />
+        <circle cx="126" cy="146" r="7" fill={c.peau} />
+        <circle cx="194" cy="146" r="7" fill={c.peau} />
+        <circle cx="160" cy="138" r="34" fill={c.cheveux} />
+        <circle cx="160" cy="98" r="15" fill={c.cheveux} />
+        <path d="M0 4C0-4 10-6 12 2C14-6 24-4 24 4C24 12 12 20 12 20S0 12 0 4Z" transform="translate(200 48) scale(0.9)" fill={c.saumon} />
+        <path d={cloud(92, 70, 0.42)} fill={c.ciel} />
+        <path d="M104 78l-3 8M114 78l-3 8M124 78l-3 8" stroke={c.ciel} stroke-width="2.5" stroke-linecap="round" />
+        <path d="M232 104c-1-7 8-9 10-3s-5 12-11 9-6-15 3-17" stroke={c.miel} stroke-width="3" stroke-linecap="round" fill="none" />
+        <path d={star} transform="translate(94 122)" fill={c.miel} />
+        <path d="M146 44l6-7 5 8 6-8 5 8" stroke="#a5513f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7" />
+      </>
+    )}
 
-  {name === 'phobies-peurs-blocages' && (
-    <>
-      <circle cx="84" cy="72" r="24" class="fill-soleil" />
-      <path d="M100 212V124A52 52 0 0 1 204 124V212Z" class="fill-poudre" />
-      <path d="M120 212V128A32 32 0 0 1 184 128V212Z" class="fill-sable" />
-      <path d={bird} transform="translate(168 92) rotate(-8)" class="fill-framboise" />
-      <path d={bird} transform="translate(236 52) rotate(-6) scale(0.5)" class="fill-corail" />
-    </>
-  )}
+    {name === 'souvenirs-douloureux-deuil-separation' && (
+      <>
+        <!-- une porte qui s'ouvre sur le ciel : alléger le poids du passé -->
+        <rect width="320" height="190" fill={c.mur} />
+        <rect y="190" width="320" height="50" fill={c.sol} />
+        <rect x="136" y="38" width="90" height="152" fill={c.ciel} />
+        <path d={cloud(146, 104, 0.55)} fill={c.nuage} />
+        <path d={cloud(186, 150, 0.4)} fill={c.nuage} opacity="0.9" />
+        <path d="M136 38L110 50V184L136 190Z" fill={c.creme} />
+        <circle cx="116" cy="120" r="2.5" fill={c.miel} />
+        <path d="M136 190H226L270 240H104Z" fill={c.nuage} opacity="0.45" />
+        <rect x="172" y="200" width="8" height="32" rx="3" fill="#6f7f8d" />
+        <rect x="183" y="200" width="8" height="32" rx="3" fill="#6f7f8d" />
+        <path d="M166 206C163 182 168 160 181 158C194 160 199 182 196 206Z" fill={c.saumon} />
+        <circle cx="181" cy="148" r="10" fill={c.cheveux} />
+      </>
+    )}
 
-  {name === 'confiance-en-soi' && (
-    <>
-      <circle cx="200" cy="94" r="54" class="fill-soleil" />
-      <path d="M78 212C100 182 220 182 242 212Z" class="fill-peche" />
-      <path d="M160 202C160 170 156 150 162 116" class="stroke-prune" stroke-width="5" stroke-linecap="round" fill="none" />
-      <path d="M160 162C124 158 102 140 98 112C130 112 154 130 160 162Z" class="fill-framboise" />
-      <path d="M162 138C192 130 210 108 210 82C182 86 164 106 162 138Z" class="fill-feuille" />
-      <circle cx="162" cy="112" r="8" class="fill-corail" />
-    </>
-  )}
+    {name === 'phobies-peurs-blocages' && (
+      <>
+        <!-- une main qui sort du trou : sortir de ce qui bloque -->
+        <rect width="320" height="110" fill={c.mur} />
+        <rect y="110" width="320" height="130" fill={c.sol} />
+        <ellipse cx="164" cy="178" rx="62" ry="19" fill={c.encre} opacity="0.85" />
+        <ellipse cx="164" cy="176" rx="62" ry="17" fill="none" stroke={c.creme} stroke-width="3" opacity="0.5" />
+        <path d="M164 178V150" stroke={c.bleu} stroke-width="20" stroke-linecap="round" />
+        <path d="M164 156C162 132 160 112 156 94" stroke={c.peau} stroke-width="14" stroke-linecap="round" fill="none" />
+        <circle cx="155" cy="86" r="10" fill={c.peau} />
+        <path d="M148 80l-6-12M154 76l-2-14M160 76l2-13M165 80l6-10" stroke={c.peau} stroke-width="5" stroke-linecap="round" />
+        <path d="M210 70c8-6 16-6 22 0M222 54c6-5 12-5 17 0" stroke={c.miel} stroke-width="2.5" stroke-linecap="round" fill="none" />
+      </>
+    )}
 
-  {name === 'sommeil' && (
-    <>
-      <path d="M188 48A66 66 0 1 0 248 150A54 54 0 0 1 188 48Z" class="fill-soleil" />
-      <path d={star} transform="translate(108 70) scale(1.1)" class="fill-corail" />
-      <path d={star} transform="translate(254 72)" class="fill-framboise" />
-      <path d={star} transform="translate(272 116) scale(0.6)" class="fill-corail" />
-      <path d="M84 192H212A24 24 0 0 0 208 144A34 34 0 0 0 144 136A26 26 0 0 0 94 158A18 18 0 0 0 84 192Z" class="fill-poudre" />
-    </>
-  )}
+    {name === 'confiance-en-soi' && (
+      <>
+        <!-- face au miroir, son reflet ose lever les bras -->
+        <defs><clipPath id={`${uid}-glace`}><circle cx="212" cy="112" r="56" /></clipPath></defs>
+        <rect width="320" height="186" fill={c.murSaumon} />
+        <rect y="186" width="320" height="54" fill={c.sol} />
+        <rect x="206" y="160" width="12" height="40" fill={c.miel} />
+        <circle cx="212" cy="112" r="64" fill={c.miel} />
+        <circle cx="212" cy="112" r="56" fill="#e7eef2" />
+        <g clip-path={`url(#${uid}-glace)`}>
+          <path d="M196 170C194 140 200 122 212 120C224 122 230 140 228 170Z" fill={c.saumon} />
+          <path d="M200 128L184 88M224 128L240 88" stroke={c.saumon} stroke-width="9" stroke-linecap="round" />
+          <circle cx="183" cy="84" r="5" fill={c.peau} />
+          <circle cx="241" cy="84" r="5" fill={c.peau} />
+          <circle cx="212" cy="106" r="11" fill={c.peau} />
+          <path d="M201 104C200 92 208 88 214 89C222 90 225 98 223 104C218 98 208 98 201 104Z" fill={c.cheveux} />
+          <path d="M196 170h32v40h-32z" fill={c.bleu} />
+        </g>
+        <ellipse cx="110" cy="226" rx="34" ry="7" fill={c.encre} opacity="0.1" />
+        <rect x="98" y="178" width="10" height="46" rx="4" fill={c.bleu} />
+        <rect x="112" y="178" width="10" height="46" rx="4" fill={c.bleu} />
+        <path d="M92 184C90 150 96 128 110 126C124 128 130 150 128 184Z" fill={c.saumon} />
+        <rect x="104" y="108" width="12" height="20" rx="5" fill={c.peauOmbre} />
+        <circle cx="110" cy="102" r="14" fill={c.cheveux} />
+        <path d="M98 108C94 120 96 132 100 138C104 130 104 118 104 110Z" fill={c.cheveux} />
+      </>
+    )}
 
-  {name === 'arret-tabac-alimentation' && (
-    <>
-      <!-- sortir du cercle de l'habitude, pas à pas, vers le soleil -->
-      <circle cx="258" cy="66" r="34" class="fill-soleil" />
-      <ellipse cx="96" cy="190" rx="74" ry="24" class="fill-peche" />
-      <ellipse cx="96" cy="190" rx="74" ry="24" class="stroke-corail" stroke-width="9" fill="none" />
-      <g class="fill-framboise">
-        <ellipse cx="176" cy="178" rx="7" ry="11" transform="rotate(52 176 178)" />
-        <ellipse cx="194" cy="190" rx="7" ry="11" transform="rotate(52 194 190)" />
-        <ellipse cx="206" cy="148" rx="6.5" ry="10.5" transform="rotate(50 206 148)" />
-        <ellipse cx="224" cy="160" rx="6.5" ry="10.5" transform="rotate(50 224 160)" />
-        <ellipse cx="234" cy="120" rx="6" ry="10" transform="rotate(48 234 120)" opacity="0.85" />
-        <ellipse cx="251" cy="132" rx="6" ry="10" transform="rotate(48 251 132)" opacity="0.85" />
-      </g>
-      <path d={leaf} transform="translate(206 92) rotate(-40) scale(0.4)" class="fill-feuille" />
-    </>
-  )}
-  {name === 'ecrits' && (
-    <>
-      <!-- un livre ouvert sous le soleil, une feuille qui s'en échappe -->
-      <circle cx="160" cy="78" r="40" class="fill-soleil" />
-      <path d="M160 132C132 116 94 112 62 120V202C94 194 132 198 160 214Z" class="fill-poudre" />
-      <path d="M160 132C188 116 226 112 258 120V202C226 194 188 198 160 214Z" class="fill-peche" />
-      <path d="M160 132V214" class="stroke-prune" stroke-width="4" stroke-linecap="round" />
-      <path d="M84 146C104 142 124 144 142 150M84 164C104 160 124 162 142 168M180 150C198 144 218 142 236 146M180 168C198 162 218 160 236 164" class="stroke-framboise" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7" />
-      <path d={leaf} transform="translate(232 96) rotate(-38) scale(0.5)" class="fill-feuille" />
-    </>
-  )}
+    {name === 'sommeil' && (
+      <>
+        <!-- endormie sur un nuage, sous la lune -->
+        <rect width="320" height="240" fill={c.murNuit} />
+        <path d="M232 40A30 30 0 1 0 262 82A24 24 0 0 1 232 40Z" fill={c.champagne} />
+        <path d={star} transform="translate(92 54)" fill={c.champagne} />
+        <path d={star} transform="translate(150 34) scale(0.7)" fill={c.creme} />
+        <path d={star} transform="translate(286 128) scale(0.6)" fill={c.creme} />
+        <path d="M54 196a28 28 0 0 1 24-38a36 36 0 0 1 62-14a32 32 0 0 1 56-4a30 30 0 0 1 54 18a24 24 0 0 1 4 38Z" fill={c.nuage} />
+        <path d="M70 192h176" stroke={c.ciel} stroke-width="6" stroke-linecap="round" opacity="0.6" />
+        <path d="M96 150C124 136 196 136 234 148C236 156 228 162 216 162H104C96 162 92 156 96 150Z" fill={c.saumon} />
+        <circle cx="96" cy="146" r="13" fill={c.peau} />
+        <path d="M84 146C82 132 92 126 100 128C106 130 108 136 104 140C98 136 90 140 88 150C86 156 80 156 84 146Z" fill={c.cheveux} />
+        <path d="M100 148q4 3 8 0" stroke={c.encre} stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6" />
+      </>
+    )}
+
+    {name === 'arret-tabac-alimentation' && (
+      <>
+        <!-- sortir du cercle dont le sol est usé par les mêmes pas -->
+        <rect width="320" height="118" fill={c.mur} />
+        <rect y="118" width="320" height="122" fill={c.sol} />
+        <ellipse cx="122" cy="186" rx="76" ry="24" fill="none" stroke={c.miel} stroke-width="4" />
+        <g fill={c.encre} opacity="0.18">
+          <ellipse cx="80" cy="180" rx="4" ry="7" transform="rotate(-70 80 180)" />
+          <ellipse cx="104" cy="196" rx="4" ry="7" transform="rotate(-85 104 196)" />
+          <ellipse cx="136" cy="198" rx="4" ry="7" transform="rotate(-95 136 198)" />
+          <ellipse cx="164" cy="186" rx="4" ry="7" transform="rotate(-115 164 186)" />
+          <ellipse cx="146" cy="172" rx="4" ry="7" transform="rotate(-250 146 172)" />
+          <ellipse cx="108" cy="172" rx="4" ry="7" transform="rotate(-265 108 172)" />
+        </g>
+        <ellipse cx="236" cy="214" rx="30" ry="7" fill={c.encre} opacity="0.1" />
+        <path d="M228 178L216 212M236 178L254 208" stroke="#6f7f8d" stroke-width="9" stroke-linecap="round" />
+        <path d="M222 182C220 150 226 128 236 126C248 128 252 150 250 182Z" fill={c.sauge} />
+        <path d="M226 140L210 166M246 140L258 164" stroke={c.sauge} stroke-width="8" stroke-linecap="round" />
+        <rect x="231" y="108" width="11" height="20" rx="5" fill={c.peau} />
+        <circle cx="237" cy="102" r="13" fill={c.peau} />
+        <path d="M224 100C222 88 232 82 240 84C248 86 252 94 250 100C244 94 232 94 224 100Z" fill={c.cheveux} />
+      </>
+    )}
+
+    {name === 'ecrits' && (
+      <>
+        <!-- une toute petite silhouette qui écrit sur la page d'un carnet géant -->
+        <rect width="320" height="240" fill={c.murPeche} />
+        <ellipse cx="160" cy="206" rx="130" ry="14" fill={c.encre} opacity="0.08" />
+        <path d="M160 92C126 76 76 72 34 82V196C76 186 126 190 160 206Z" fill={c.creme} />
+        <path d="M160 92C194 76 244 72 286 82V196C244 186 194 190 160 206Z" fill="#fffaf4" />
+        <path d="M160 92V206" stroke={c.encre} stroke-width="2" opacity="0.25" />
+        <path d="M54 110C84 104 120 106 144 114M54 128C84 122 120 124 144 132M54 146C84 140 120 142 144 150M54 164C84 158 110 160 130 166" stroke={c.encre} stroke-width="2" stroke-linecap="round" opacity="0.18" fill="none" />
+        <path d="M178 116C204 108 236 106 266 110M178 134C204 126 230 124 250 126" stroke={c.encre} stroke-width="2" stroke-linecap="round" opacity="0.18" fill="none" />
+        <path d="M262 32L196 150L190 162L200 154L268 38Z" fill={c.miel} />
+        <path d="M262 32L268 38L274 30L270 26Z" fill={c.saumon} />
+        <path d="M206 168L222 168L226 186L210 186Z" fill={c.bleu} />
+        <path d="M208 170C206 150 210 136 218 134C226 136 228 150 226 170Z" fill={c.saumon} />
+        <circle cx="218" cy="128" r="7" fill={c.cheveux} />
+        <path d="M212 152L200 156" stroke={c.saumon} stroke-width="5" stroke-linecap="round" />
+      </>
+    )}
+
+    <rect width="320" height="240" filter={`url(#${uid}-grain)`} />
+  </g>
 </svg>
