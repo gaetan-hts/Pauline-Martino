@@ -92,7 +92,7 @@ export async function llmsFullTxt() {
   const training = formations.map((f) => `- ${f.year} : ${f.items.join(' ; ')}`).join('\n');
   const parking = parkings.map(([name, time]) => `- ${name} (${time})`).join('\n');
   const reviewsLine = platforms
-    .map((p) => `- [Lire tous les avis sur ${p.source}](${p.url})`)
+    .map((p) => `- ${p.source} : ${p.rating}/5, ${p.count} avis, [lire les avis](${p.url})`)
     .join('\n');
   const questions = faq.fr.map((f) => `### ${f.q}\n\n${f.a.join('\n\n')}`).join('\n\n');
 

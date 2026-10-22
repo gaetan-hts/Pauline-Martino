@@ -2,17 +2,31 @@
 // Ne jamais inventer ni reformuler un avis (voir CLAUDE.md).
 import { bookingUrl } from './site';
 
-// Plateformes où lire tous les avis. Pas de note ni de nombre d'avis affichés :
-// ils évoluent sans cesse et seraient vite faux.
-export type Platform = { source: 'Google' | 'Medoucine'; url: string };
+// Plateformes où lire tous les avis. Le nombre d'avis est un palier (« 100+ ») et non un chiffre
+// exact : il reste vrai quand de nouveaux avis arrivent. Le relever de temps en temps.
+export type Platform = {
+  source: 'Google' | 'Medoucine';
+  rating: number; // note moyenne sur 5
+  count: string; // palier : '50+', '100+'…
+  url: string;
+  note?: string;
+};
 
 export const platforms: Platform[] = [
   {
     source: 'Google',
+    rating: 5,
+    count: '100+',
     // TODO : remplacer par le lien direct de la fiche Google Business Profile
     url: 'https://www.google.com/maps/search/?api=1&query=Pauline+MARTINO+Hypnoth%C3%A9rapeute+La+Farl%C3%A8de',
   },
-  { source: 'Medoucine', url: bookingUrl('avis') },
+  {
+    source: 'Medoucine',
+    rating: 4.9,
+    count: '50+',
+    url: bookingUrl('avis'),
+    note: 'Avis vérifiés : seules les personnes ayant réellement consulté peuvent en laisser un.',
+  },
 ];
 
 // Avis choisis par Pauline (oct. 2026), copiés mot pour mot depuis Google et Medoucine,

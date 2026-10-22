@@ -82,7 +82,7 @@ scripts/screenshots.mjs
 ## Contenu : règles
 
 1. **Les textes viennent de Pauline** (`docs/brief-*.md`). On garde sa voix et ses formulations, en se limitant à corriger l'orthographe et la ponctuation, et à couper les paragraphes trop longs. Pas de réécriture marketing.
-2. **Ne jamais inventer d'avis, de témoignages, de chiffres ou de résultats.** La section `#avis` n'affiche **aucune note ni nombre d'avis** (ils évoluent et seraient vite faux) : les 7 avis choisis par Pauline (6 Google, 1 Medoucine) copiés mot pour mot, fautes comprises (`avis.ts`). Un avis Google s'affiche « avis Google », seul Medoucine est « avis vérifié ». Pas d'API. Liens « Lire tous les avis sur Google / Medoucine ».
+2. **Ne jamais inventer d'avis, de témoignages, de chiffres ou de résultats.** La section `#avis` affiche une carte par plateforme (note + **palier** d'avis « 100+ », « 50+ », jamais un chiffre exact qui serait vite faux) et les 7 avis choisis par Pauline (6 Google, 1 Medoucine) copiés mot pour mot, fautes comprises (`avis.ts`). Un avis Google s'affiche « avis Google », seul Medoucine est « avis vérifié ». Pas d'API : relever note et palier de temps en temps dans `avis.ts`.
 3. **Pas d'allégations thérapeutiques.** La liste « Accroches par problématique » / « Mots clés » en fin de `brief-presentation-pauline.md` (cancer, épilepsie, endométriose, allergies, AVC, troubles sexuels, etc.) **ne doit pas être utilisée** dans le site. Raisons : risque DGCCRF / exercice illégal de la médecine, pénalité Google sur les sujets santé (YMYL), et une liste de mots-clés n'a aucun effet SEO. Gaëtan a validé ce point. Le SEO passe par les 7 pages thématiques.
 4. La mention « ne remplace pas un suivi médical ou psychologique » a été retirée partout à la demande de Gaëtan (oct. 2026). Ne pas la remettre sans qu'il le demande ; les règles 2 et 3 (rien d'inventé, aucune allégation thérapeutique) restent d'autant plus importantes.
 5. Les citations de Pauline (`quotes` dans `site.ts`) sont réparties sur le site en bandeaux (`<Quote>`, ton `olive` ou `lin`). Elle tient à les voir « sur l'ensemble du site ».
@@ -106,20 +106,21 @@ scripts/screenshots.mjs
 
 ## Charte graphique
 
-Palette **solaire** (oct. 2026) : fond crème, rose et orange. Photos phares en arche (`.arch`), le reste en `rounded-2xl/3xl`.
+Palette **solaire et douce** (oct. 2026, références : templates Liw Studio « Zoe Spirit » et site de Lucie Fink). Aucun bloc sombre : tous les fonds sont clairs, le texte est brun partout. Photos phares en arche (`.arch`), le reste en `rounded-2xl/3xl`.
 
 | Token | Hex | Rôle |
 |---|---|---|
-| `creme` | `#fbf4ea` | fond principal |
-| `sable` | `#f6e3cf` | sections alternées, fonds de cartes |
-| `pivoine` | `#b5475b` | rose profond : accents texte, titres H3, liens, bandeau final |
-| `grenat` | `#5b2333` | sombre : citations, footer, encarts « En pratique » / RDV |
-| `poudre` | `#f3c1bc` | rose pâle : texte secondaire sur fond sombre, illustrations |
-| `mandarine` | `#c24e22` | orange : **réservé aux boutons « Prendre rendez-vous »** + puces, focus |
-| `peche` | `#ffd3b0` | survol des liens sur fond sombre, illustrations |
-| `soleil` | `#f0a63a` | jaune orangé : illustrations, étoiles des avis, touches décoratives |
-| `brun` | `#3a2420` | texte |
+| `creme` | `#fbf4ee` | fond principal |
+| `sable` | `#f9e2d2` | pêche clair : sections alternées, fonds de cartes |
+| `pivoine` | `#b5475b` | rose profond : accents texte, titres H3, liens (4,8:1 sur crème) |
+| `moutarde` | `#e39b2d` | **réservé aux boutons « Prendre rendez-vous »** (texte brun, 5,9:1) + puces |
+| `corail` | `#f28c5b` | corail abricot : encarts « En pratique » / RDV (texte brun, 5,7:1), illustrations |
+| `poudre` | `#f4bfb5` | rose poudré : footer, bandeau de citation, illustrations |
+| `soleil` | `#f5be4f` | jaune soleil : bandeau final, étoiles des avis, illustrations |
+| `peche` | `#ffd8be` | illustrations |
+| `brun` | `#3b2a25` | texte, contour de focus |
 
+- Sur un bloc coloré (corail, soleil), le bouton RDV prend la classe `btn-on-color` (fond crème) pour ressortir.
 - **Typo :** `Young Serif` pour les titres et les citations (`font-serif`), `Figtree Variable` pour le texte (`font-sans`). Corps 17 px, interligne 1,65.
 - **À éviter :** labels en MAJUSCULES espacées, mot isolé en couleur ou en italique dans un titre, numérotation 01/02/03 décorative, animations d'entrée sur chaque section, cartes identiques avec ombre grise.
 - **Logo :** `Logo.astro` (cerveau dont l'intérieur est un arbre en feuilles, vectorisé depuis le fichier de Pauline, en `currentColor`) + `public/favicon.svg` (même tracé en pivoine).
@@ -168,7 +169,7 @@ Palette **solaire** (oct. 2026) : fond crème, rose et orange. Photos phares en 
 ## Reste à faire (par priorité)
 
 1. Retours de Pauline sur le draft (couleurs, textes, choix des photos)
-2. ~~Page « Mes écrits »~~ **faite** (`/mes-ecrits/`, collection `src/content/ecrits/`, un texte = un .md, « --- » = ornement entre passages, `pullQuote` = exergue). Reste : formulaire Brevo pour « Être prévenu de la parution » (aujourd'hui un lien mailto), Keystatic. Ancien plan : collection de contenu `ecrits` (Markdown), listing + page article (`Article` JSON-LD). Contenu de départ dans `brief-presentation-pauline.md` (section « Mes écrits »). Ajouter :
+2. ~~Page « Mes écrits »~~ **faite** (`/mes-ecrits/`, collection `src/content/ecrits/`, un texte = un .md, « --- » = ornement entre passages, `pullQuote` = exergue placée automatiquement après le passage qui la contient ; une colonne de lecture centrée). Reste : formulaire Brevo pour « Être prévenu de la parution » (aujourd'hui un lien mailto), Keystatic. Ancien plan : collection de contenu `ecrits` (Markdown), listing + page article (`Article` JSON-LD). Contenu de départ dans `brief-presentation-pauline.md` (section « Mes écrits »). Ajouter :
    - un formulaire « Être prévenu de la parution » (Brevo, liste gratuite)
    - un « Un mot sur vos lectures ? » (formulaire Web3Forms ou mailto)
    - la mention © du texte

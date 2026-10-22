@@ -1,12 +1,23 @@
 ---
 // Mes écrits : textes de Pauline (collection src/content/ecrits/), en avant-première de son livre.
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Illustration from '../components/Illustration.astro';
 import { site } from '../data/site';
 
 const ecrits = (await getCollection('ecrits')).sort((a, b) => a.data.order - b.data.order);
-const rendered = await Promise.all(ecrits.map(async (e) => ({ entry: e, Content: (await render(e)).Content })));
+// Chaque texte est découpé en passages (séparés par « --- ») puis en paragraphes, pour pouvoir
+// glisser l'exergue juste après le passage d'où elle est tirée.
+const norm = (t: string) => t.replace(/[’']/g, "'").replace(/\s+/g, ' ').trim();
+const texts = ecrits.map((e) => {
+  const passages = (e.body ?? '')
+    .replace(/\r\n/g, '\n')
+    .split(/\n-{3,}\n/)
+    .map((p) => p.split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean));
+  const q = e.data.pullQuote ? norm(e.data.pullQuote) : '';
+  const quoteAfter = q ? passages.findIndex((p) => p.some((para) => norm(para).includes(q))) : -1;
+  return { entry: e, passages, quoteAfter };
+});
 const pageUrl = new URL('/mes-ecrits/', site.url).href;
 
 const mail = (subject: string, body = '') =>
@@ -37,7 +48,7 @@ const schema = {
   <section>
     <div class="wrap pt-6">
       <nav aria-label="Fil d’Ariane" class="text-sm text-brun/65">
-        <a href="/" class="hover:text-mandarine">Accueil</a>
+        <a href="/" class="hover:text-moutarde">Accueil</a>
         <span aria-hidden="true" class="mx-1.5">/</span>
         <span aria-current="page">Mes écrits</span>
       </nav>
@@ -55,32 +66,36 @@ const schema = {
     </div>
   </section>
 
-  {rendered.map(({ entry, Content }) => (
+  {texts.map(({ entry, passages, quoteAfter }) => (
     <article id={entry.id} class="bg-sable py-16 sm:py-24">
-      <div class="wrap grid gap-12 lg:grid-cols-[minmax(0,40rem)_1fr] lg:gap-16">
-        <div>
-          <h2 class="text-3xl sm:text-4xl">{entry.data.title}</h2>
-          <div class="prose-ecrits mt-8">
-            <Content />
-          </div>
-        </div>
-        {entry.data.pullQuote && (
-          <aside class="lg:pt-24" aria-hidden="true">
-            <p class="font-serif text-3xl leading-snug text-pivoine lg:sticky lg:top-32">
-              « {entry.data.pullQuote} »
-            </p>
-          </aside>
-        )}
+      <div class="wrap">
+        <header class="mx-auto max-w-2xl text-center">
+          <span class="mx-auto block h-1.5 w-12 rounded-full bg-moutarde" aria-hidden="true"></span>
+          <h2 class="mt-6 text-3xl sm:text-5xl">{entry.data.title}</h2>
+        </header>
+        {passages.map((paras, i) => (
+          <>
+            {i > 0 && <p class="ornement" aria-hidden="true">•  •  •</p>}
+            <div class:list={['prose-ecrits mx-auto max-w-2xl', i === 0 && 'mt-12 first-passage']}>
+              {paras.map((p) => <p>{p}</p>)}
+            </div>
+            {i === quoteAfter && (
+              <figure class="mx-auto my-14 max-w-3xl text-center" aria-hidden="true">
+                <p class="font-serif text-3xl leading-snug text-pivoine sm:text-4xl">« {entry.data.pullQuote} »</p>
+              </figure>
+            )}
+          </>
+        ))}
       </div>
     </article>
   ))}
 
   <section class="py-16 sm:py-24">
     <div class="wrap grid gap-5 md:grid-cols-2">
-      <div class="flex flex-col rounded-3xl bg-grenat p-8 text-creme sm:p-10">
-        <h2 class="text-2xl text-creme sm:text-3xl">Être prévenu de la parution</h2>
-        <p class="mt-4 flex-1 text-lg text-creme/85">Laissez-moi votre adresse e-mail, je vous écrirai le jour où le livre sortira.</p>
-        <a class="btn btn-rdv mt-8 self-start" href={mail('Prévenez-moi de la parution de votre livre', 'Bonjour Pauline,\n\nJe souhaite être prévenu(e) de la parution de votre livre.\n\n')}>M’inscrire par e-mail</a>
+      <div class="flex flex-col rounded-3xl bg-corail p-8 text-brun sm:p-10">
+        <h2 class="text-2xl sm:text-3xl">Être prévenu de la parution</h2>
+        <p class="mt-4 flex-1 text-lg text-brun/85">Laissez-moi votre adresse e-mail, je vous écrirai le jour où le livre sortira.</p>
+        <a class="btn btn-rdv btn-on-color mt-8 self-start" href={mail('Prévenez-moi de la parution de votre livre', 'Bonjour Pauline,\n\nJe souhaite être prévenu(e) de la parution de votre livre.\n\n')}>M’inscrire par e-mail</a>
       </div>
       <div class="flex flex-col rounded-3xl bg-sable p-8 sm:p-10">
         <h2 class="text-2xl sm:text-3xl">Un mot sur vos lectures ?</h2>

@@ -123,7 +123,7 @@ const personSchema = {
           <li class="border-b border-brun/15">
             <a href={url} class="group flex items-center justify-between gap-6 py-6">
               <span>
-                <span class="block font-serif text-2xl text-brun transition-colors group-hover:text-mandarine sm:text-[1.7rem]">{entry.data.menuLabel}</span>
+                <span class="block font-serif text-2xl text-brun transition-colors group-hover:text-moutarde sm:text-[1.7rem]">{entry.data.menuLabel}</span>
                 <span class="mt-1 block text-brun/70">{entry.data.summary}</span>
               </span>
               <svg viewBox="0 0 24 24" class="h-6 w-6 shrink-0 text-pivoine transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -181,7 +181,7 @@ const personSchema = {
           </div>
         </div>
       </div>
-      <p class="mt-12 max-w-3xl border-l-2 border-mandarine pl-6 text-lg">{t.techniques.summary}</p>
+      <p class="mt-12 max-w-3xl border-l-2 border-moutarde pl-6 text-lg">{t.techniques.summary}</p>
     </div>
   </section>
 
@@ -256,7 +256,7 @@ const personSchema = {
         <div>
           <h3 class="text-xl">{t.practical.office}</h3>
           <address class="mt-3 not-italic text-brun/85">{site.address.street}<br />{site.address.postalCode} {site.address.city}</address>
-          <a class="mt-2 inline-block font-semibold text-pivoine underline underline-offset-4 hover:text-mandarine" href={site.mapsUrl} target="_blank" rel="noopener">{t.practical.directions}</a>
+          <a class="mt-2 inline-block font-semibold text-pivoine underline underline-offset-4 hover:text-moutarde" href={site.mapsUrl} target="_blank" rel="noopener">{t.practical.directions}</a>
           <h3 class="mt-8 text-xl">{t.practical.hours}</h3>
           <p class="mt-3 text-brun/85">{s.hours}.</p>
           <h3 class="mt-8 text-xl">{t.practical.parking}</h3>
@@ -276,12 +276,12 @@ const personSchema = {
           <p class="mt-3 text-brun/85">{t.practical.cancelText}</p>
         </div>
 
-        <div class="self-start rounded-3xl bg-grenat p-8 text-creme">
-          <h3 class="text-2xl text-creme">{t.practical.bookTitle}</h3>
-          <p class="mt-3 text-creme/80">{t.practical.bookText}</p>
-          <BookingButton lang={lang} campaign={`${c}-infos`} class="mt-6 w-full" />
-          <a class="btn mt-3 w-full border border-creme/30 text-creme hover:bg-creme/10" href={site.phoneHref}>{site.phone}</a>
-          <p class="mt-6 text-sm text-creme/70">{t.practical.byEmail}<br /><a class="break-all text-creme underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a></p>
+        <div class="self-start rounded-3xl bg-corail p-8 text-brun">
+          <h3 class="text-2xl">{t.practical.bookTitle}</h3>
+          <p class="mt-3 text-brun/85">{t.practical.bookText}</p>
+          <BookingButton lang={lang} campaign={`${c}-infos`} class="btn-on-color mt-6 w-full" />
+          <a class="btn mt-3 w-full border border-brun/30 text-brun hover:bg-white/30" href={site.phoneHref}>{site.phone}</a>
+          <p class="mt-6 text-sm text-brun/80">{t.practical.byEmail}<br /><a class="break-all text-brun underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a></p>
         </div>
       </div>
     </div>
@@ -311,14 +311,14 @@ const personSchema = {
   </section>
 
   <!-- Dernier appel -->
-  <section class="relative overflow-hidden bg-pivoine py-16 text-creme sm:py-20">
+  <section class="relative overflow-hidden bg-soleil py-16 text-brun sm:py-20">
     <div class="wrap grid items-center gap-10 md:grid-cols-[1.3fr_0.7fr]">
       <div>
-        <h2 class="text-3xl text-creme sm:text-4xl">{t.final.title}</h2>
-        <p class="mt-4 max-w-xl text-lg text-creme/85">{t.final.text}</p>
+        <h2 class="text-3xl sm:text-4xl">{t.final.title}</h2>
+        <p class="mt-4 max-w-xl text-lg text-brun/85">{t.final.text}</p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <BookingButton lang={lang} campaign={`${c}-fin`} />
-          <a class="btn border border-creme/40 text-creme hover:bg-creme/10" href={site.phoneHref}>{site.phone}</a>
+          <BookingButton lang={lang} campaign={`${c}-fin`} class="btn-on-color" />
+          <a class="btn border border-brun/30 text-brun hover:bg-white/30" href={site.phoneHref}>{site.phone}</a>
         </div>
       </div>
       <div class="arch mx-auto hidden aspect-[3/4] w-56 md:block">

@@ -1,6 +1,6 @@
 ---
-// Section avis de la home : avis choisis par Pauline (src/data/avis.ts) + liens vers tous les avis.
-// Pas de note ni de nombre d'avis (ils évoluent sans cesse), pas de balisage AggregateRating.
+// Section avis de la home : une carte par plateforme (note + palier d'avis « 100+ ») et les avis
+// choisis par Pauline (src/data/avis.ts). Pas de balisage AggregateRating.
 import { platforms, reviews } from '../data/avis';
 import { ui, dateLocale } from '../i18n/ui';
 import type { Lang } from '../i18n/config';
@@ -8,34 +8,56 @@ import type { Lang } from '../i18n/config';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const u = ui[lang].reviews;
+const loc = dateLocale[lang];
 // « 2025 » ou « 2026-04 » → « 2025 » / « avril 2026 »
-const fmtMonth = (d: string) =>
-  d.length === 4 ? d : new Intl.DateTimeFormat(dateLocale[lang], { month: 'long', year: 'numeric' }).format(new Date(`${d}-15`));
+const fmtMonth = (d: string) => (d.length === 4 ? d : new Intl.DateTimeFormat(loc, { month: 'long', year: 'numeric' }).format(new Date(`${d}-15`)));
+const fmtRating = (r: number) => r.toLocaleString(loc, { minimumFractionDigits: r % 1 ? 1 : 0 });
 const star = 'M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z';
 ---
 <section id="avis" class="bg-sable py-16 sm:py-24">
   <div class="wrap">
-    <div class="flex flex-wrap items-end justify-between gap-6">
+    <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
       <div>
         <h2 class="text-3xl sm:text-4xl">{u.title}</h2>
-        <p class="mt-4 max-w-xl text-lg text-brun/80">{u.intro}</p>
+        <p class="mt-4 max-w-md text-lg text-brun/80">{u.intro}</p>
       </div>
-      <div class="flex flex-wrap gap-3">
+
+      <ul class="grid gap-4 sm:grid-cols-2">
         {platforms.map((p) => (
-          <a href={p.url} target="_blank" rel="noopener" class="btn btn-ghost">
-            {u.seeAll(p.source)}<span class="sr-only"> {u.newTab(p.source)}</span>
-          </a>
+          <li>
+            <a href={p.url} target="_blank" rel="noopener" class="card group flex h-full flex-col rounded-3xl border border-brun/10 bg-creme p-7">
+              <p class="text-sm font-semibold text-pivoine">{u.on(p.source)}</p>
+              <p class="mt-3 flex items-baseline gap-2">
+                <span class="font-serif text-5xl text-brun">{fmtRating(p.rating)}</span>
+                <span class="text-brun/60">/ 5</span>
+              </p>
+              <span class="mt-2 flex gap-1 text-soleil" role="img" aria-label={u.rating(p.rating)}>
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                    <path d={star} fill={i <= Math.round(p.rating) ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                  </svg>
+                ))}
+              </span>
+              <p class="mt-4 font-semibold">{u.count(p.count)}</p>
+              {p.note && lang === 'fr' && <p class="mt-1 text-sm text-brun/70">{p.note}</p>}
+              <span class="mt-auto inline-flex items-center gap-2 pt-5 font-semibold text-pivoine group-hover:text-brun">
+                {u.read}
+                <svg viewBox="0 0 24 24" class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="sr-only">{u.newTab(p.source)}</span>
+              </span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
 
-    {u.originalLang && <p class="mt-10 text-sm text-brun/65">{u.originalLang}</p>}
-    <ul class="mt-10 gap-5 md:columns-2 lg:columns-3">
+    {u.originalLang && <p class="mt-12 text-sm text-brun/65">{u.originalLang}</p>}
+    <ul class:list={['gap-5 md:columns-2 lg:columns-3', u.originalLang ? 'mt-4' : 'mt-12']}>
       {reviews.map((r) => (
         <li class="mb-5 break-inside-avoid rounded-3xl bg-creme p-7">
           <div class="flex items-center justify-between gap-4">
             <span class="rounded-full bg-sable px-3 py-1 text-sm text-pivoine">{r.topic[lang]}</span>
-            <span class="flex gap-0.5 text-soleil" role="img" aria-label={u.rating}>
+            <span class="flex gap-0.5 text-soleil" role="img" aria-label={u.rating(5)}>
               {[1, 2, 3, 4, 5].map(() => (
                 <svg viewBox="0 0 24 24" class="h-4 w-4" aria-hidden="true"><path d={star} fill="currentColor" /></svg>
               ))}
@@ -51,5 +73,13 @@ const star = 'M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9
         </li>
       ))}
     </ul>
+
+    <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+      {platforms.map((p) => (
+        <a href={p.url} target="_blank" rel="noopener" class="font-semibold text-pivoine underline underline-offset-4 hover:text-brun">
+          {u.seeAll(p.count, p.source)}<span class="sr-only"> {u.newTab(p.source)}</span>
+        </a>
+      ))}
+    </div>
   </div>
 </section>
