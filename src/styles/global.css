@@ -2,18 +2,19 @@
 @import '@fontsource/young-serif';
 @import '@fontsource-variable/figtree';
 
-/* Palette solaire et douce : fond crème, pêche, rose poudré, moutarde et corail ensoleillés.
-   Tous les blocs sont clairs, texte brun partout (contrastes AA : brun sur moutarde 5,9:1, sur corail 5,7:1). */
+/* Palette joyeuse, reprise des visuels Instagram de Pauline : crème beige, jaune citron, orange,
+   rose bonbon, framboise pour les accents, vert feuille. Aucun bloc sombre, texte prune partout.
+   Contrastes AA : prune sur corail 6:1, sur soleil 9:1, sur poudre 7,9:1 ; framboise sur crème 4,8:1. */
 @theme {
-  --color-creme: #fbf4ee; /* fond principal */
-  --color-sable: #f9e2d2; /* sections alternées (pêche clair), fonds de cartes */
-  --color-pivoine: #b5475b; /* rose profond : accents texte, titres H3, liens (4,8:1 sur crème) */
-  --color-corail: #f28c5b; /* corail abricot : encarts « En pratique » / RDV, illustrations */
-  --color-poudre: #f4bfb5; /* rose poudré : footer, bandeaux de citation, illustrations */
-  --color-moutarde: #e39b2d; /* moutarde : réservé aux boutons « Prendre rendez-vous », puces */
-  --color-peche: #ffd8be; /* pêche : illustrations */
-  --color-soleil: #f5be4f; /* jaune soleil : bandeau final, illustrations, étoiles des avis */
-  --color-brun: #3b2a25; /* texte */
+  --color-creme: #f8eddc; /* fond principal */
+  --color-sable: #f2e2c8; /* sections alternées */
+  --color-framboise: #c8166a; /* accents texte, titres H3, liens */
+  --color-corail: #f4923a; /* orange : boutons « Prendre rendez-vous », bandeau final, illustrations */
+  --color-soleil: #f5d33f; /* jaune citron : encarts « En pratique » / RDV, illustrations */
+  --color-poudre: #f5a6b8; /* rose bonbon : footer, bandeau de citation, illustrations */
+  --color-peche: #fad7a8; /* abricot clair : illustrations */
+  --color-feuille: #3e9b4f; /* vert : feuilles des illustrations */
+  --color-prune: #3a1f2b; /* texte, contour de focus */
 
   --font-serif: 'Young Serif', Georgia, serif;
   --font-sans: 'Figtree Variable', system-ui, sans-serif;
@@ -26,14 +27,14 @@
     interpolate-size: allow-keywords; /* permet d'animer jusqu'à height: auto (FAQ) */
   }
   body {
-    @apply bg-creme font-sans text-brun antialiased;
+    @apply bg-creme font-sans text-prune antialiased;
     font-size: 1.0625rem;
     line-height: 1.65;
   }
   h1,
   h2,
   h3 {
-    @apply font-serif text-brun;
+    @apply font-serif text-prune;
     line-height: 1.15;
     text-wrap: balance;
   }
@@ -41,7 +42,7 @@
     text-wrap: pretty;
   }
   :focus-visible {
-    outline: 3px solid var(--color-brun);
+    outline: 3px solid var(--color-prune);
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -72,14 +73,14 @@
     min-height: 48px;
   }
   .btn-rdv {
-    @apply bg-moutarde text-brun hover:bg-[#d4891a];
+    @apply bg-corail text-prune hover:bg-[#e8801f];
   }
   /* Bouton RDV posé sur un bloc coloré (corail, soleil) : fond crème pour qu'il ressorte */
   .btn-rdv.btn-on-color {
     @apply bg-creme hover:bg-white;
   }
   .btn-ghost {
-    @apply border border-brun/25 text-brun hover:border-brun hover:bg-white/40;
+    @apply border border-prune/25 text-prune hover:border-prune hover:bg-white/40;
   }
   /* FAQ : ouverture en douceur (navigateurs récents, sinon ouverture instantanée)
      et icône « + » en deux traits qui devient « − » en pivotant sur son centre */
@@ -97,7 +98,7 @@
     opacity: 1;
   }
   .faq-icon {
-    @apply relative h-9 w-9 shrink-0 rounded-full border border-brun/20 text-pivoine transition-colors;
+    @apply relative h-9 w-9 shrink-0 rounded-full border border-prune/20 text-framboise transition-colors;
   }
   .faq-icon::before,
   .faq-icon::after {
@@ -116,13 +117,13 @@
     transform: rotate(90deg);
   }
   .faq[open] .faq-icon {
-    @apply border-pivoine bg-pivoine text-creme;
+    @apply border-framboise bg-framboise text-creme;
   }
   .faq[open] .faq-icon::after {
     transform: rotate(0deg);
   }
   .faq summary:hover .faq-icon {
-    @apply border-pivoine;
+    @apply border-framboise;
   }
   .card {
     transition:
@@ -132,35 +133,55 @@
   }
   .card:hover {
     translate: 0 -4px;
-    @apply border-moutarde/40 bg-white/60;
+    @apply border-corail/40 bg-white/60;
   }
   .prose-pauline p + p {
     margin-top: 1rem;
   }
   .prose-pauline strong {
-    @apply font-semibold text-pivoine;
+    @apply font-semibold text-framboise;
   }
 }
 
-/* Mes écrits : une colonne de lecture centrée, passages séparés par un ornement */
+/* Mes écrits : texte sur deux colonnes en desktop, paragraphes resserrés, ornement entre passages */
 @layer components {
   .prose-ecrits {
-    font-size: 1.15rem;
-    line-height: 1.85;
-    @apply text-brun/90;
+    font-size: 1.1rem;
+    line-height: 1.75;
+    @apply text-prune/90;
   }
   .prose-ecrits p + p {
-    margin-top: 1.15rem;
+    margin-top: 0.6rem;
   }
-  /* première phrase du texte un peu plus grande, comme une ouverture de chapitre */
-  .prose-ecrits.first-passage p:first-child {
-    @apply font-serif text-2xl leading-snug text-brun;
+  @media (min-width: 1024px) {
+    .ecrits-columns {
+      column-count: 2;
+      column-gap: 3.5rem;
+    }
+    /* en colonnes, l'ornement risquerait d'ouvrir une colonne : un simple espace marque le passage */
+    .ecrits-columns .ornement {
+      display: none;
+    }
+    .ecrits-columns .debut-passage {
+      margin-top: 1.6rem;
+    }
+  }
+  /* première phrase plus grande, comme une ouverture de chapitre */
+  .prose-ecrits .ouverture {
+    @apply font-serif text-2xl leading-snug text-prune;
   }
   .ornement {
-    margin: 2.75rem 0;
+    margin: 1.4rem 0 !important;
     text-align: center;
     white-space: pre;
     letter-spacing: 0.4em;
-    @apply text-pivoine;
+    break-inside: avoid;
+    @apply text-framboise;
+  }
+  .exergue {
+    column-span: all;
+    margin: 3rem auto;
+    max-width: 48rem;
+    text-align: center;
   }
 }

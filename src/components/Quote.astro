@@ -4,13 +4,13 @@ const { text, author, tone = 'sombre' } = Astro.props;
 ---
 <figure class:list={[
   'py-16 sm:py-24',
-  tone === 'sombre' ? 'bg-poudre text-brun' : 'bg-sable text-brun',
+  tone === 'sombre' ? 'bg-poudre text-prune' : 'bg-sable text-prune',
 ]}>
   <div class="wrap max-w-4xl text-center">
     <blockquote class="font-serif text-2xl leading-snug sm:text-[2.1rem]">
       <p>« {text} »</p>
     </blockquote>
-    <figcaption class:list={['mt-6 text-base', 'text-pivoine']}>
+    <figcaption class:list={['mt-6 text-base', 'text-framboise']}>
       {author}
     </figcaption>
   </div>

@@ -76,14 +76,14 @@ const personSchema = {
   <section class="relative overflow-hidden">
     <div class="wrap grid items-center gap-10 py-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16 md:py-20">
       <div>
-        <p class="text-lg text-pivoine">{t.hero.kicker}</p>
+        <p class="text-lg text-framboise">{t.hero.kicker}</p>
         <h1 class="mt-4 text-[2.4rem] sm:text-5xl lg:text-[3.6rem]">{t.hero.h1}</h1>
-        <p class="mt-6 max-w-xl text-xl leading-relaxed text-brun/85">{t.hero.lead}</p>
+        <p class="mt-6 max-w-xl text-xl leading-relaxed text-prune/85">{t.hero.lead}</p>
         <div class="mt-8 flex flex-wrap gap-3">
           <BookingButton lang={lang} campaign={`${c}-hero`} />
           <a class="btn btn-ghost" href={site.phoneHref}>{u.call(site.phone)}</a>
         </div>
-        <p class="mt-6 text-brun/70">{t.hero.note(site.price)}</p>
+        <p class="mt-6 text-prune/70">{t.hero.note(site.price)}</p>
       </div>
 
       <div class="relative mx-auto w-full max-w-sm md:max-w-none">
@@ -106,27 +106,27 @@ const personSchema = {
   </section>
 
   <!-- Accompagnements -->
-  <section id="accompagnements" class="border-t border-brun/10 py-16 sm:py-24">
+  <section id="accompagnements" class="border-t border-prune/10 py-16 sm:py-24">
     <div class="wrap grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
       <div class="lg:sticky lg:top-28 lg:self-start">
         <h2 class="text-3xl sm:text-4xl">{t.why.title}</h2>
-        <div class="prose-pauline mt-6 max-w-prose text-brun/85">
+        <div class="prose-pauline mt-6 max-w-prose text-prune/85">
           {t.why.paras.map((p) => <p>{p}</p>)}
         </div>
-        <p class="mt-6 max-w-prose text-brun/85">
-          <strong class="font-semibold text-pivoine">{t.why.forWhoLabel}</strong> {t.why.forWho}
+        <p class="mt-6 max-w-prose text-prune/85">
+          <strong class="font-semibold text-framboise">{t.why.forWhoLabel}</strong> {t.why.forWho}
         </p>
       </div>
 
-      <ul class="border-t border-brun/15">
+      <ul class="border-t border-prune/15">
         {services.map(({ entry, url }) => (
-          <li class="border-b border-brun/15">
+          <li class="border-b border-prune/15">
             <a href={url} class="group flex items-center justify-between gap-6 py-6">
               <span>
-                <span class="block font-serif text-2xl text-brun transition-colors group-hover:text-moutarde sm:text-[1.7rem]">{entry.data.menuLabel}</span>
-                <span class="mt-1 block text-brun/70">{entry.data.summary}</span>
+                <span class="block font-serif text-2xl text-prune transition-colors group-hover:text-corail sm:text-[1.7rem]">{entry.data.menuLabel}</span>
+                <span class="mt-1 block text-prune/70">{entry.data.summary}</span>
               </span>
-              <svg viewBox="0 0 24 24" class="h-6 w-6 shrink-0 text-pivoine transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg viewBox="0 0 24 24" class="h-6 w-6 shrink-0 text-framboise transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </li>
         ))}
@@ -144,12 +144,12 @@ const personSchema = {
       </div>
       <div>
         <h2 class="text-3xl sm:text-4xl">{t.about.title}</h2>
-        <div class="prose-pauline mt-6 max-w-prose text-[1.1rem] text-brun/85">
+        <div class="prose-pauline mt-6 max-w-prose text-[1.1rem] text-prune/85">
           {t.about.paras.map((p) => <p>{p}</p>)}
         </div>
 
         <h3 class="mt-12 text-2xl">{t.about.pathTitle}</h3>
-        <div class="prose-pauline mt-4 max-w-prose text-brun/85">
+        <div class="prose-pauline mt-4 max-w-prose text-prune/85">
           {t.about.path.map((p) => <p>{p}</p>)}
         </div>
         <div class="mt-8 flex flex-wrap gap-3">
@@ -168,20 +168,20 @@ const personSchema = {
       <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-16">
         <div>
           <Illustration name="hypnose" class="mb-8 max-w-xs" />
-          <h3 class="text-2xl text-pivoine">{t.techniques.hypnosisTitle}</h3>
-          <div class="prose-pauline mt-4 text-brun/85">
+          <h3 class="text-2xl text-framboise">{t.techniques.hypnosisTitle}</h3>
+          <div class="prose-pauline mt-4 text-prune/85">
             {t.techniques.hypnosis.map((p) => <p>{p}</p>)}
           </div>
         </div>
         <div>
           <Illustration name="nemo" class="mb-8 max-w-xs" />
-          <h3 class="text-2xl text-pivoine">{t.techniques.nemoTitle}</h3>
-          <div class="prose-pauline mt-4 text-brun/85">
+          <h3 class="text-2xl text-framboise">{t.techniques.nemoTitle}</h3>
+          <div class="prose-pauline mt-4 text-prune/85">
             {t.techniques.nemo.map((p) => <p>{p}</p>)}
           </div>
         </div>
       </div>
-      <p class="mt-12 max-w-3xl border-l-2 border-moutarde pl-6 text-lg">{t.techniques.summary}</p>
+      <p class="mt-12 max-w-3xl border-l-2 border-corail pl-6 text-lg">{t.techniques.summary}</p>
     </div>
   </section>
 
@@ -193,17 +193,17 @@ const personSchema = {
       </div>
       <div>
         <h2 class="text-3xl sm:text-4xl">{t.training.title}</h2>
-        <div class="prose-pauline mt-6 max-w-prose text-[1.1rem] text-brun/85">
+        <div class="prose-pauline mt-6 max-w-prose text-[1.1rem] text-prune/85">
           {t.training.paras.map((p) => <p>{p}</p>)}
         </div>
 
         <h3 class="mt-10 text-xl">{t.training.certTitle}</h3>
-        <ol class="relative mt-5 border-l border-pivoine/40 pl-8">
+        <ol class="relative mt-5 border-l border-framboise/40 pl-8">
           {s.formations.map((f) => (
             <li class="relative pb-6 last:pb-0">
-              <span class="absolute top-1.5 -left-[2.4rem] h-3 w-3 rounded-full bg-pivoine ring-4 ring-creme" aria-hidden="true"></span>
-              <p class="font-serif text-2xl text-pivoine">{f.year}</p>
-              <ul class="mt-2 space-y-1.5 text-brun/85">
+              <span class="absolute top-1.5 -left-[2.4rem] h-3 w-3 rounded-full bg-framboise ring-4 ring-creme" aria-hidden="true"></span>
+              <p class="font-serif text-2xl text-framboise">{f.year}</p>
+              <ul class="mt-2 space-y-1.5 text-prune/85">
                 {f.items.map((i) => <li>{i}</li>)}
               </ul>
             </li>
@@ -212,7 +212,7 @@ const personSchema = {
 
         <div class="mt-12 rounded-3xl bg-sable p-7 sm:p-9">
           <h3 class="text-2xl">{t.training.duoTitle}</h3>
-          <div class="prose-pauline mt-4 text-brun/85">
+          <div class="prose-pauline mt-4 text-prune/85">
             {t.training.duo.map((p) => <p>{p}</p>)}
           </div>
           <a class="btn btn-ghost mt-6" href={site.phoneHref}>{t.training.duoCta}</a>
@@ -226,9 +226,16 @@ const personSchema = {
   <!-- Le cabinet -->
   <section id="cabinet" class="pt-16 sm:pt-24">
     <div class="wrap">
-      <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-2xl">
         <h2 class="text-3xl sm:text-4xl">{t.office.title}</h2>
-        <p class="max-w-md text-brun/80">{t.office.text(site.address.street, site.address.city)}</p>
+        <p class="mt-4 text-lg text-prune/85">{t.office.text}</p>
+        <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <address class="inline-flex items-center gap-2 rounded-full bg-sable px-4 py-2 not-italic">
+            <svg viewBox="0 0 24 24" class="h-5 w-5 shrink-0 text-framboise" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            {site.address.street}, {site.address.postalCode} {site.address.city}
+          </address>
+          <a class="font-semibold text-framboise underline underline-offset-4 hover:text-prune" href={site.mapsUrl} target="_blank" rel="noopener">{t.practical.directions}</a>
+        </div>
       </div>
       <!-- Hauteurs fixes en desktop : les photos remplissent leur case sans trou -->
       <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 md:h-[34rem] md:grid-cols-4 md:grid-rows-2">
@@ -255,33 +262,33 @@ const personSchema = {
       <div class="mt-10 grid gap-10 lg:grid-cols-[1fr_1fr_0.9fr]">
         <div>
           <h3 class="text-xl">{t.practical.office}</h3>
-          <address class="mt-3 not-italic text-brun/85">{site.address.street}<br />{site.address.postalCode} {site.address.city}</address>
-          <a class="mt-2 inline-block font-semibold text-pivoine underline underline-offset-4 hover:text-moutarde" href={site.mapsUrl} target="_blank" rel="noopener">{t.practical.directions}</a>
+          <address class="mt-3 not-italic text-prune/85">{site.address.street}<br />{site.address.postalCode} {site.address.city}</address>
+          <a class="mt-2 inline-block font-semibold text-framboise underline underline-offset-4 hover:text-corail" href={site.mapsUrl} target="_blank" rel="noopener">{t.practical.directions}</a>
           <h3 class="mt-8 text-xl">{t.practical.hours}</h3>
-          <p class="mt-3 text-brun/85">{s.hours}.</p>
+          <p class="mt-3 text-prune/85">{s.hours}.</p>
           <h3 class="mt-8 text-xl">{t.practical.parking}</h3>
-          <ul class="mt-3 space-y-2 text-brun/85">
-            {s.parkings.map(([name, time]) => <li>{name} <span class="text-brun/60">({time})</span></li>)}
+          <ul class="mt-3 space-y-2 text-prune/85">
+            {s.parkings.map(([name, time]) => <li>{name} <span class="text-prune/60">({time})</span></li>)}
           </ul>
         </div>
 
         <div>
           <h3 class="text-xl">{t.practical.sessions}</h3>
-          <p class="mt-3 text-brun/85">{t.practical.sessionsText(s.duration)}</p>
+          <p class="mt-3 text-prune/85">{t.practical.sessionsText(s.duration)}</p>
           <h3 class="mt-8 text-xl">{t.practical.price}</h3>
-          <p class="mt-3 text-brun/85"><span class="font-serif text-3xl text-brun">{site.price}</span> {t.practical.perSession}</p>
+          <p class="mt-3 text-prune/85"><span class="font-serif text-3xl text-prune">{site.price}</span> {t.practical.perSession}</p>
           <h3 class="mt-8 text-xl">{t.practical.refund}</h3>
-          <p class="mt-3 text-brun/85">{t.practical.refundText}</p>
+          <p class="mt-3 text-prune/85">{t.practical.refundText}</p>
           <h3 class="mt-8 text-xl">{t.practical.cancel}</h3>
-          <p class="mt-3 text-brun/85">{t.practical.cancelText}</p>
+          <p class="mt-3 text-prune/85">{t.practical.cancelText}</p>
         </div>
 
-        <div class="self-start rounded-3xl bg-corail p-8 text-brun">
+        <div class="self-start rounded-3xl bg-soleil p-8 text-prune">
           <h3 class="text-2xl">{t.practical.bookTitle}</h3>
-          <p class="mt-3 text-brun/85">{t.practical.bookText}</p>
+          <p class="mt-3 text-prune/85">{t.practical.bookText}</p>
           <BookingButton lang={lang} campaign={`${c}-infos`} class="btn-on-color mt-6 w-full" />
-          <a class="btn mt-3 w-full border border-brun/30 text-brun hover:bg-white/30" href={site.phoneHref}>{site.phone}</a>
-          <p class="mt-6 text-sm text-brun/80">{t.practical.byEmail}<br /><a class="break-all text-brun underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a></p>
+          <a class="btn mt-3 w-full border border-prune/30 text-prune hover:bg-white/30" href={site.phoneHref}>{site.phone}</a>
+          <p class="mt-6 text-sm text-prune/80">{t.practical.byEmail}<br /><a class="break-all text-prune underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a></p>
         </div>
       </div>
     </div>
@@ -291,17 +298,17 @@ const personSchema = {
   <Reviews lang={lang} />
 
   <!-- FAQ -->
-  <section id="faq" class="border-t border-brun/10 py-16 sm:py-24">
+  <section id="faq" class="border-t border-prune/10 py-16 sm:py-24">
     <div class="wrap max-w-3xl">
       <h2 class="text-3xl sm:text-4xl">{t.faqTitle}</h2>
       <div class="mt-8 space-y-3">
         {faq.map((f) => (
-          <details class="faq group rounded-2xl border border-brun/10 bg-white/35 transition-colors open:border-pivoine/25 open:bg-white/60">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 px-5 py-5 font-serif text-xl transition-colors hover:text-pivoine sm:px-7 [&::-webkit-details-marker]:hidden">
+          <details class="faq group rounded-2xl border border-prune/10 bg-white/35 transition-colors open:border-framboise/25 open:bg-white/60">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 px-5 py-5 font-serif text-xl transition-colors hover:text-framboise sm:px-7 [&::-webkit-details-marker]:hidden">
               {f.q}
               <span class="faq-icon" aria-hidden="true"></span>
             </summary>
-            <div class="prose-pauline px-5 pb-6 text-brun/85 sm:px-7">
+            <div class="prose-pauline px-5 pb-6 text-prune/85 sm:px-7">
               {f.a.map((p) => <p>{p}</p>)}
             </div>
           </details>
@@ -311,14 +318,14 @@ const personSchema = {
   </section>
 
   <!-- Dernier appel -->
-  <section class="relative overflow-hidden bg-soleil py-16 text-brun sm:py-20">
+  <section class="relative overflow-hidden bg-corail py-16 text-prune sm:py-20">
     <div class="wrap grid items-center gap-10 md:grid-cols-[1.3fr_0.7fr]">
       <div>
         <h2 class="text-3xl sm:text-4xl">{t.final.title}</h2>
-        <p class="mt-4 max-w-xl text-lg text-brun/85">{t.final.text}</p>
+        <p class="mt-4 max-w-xl text-lg text-prune/85">{t.final.text}</p>
         <div class="mt-8 flex flex-wrap gap-3">
           <BookingButton lang={lang} campaign={`${c}-fin`} class="btn-on-color" />
-          <a class="btn border border-brun/30 text-brun hover:bg-white/30" href={site.phoneHref}>{site.phone}</a>
+          <a class="btn border border-prune/30 text-prune hover:bg-white/30" href={site.phoneHref}>{site.phone}</a>
         </div>
       </div>
       <div class="arch mx-auto hidden aspect-[3/4] w-56 md:block">

@@ -40,8 +40,7 @@ export const home = {
     },
     office: {
       title: 'Le cabinet',
-      text: (street: string, city: string) =>
-        `Au ${street} à ${city}, un lieu calme et lumineux. Les séances ont aussi lieu en visio, avec des résultats tout aussi rapides.`,
+      text: 'Un lieu calme et lumineux, au cœur de La Farlède. Les séances ont aussi lieu en visio, avec des résultats tout aussi rapides.',
       alt: {
         fauteuil: 'Le fauteuil d’hypnose du cabinet, devant la niche vert olive',
         salle: 'La salle du cabinet à La Farlède, avec ses suspensions en rotin',
@@ -146,8 +145,7 @@ export const home = {
     },
     office: {
       title: 'The practice',
-      text: (street: string, city: string) =>
-        `At ${street}, ${city}: a calm, bright space. Sessions also take place online by video, with results that are just as fast.`,
+      text: 'A calm, bright space in the heart of La Farlède. Sessions also take place online by video, with results that are just as fast.',
       alt: {
         fauteuil: 'The hypnosis armchair at the practice, in front of the olive-green alcove',
         salle: 'The consulting room in La Farlède, with its rattan pendant lights',

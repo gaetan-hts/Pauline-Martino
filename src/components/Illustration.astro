@@ -29,7 +29,7 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
       <circle cx="160" cy="116" r="64" class="fill-soleil" />
       <path d="M58 148C110 134 210 134 262 148C274 151 274 161 262 164C210 174 110 174 58 164C46 161 46 151 58 148Z" class="fill-peche" />
       <path d="M78 172C122 160 200 160 244 172C254 175 254 183 244 186C200 196 122 196 78 186C68 183 68 175 78 172Z" class="fill-poudre" />
-      <path d="M104 194C134 186 186 186 216 194C224 196 224 202 216 204C186 212 134 212 104 204C96 202 96 196 104 194Z" class="fill-pivoine" />
+      <path d="M104 194C134 186 186 186 216 194C224 196 224 202 216 204C186 212 134 212 104 204C96 202 96 196 104 194Z" class="fill-framboise" />
     </>
   )}
 
@@ -38,11 +38,11 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
       <circle cx="84" cy="62" r="20" class="fill-soleil" />
       <path d="M66 120C108 66 212 66 254 120C212 174 108 174 66 120Z" class="fill-peche" />
       <circle cx="184" cy="120" r="31" class="fill-corail" />
-      <circle cx="184" cy="120" r="12" class="fill-brun" />
+      <circle cx="184" cy="120" r="12" class="fill-prune" />
       <circle cx="193" cy="110" r="5" class="fill-creme" />
       <circle cx="118" cy="200" r="6" class="fill-poudre" />
       <circle cx="148" cy="200" r="8" class="fill-poudre" />
-      <circle cx="182" cy="200" r="10" class="fill-pivoine" />
+      <circle cx="182" cy="200" r="10" class="fill-framboise" />
       <circle cx="222" cy="200" r="13" class="fill-corail" />
     </>
   )}
@@ -50,7 +50,7 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
   {name === 'stress-anxiete' && (
     <>
       <circle cx="214" cy="88" r="48" class="fill-soleil" />
-      <path d="M100 194C100 176 130 168 160 168S222 176 222 192C222 206 196 210 160 210S100 208 100 194Z" class="fill-pivoine" />
+      <path d="M100 194C100 176 130 168 160 168S222 176 222 192C222 206 196 210 160 210S100 208 100 194Z" class="fill-framboise" />
       <path d="M118 158C118 146 140 140 160 140S204 146 204 158C204 170 184 174 160 174S118 172 118 158Z" class="fill-poudre" />
       <path d="M132 128C132 118 146 114 160 114S190 118 190 128C190 138 176 142 160 142S132 140 132 128Z" class="fill-peche" />
       <path d="M146 104C146 96 154 92 162 92S178 96 178 104C178 111 170 116 162 116S146 111 146 104Z" class="fill-corail" />
@@ -60,27 +60,31 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
 
   {name === 'gestion-des-emotions' && (
     <>
-      <!-- une feuille posée sur l'eau, les cercles s'apaisent autour d'elle -->
-      <circle cx="226" cy="76" r="34" class="fill-soleil" />
-      <ellipse cx="160" cy="176" rx="122" ry="30" class="fill-poudre" />
-      <ellipse cx="160" cy="176" rx="84" ry="20" class="fill-peche" />
-      <ellipse cx="160" cy="176" rx="46" ry="11" class="fill-sable" />
-      <path d={leaf} transform="translate(116 170) rotate(-10)" class="fill-corail" />
-      <path d="M124 169L198 156" class="stroke-sable" stroke-width="2.5" stroke-linecap="round" opacity="0.8" />
+      <!-- une silhouette, et les émotions qui gravitent autour d'elle -->
+      <circle cx="160" cy="98" r="32" class="fill-poudre" />
+      <path d="M98 214C98 168 126 142 160 142S222 168 222 214Z" class="fill-poudre" />
+      <path d="M0 4C0-4 10-6 12 2C14-6 24-4 24 4C24 12 12 20 12 20S0 12 0 4Z" transform="translate(212 52) scale(1.25)" class="fill-framboise" />
+      <path d="M58 82l11-12 9 13 11-13 9 13" class="stroke-corail" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      <path d={star} transform="translate(86 140) scale(1.3)" class="fill-soleil" />
+      <path d="M244 148c-1-8 9-11 12-4s-6 14-13 10-7-17 3-20" class="stroke-feuille" stroke-width="4" stroke-linecap="round" fill="none" />
+      <circle cx="116" cy="46" r="7" class="fill-corail" />
+      <circle cx="252" cy="104" r="5" class="fill-soleil" />
+      <circle cx="68" cy="116" r="4" class="fill-framboise" opacity="0.7" />
+      <circle cx="204" cy="28" r="4" class="fill-feuille" opacity="0.8" />
     </>
   )}
 
   {name === 'souvenirs-douloureux-deuil-separation' && (
     <>
       <circle cx="250" cy="172" r="30" class="fill-soleil" />
-      <path d="M56 116C120 104 176 92 260 58" class="stroke-brun" stroke-width="5" stroke-linecap="round" fill="none" />
-      <path d={leaf} transform="translate(86 111) rotate(-42) scale(0.62)" class="fill-pivoine" />
-      <path d={leaf} transform="translate(118 106) rotate(32) scale(0.56)" class="fill-poudre" />
+      <path d="M56 116C120 104 176 92 260 58" class="stroke-prune" stroke-width="5" stroke-linecap="round" fill="none" />
+      <path d={leaf} transform="translate(86 111) rotate(-42) scale(0.62)" class="fill-framboise" />
+      <path d={leaf} transform="translate(118 106) rotate(32) scale(0.56)" class="fill-feuille" />
       <path d={leaf} transform="translate(156 97) rotate(-52) scale(0.62)" class="fill-peche" />
-      <path d={leaf} transform="translate(194 84) rotate(26) scale(0.56)" class="fill-pivoine" />
-      <path d={leaf} transform="translate(232 69) rotate(-34) scale(0.5)" class="fill-poudre" />
+      <path d={leaf} transform="translate(194 84) rotate(26) scale(0.56)" class="fill-framboise" />
+      <path d={leaf} transform="translate(232 69) rotate(-34) scale(0.5)" class="fill-feuille" />
       <!-- le chemin de la feuille qui tombe -->
-      <g class="fill-pivoine">
+      <g class="fill-framboise">
         <circle cx="206" cy="102" r="2.5" opacity="0.45" />
         <circle cx="197" cy="116" r="3" opacity="0.55" />
         <circle cx="190" cy="130" r="3.2" opacity="0.65" />
@@ -96,7 +100,7 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
       <circle cx="84" cy="72" r="24" class="fill-soleil" />
       <path d="M100 212V124A52 52 0 0 1 204 124V212Z" class="fill-poudre" />
       <path d="M120 212V128A32 32 0 0 1 184 128V212Z" class="fill-sable" />
-      <path d={bird} transform="translate(168 92) rotate(-8)" class="fill-pivoine" />
+      <path d={bird} transform="translate(168 92) rotate(-8)" class="fill-framboise" />
       <path d={bird} transform="translate(236 52) rotate(-6) scale(0.5)" class="fill-corail" />
     </>
   )}
@@ -105,9 +109,9 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
     <>
       <circle cx="200" cy="94" r="54" class="fill-soleil" />
       <path d="M78 212C100 182 220 182 242 212Z" class="fill-peche" />
-      <path d="M160 202C160 170 156 150 162 116" class="stroke-brun" stroke-width="5" stroke-linecap="round" fill="none" />
-      <path d="M160 162C124 158 102 140 98 112C130 112 154 130 160 162Z" class="fill-pivoine" />
-      <path d="M162 138C192 130 210 108 210 82C182 86 164 106 162 138Z" class="fill-poudre" />
+      <path d="M160 202C160 170 156 150 162 116" class="stroke-prune" stroke-width="5" stroke-linecap="round" fill="none" />
+      <path d="M160 162C124 158 102 140 98 112C130 112 154 130 160 162Z" class="fill-framboise" />
+      <path d="M162 138C192 130 210 108 210 82C182 86 164 106 162 138Z" class="fill-feuille" />
       <circle cx="162" cy="112" r="8" class="fill-corail" />
     </>
   )}
@@ -116,7 +120,7 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
     <>
       <path d="M188 48A66 66 0 1 0 248 150A54 54 0 0 1 188 48Z" class="fill-soleil" />
       <path d={star} transform="translate(108 70) scale(1.1)" class="fill-corail" />
-      <path d={star} transform="translate(254 72)" class="fill-pivoine" />
+      <path d={star} transform="translate(254 72)" class="fill-framboise" />
       <path d={star} transform="translate(272 116) scale(0.6)" class="fill-corail" />
       <path d="M84 192H212A24 24 0 0 0 208 144A34 34 0 0 0 144 136A26 26 0 0 0 94 158A18 18 0 0 0 84 192Z" class="fill-poudre" />
     </>
@@ -124,13 +128,19 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
 
   {name === 'arret-tabac-alimentation' && (
     <>
-      <!-- un nouveau chemin, pas à pas, vers le soleil -->
-      <circle cx="238" cy="88" r="40" class="fill-soleil" />
-      <ellipse cx="78" cy="204" rx="36" ry="13" class="fill-pivoine" />
-      <ellipse cx="130" cy="180" rx="30" ry="11" class="fill-poudre" />
-      <ellipse cx="172" cy="158" rx="25" ry="9.5" class="fill-corail" />
-      <ellipse cx="205" cy="139" rx="20" ry="7.5" class="fill-peche" />
-      <ellipse cx="230" cy="124" rx="15" ry="6" class="fill-pivoine" opacity="0.7" />
+      <!-- sortir du cercle de l'habitude, pas à pas, vers le soleil -->
+      <circle cx="258" cy="66" r="34" class="fill-soleil" />
+      <ellipse cx="96" cy="190" rx="74" ry="24" class="fill-peche" />
+      <ellipse cx="96" cy="190" rx="74" ry="24" class="stroke-corail" stroke-width="9" fill="none" />
+      <g class="fill-framboise">
+        <ellipse cx="176" cy="178" rx="7" ry="11" transform="rotate(52 176 178)" />
+        <ellipse cx="194" cy="190" rx="7" ry="11" transform="rotate(52 194 190)" />
+        <ellipse cx="206" cy="148" rx="6.5" ry="10.5" transform="rotate(50 206 148)" />
+        <ellipse cx="224" cy="160" rx="6.5" ry="10.5" transform="rotate(50 224 160)" />
+        <ellipse cx="234" cy="120" rx="6" ry="10" transform="rotate(48 234 120)" opacity="0.85" />
+        <ellipse cx="251" cy="132" rx="6" ry="10" transform="rotate(48 251 132)" opacity="0.85" />
+      </g>
+      <path d={leaf} transform="translate(206 92) rotate(-40) scale(0.4)" class="fill-feuille" />
     </>
   )}
   {name === 'ecrits' && (
@@ -139,9 +149,9 @@ const bird = 'M0 10C14-6 30-8 44 6C58-8 74-6 88 10C74 2 58 4 44 16C30 4 14 2 0 1
       <circle cx="160" cy="78" r="40" class="fill-soleil" />
       <path d="M160 132C132 116 94 112 62 120V202C94 194 132 198 160 214Z" class="fill-poudre" />
       <path d="M160 132C188 116 226 112 258 120V202C226 194 188 198 160 214Z" class="fill-peche" />
-      <path d="M160 132V214" class="stroke-brun" stroke-width="4" stroke-linecap="round" />
-      <path d="M84 146C104 142 124 144 142 150M84 164C104 160 124 162 142 168M180 150C198 144 218 142 236 146M180 168C198 162 218 160 236 164" class="stroke-pivoine" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7" />
-      <path d={leaf} transform="translate(232 96) rotate(-38) scale(0.5)" class="fill-corail" />
+      <path d="M160 132V214" class="stroke-prune" stroke-width="4" stroke-linecap="round" />
+      <path d="M84 146C104 142 124 144 142 150M84 164C104 160 124 162 142 168M180 150C198 144 218 142 236 146M180 168C198 162 218 160 236 164" class="stroke-framboise" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7" />
+      <path d={leaf} transform="translate(232 96) rotate(-38) scale(0.5)" class="fill-feuille" />
     </>
   )}
 </svg>

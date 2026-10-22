@@ -106,21 +106,21 @@ scripts/screenshots.mjs
 
 ## Charte graphique
 
-Palette **solaire et douce** (oct. 2026, références : templates Liw Studio « Zoe Spirit » et site de Lucie Fink). Aucun bloc sombre : tous les fonds sont clairs, le texte est brun partout. Photos phares en arche (`.arch`), le reste en `rounded-2xl/3xl`.
+Palette **joyeuse** (oct. 2026), reprise des visuels Instagram de Pauline : crème beige, jaune citron, orange, rose bonbon, framboise, vert feuille. Aucun bloc sombre : tous les fonds sont clairs, texte prune partout. Photos phares en arche (`.arch`), le reste en `rounded-2xl/3xl`.
 
 | Token | Hex | Rôle |
 |---|---|---|
-| `creme` | `#fbf4ee` | fond principal |
-| `sable` | `#f9e2d2` | pêche clair : sections alternées, fonds de cartes |
-| `pivoine` | `#b5475b` | rose profond : accents texte, titres H3, liens (4,8:1 sur crème) |
-| `moutarde` | `#e39b2d` | **réservé aux boutons « Prendre rendez-vous »** (texte brun, 5,9:1) + puces |
-| `corail` | `#f28c5b` | corail abricot : encarts « En pratique » / RDV (texte brun, 5,7:1), illustrations |
-| `poudre` | `#f4bfb5` | rose poudré : footer, bandeau de citation, illustrations |
-| `soleil` | `#f5be4f` | jaune soleil : bandeau final, étoiles des avis, illustrations |
-| `peche` | `#ffd8be` | illustrations |
-| `brun` | `#3b2a25` | texte, contour de focus |
+| `creme` | `#f8eddc` | fond principal |
+| `sable` | `#f2e2c8` | sections alternées, fonds de cartes |
+| `framboise` | `#c8166a` | accents texte, titres H3, liens (4,8:1 sur crème) |
+| `corail` | `#f4923a` | orange : **boutons « Prendre rendez-vous »** (texte prune, 6:1), bandeau final, étoiles des avis |
+| `soleil` | `#f5d33f` | jaune citron : encarts « En pratique » / RDV, illustrations |
+| `poudre` | `#f5a6b8` | rose bonbon : footer, bandeau de citation, illustrations |
+| `peche` | `#fad7a8` | illustrations |
+| `feuille` | `#3e9b4f` | vert : feuilles des illustrations |
+| `prune` | `#3a1f2b` | texte, contour de focus |
 
-- Sur un bloc coloré (corail, soleil), le bouton RDV prend la classe `btn-on-color` (fond crème) pour ressortir.
+- Sur un bloc coloré (soleil, corail), le bouton RDV prend la classe `btn-on-color` (fond crème) pour ressortir.
 - **Typo :** `Young Serif` pour les titres et les citations (`font-serif`), `Figtree Variable` pour le texte (`font-sans`). Corps 17 px, interligne 1,65.
 - **À éviter :** labels en MAJUSCULES espacées, mot isolé en couleur ou en italique dans un titre, numérotation 01/02/03 décorative, animations d'entrée sur chaque section, cartes identiques avec ombre grise.
 - **Logo :** `Logo.astro` (cerveau dont l'intérieur est un arbre en feuilles, vectorisé depuis le fichier de Pauline, en `currentColor`) + `public/favicon.svg` (même tracé en pivoine).
@@ -169,7 +169,7 @@ Palette **solaire et douce** (oct. 2026, références : templates Liw Studio « 
 ## Reste à faire (par priorité)
 
 1. Retours de Pauline sur le draft (couleurs, textes, choix des photos)
-2. ~~Page « Mes écrits »~~ **faite** (`/mes-ecrits/`, collection `src/content/ecrits/`, un texte = un .md, « --- » = ornement entre passages, `pullQuote` = exergue placée automatiquement après le passage qui la contient ; une colonne de lecture centrée). Reste : formulaire Brevo pour « Être prévenu de la parution » (aujourd'hui un lien mailto), Keystatic. Ancien plan : collection de contenu `ecrits` (Markdown), listing + page article (`Article` JSON-LD). Contenu de départ dans `brief-presentation-pauline.md` (section « Mes écrits »). Ajouter :
+2. ~~Page « Mes écrits »~~ **faite** (`/mes-ecrits/`, collection `src/content/ecrits/`, un texte = un .md, « --- » = ornement entre passages, `pullQuote` = exergue placée automatiquement après le passage qui la contient ; texte sur deux colonnes en desktop, l'exergue traverse les colonnes, l'ornement entre passages n'est affiché qu'en une colonne (mobile)). Reste : formulaire Brevo pour « Être prévenu de la parution » (aujourd'hui un lien mailto), Keystatic. Ancien plan : collection de contenu `ecrits` (Markdown), listing + page article (`Article` JSON-LD). Contenu de départ dans `brief-presentation-pauline.md` (section « Mes écrits »). Ajouter :
    - un formulaire « Être prévenu de la parution » (Brevo, liste gratuite)
    - un « Un mot sur vos lectures ? » (formulaire Web3Forms ou mailto)
    - la mention © du texte

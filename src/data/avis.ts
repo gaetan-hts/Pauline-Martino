@@ -16,14 +16,14 @@ export const platforms: Platform[] = [
   {
     source: 'Google',
     rating: 5,
-    count: '100+',
+    count: '50+',
     // TODO : remplacer par le lien direct de la fiche Google Business Profile
     url: 'https://www.google.com/maps/search/?api=1&query=Pauline+MARTINO+Hypnoth%C3%A9rapeute+La+Farl%C3%A8de',
   },
   {
     source: 'Medoucine',
     rating: 4.9,
-    count: '50+',
+    count: '100+',
     url: bookingUrl('avis'),
     note: 'Avis vérifiés : seules les personnes ayant réellement consulté peuvent en laisser un.',
   },

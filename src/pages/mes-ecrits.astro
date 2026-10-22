@@ -47,8 +47,8 @@ const schema = {
 >
   <section>
     <div class="wrap pt-6">
-      <nav aria-label="Fil d’Ariane" class="text-sm text-brun/65">
-        <a href="/" class="hover:text-moutarde">Accueil</a>
+      <nav aria-label="Fil d’Ariane" class="text-sm text-prune/65">
+        <a href="/" class="hover:text-corail">Accueil</a>
         <span aria-hidden="true" class="mx-1.5">/</span>
         <span aria-current="page">Mes écrits</span>
       </nav>
@@ -56,7 +56,7 @@ const schema = {
     <div class="wrap grid items-center gap-10 pt-8 pb-14 md:grid-cols-[1.15fr_0.85fr] md:gap-16 md:pb-20">
       <div>
         <h1 class="text-[2.6rem] sm:text-6xl">Mes écrits</h1>
-        <div class="prose-pauline mt-6 max-w-xl text-xl leading-relaxed text-brun/85">
+        <div class="prose-pauline mt-6 max-w-xl text-xl leading-relaxed text-prune/85">
           <p>Avant d’accompagner les autres, j’ai toujours écrit. Écrire, c’est ma façon de comprendre ce qui se passe en nous, de mettre des mots sur nos maux. L’écriture m’apparaît comme une thérapie, un moment propice à la liberté.</p>
           <p>Mon premier livre est en cours de réécriture. Ici je partage quelques pages à découvrir en avant-première, et des textes plus courts, publiés au fil du temps.</p>
           <p>Prenez ce qui vous parle, revenez quand vous voulez.</p>
@@ -70,39 +70,40 @@ const schema = {
     <article id={entry.id} class="bg-sable py-16 sm:py-24">
       <div class="wrap">
         <header class="mx-auto max-w-2xl text-center">
-          <span class="mx-auto block h-1.5 w-12 rounded-full bg-moutarde" aria-hidden="true"></span>
+          <span class="mx-auto block h-1.5 w-12 rounded-full bg-corail" aria-hidden="true"></span>
           <h2 class="mt-6 text-3xl sm:text-5xl">{entry.data.title}</h2>
         </header>
-        {passages.map((paras, i) => (
-          <>
-            {i > 0 && <p class="ornement" aria-hidden="true">•  •  •</p>}
-            <div class:list={['prose-ecrits mx-auto max-w-2xl', i === 0 && 'mt-12 first-passage']}>
-              {paras.map((p) => <p>{p}</p>)}
-            </div>
-            {i === quoteAfter && (
-              <figure class="mx-auto my-14 max-w-3xl text-center" aria-hidden="true">
-                <p class="font-serif text-3xl leading-snug text-pivoine sm:text-4xl">« {entry.data.pullQuote} »</p>
-              </figure>
-            )}
-          </>
-        ))}
+        <!-- Le texte coule sur deux colonnes en desktop ; l'exergue traverse les deux colonnes -->
+        <div class="prose-ecrits ecrits-columns mx-auto mt-12 max-w-5xl">
+          {passages.map((paras, i) => (
+            <>
+              {i > 0 && <p class="ornement" aria-hidden="true">•  •  •</p>}
+              {paras.map((p, j) => <p class:list={[i === 0 && j === 0 && 'ouverture', i > 0 && j === 0 && 'debut-passage']}>{p}</p>)}
+              {i === quoteAfter && (
+                <figure class="exergue" aria-hidden="true">
+                  <p class="font-serif text-3xl leading-snug text-framboise sm:text-4xl">« {entry.data.pullQuote} »</p>
+                </figure>
+              )}
+            </>
+          ))}
+        </div>
       </div>
     </article>
   ))}
 
   <section class="py-16 sm:py-24">
     <div class="wrap grid gap-5 md:grid-cols-2">
-      <div class="flex flex-col rounded-3xl bg-corail p-8 text-brun sm:p-10">
+      <div class="flex flex-col rounded-3xl bg-soleil p-8 text-prune sm:p-10">
         <h2 class="text-2xl sm:text-3xl">Être prévenu de la parution</h2>
-        <p class="mt-4 flex-1 text-lg text-brun/85">Laissez-moi votre adresse e-mail, je vous écrirai le jour où le livre sortira.</p>
+        <p class="mt-4 flex-1 text-lg text-prune/85">Laissez-moi votre adresse e-mail, je vous écrirai le jour où le livre sortira.</p>
         <a class="btn btn-rdv btn-on-color mt-8 self-start" href={mail('Prévenez-moi de la parution de votre livre', 'Bonjour Pauline,\n\nJe souhaite être prévenu(e) de la parution de votre livre.\n\n')}>M’inscrire par e-mail</a>
       </div>
       <div class="flex flex-col rounded-3xl bg-sable p-8 sm:p-10">
         <h2 class="text-2xl sm:text-3xl">Un mot sur vos lectures ?</h2>
-        <p class="mt-4 flex-1 text-lg text-brun/85">Un texte vous a touché, questionné, fait sourire ? Écrivez-moi, je vous lirai avec plaisir.</p>
+        <p class="mt-4 flex-1 text-lg text-prune/85">Un texte vous a touché, questionné, fait sourire ? Écrivez-moi, je vous lirai avec plaisir.</p>
         <a class="btn btn-ghost mt-8 self-start" href={mail('Un mot sur vos écrits')}>Écrire à Pauline</a>
       </div>
     </div>
-    <p class="wrap mt-10 text-sm text-brun/60">Textes © Pauline Martino. Toute reproduction, même partielle, nécessite son accord.</p>
+    <p class="wrap mt-10 text-sm text-prune/60">Textes © Pauline Martino. Toute reproduction, même partielle, nécessite son accord.</p>
   </section>
 </Layout>

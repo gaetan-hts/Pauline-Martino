@@ -49,19 +49,19 @@ const c = lang === 'fr' ? slug : `en-${slug}`; // campagne UTM
 <Layout lang={lang} title={d.seoTitle} description={d.description} campaign={c} alternates={alternates} jsonLd={[breadcrumb, serviceSchema]} ogImage={d.image} ogImageAlt={d.imageAlt}>
   <section>
     <div class="wrap pt-6">
-      <nav aria-label={u.breadcrumb} class="text-sm text-brun/65">
-        <a href={homePath[lang]} class="hover:text-moutarde">{u.home}</a>
+      <nav aria-label={u.breadcrumb} class="text-sm text-prune/65">
+        <a href={homePath[lang]} class="hover:text-corail">{u.home}</a>
         <span aria-hidden="true" class="mx-1.5">/</span>
-        <a href={anchor(lang, 'accompagnements')} class="hover:text-moutarde">{navServices}</a>
+        <a href={anchor(lang, 'accompagnements')} class="hover:text-corail">{navServices}</a>
         <span aria-hidden="true" class="mx-1.5">/</span>
         <span aria-current="page">{d.menuLabel}</span>
       </nav>
     </div>
     <div class="wrap grid items-center gap-10 pt-8 pb-14 md:grid-cols-[1.15fr_0.85fr] md:gap-16 md:pb-20">
       <div>
-        <p class="text-lg text-pivoine">{u.kicker(d.menuLabel)}</p>
+        <p class="text-lg text-framboise">{u.kicker(d.menuLabel)}</p>
         <h1 class="mt-3 text-[2.3rem] sm:text-5xl">{d.title}</h1>
-        <p class="mt-6 max-w-xl text-xl leading-relaxed text-brun/85">{d.intro}</p>
+        <p class="mt-6 max-w-xl text-xl leading-relaxed text-prune/85">{d.intro}</p>
         <div class="mt-8 flex flex-wrap gap-3">
           <BookingButton lang={lang} campaign={`${c}-hero`} />
           <a class="btn btn-ghost" href={site.phoneHref}>{ui[lang].call(site.phone)}</a>
@@ -75,7 +75,7 @@ const c = lang === 'fr' ? slug : `en-${slug}`; // campagne UTM
     <section class="bg-sable py-14 sm:py-20">
       <div class="wrap max-w-3xl">
         <h2 class="text-3xl">{d.extra.title}</h2>
-        <p class="mt-5 text-lg text-brun/85">{d.extra.text}</p>
+        <p class="mt-5 text-lg text-prune/85">{d.extra.text}</p>
       </div>
     </section>
   )}
@@ -86,8 +86,8 @@ const c = lang === 'fr' ? slug : `en-${slug}`; // campagne UTM
         <h2 class="text-3xl">{u.signs}</h2>
         <ul class="mt-6 space-y-4">
           {d.signs.map((sign) => (
-            <li class="flex gap-4 text-lg text-brun/90">
-              <span class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-moutarde" aria-hidden="true"></span>
+            <li class="flex gap-4 text-lg text-prune/90">
+              <span class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-corail" aria-hidden="true"></span>
               <span>{sign}</span>
             </li>
           ))}
@@ -95,7 +95,7 @@ const c = lang === 'fr' ? slug : `en-${slug}`; // campagne UTM
       </div>
       <div>
         <h2 class="text-3xl">{u.how}</h2>
-        <div class="prose-pauline mt-6 text-lg text-brun/85">
+        <div class="prose-pauline mt-6 text-lg text-prune/85">
           <Content />
         </div>
       </div>
@@ -104,15 +104,15 @@ const c = lang === 'fr' ? slug : `en-${slug}`; // campagne UTM
 
   <section class="pb-14 sm:pb-20">
     <div class="wrap">
-      <div class="grid gap-8 rounded-3xl bg-corail p-8 text-brun sm:p-12 md:grid-cols-[1.4fr_0.6fr] md:items-center">
+      <div class="grid gap-8 rounded-3xl bg-soleil p-8 text-prune sm:p-12 md:grid-cols-[1.4fr_0.6fr] md:items-center">
         <div>
           <h2 class="text-3xl">{u.practice}</h2>
-          <p class="mt-4 max-w-2xl text-lg text-brun/85">{d.practice}</p>
-          <p class="mt-3 text-brun/75">{u.session(site.price)}</p>
+          <p class="mt-4 max-w-2xl text-lg text-prune/85">{d.practice}</p>
+          <p class="mt-3 text-prune/75">{u.session(site.price)}</p>
         </div>
         <div class="flex flex-col gap-3">
           <BookingButton lang={lang} campaign={`${c}-pratique`} class="btn-on-color" />
-          <a class="btn border border-brun/30 text-brun hover:bg-white/30" href={site.phoneHref}>{site.phone}</a>
+          <a class="btn border border-prune/30 text-prune hover:bg-white/30" href={site.phoneHref}>{site.phone}</a>
         </div>
       </div>
     </div>
@@ -126,21 +126,21 @@ const c = lang === 'fr' ? slug : `en-${slug}`; // campagne UTM
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 class="text-3xl sm:text-4xl">{u.others}</h2>
-          <p class="mt-3 max-w-xl text-brun/75">{u.othersIntro}</p>
+          <p class="mt-3 max-w-xl text-prune/75">{u.othersIntro}</p>
         </div>
-        <a href={anchor(lang, 'accompagnements')} class="font-semibold text-pivoine underline underline-offset-4 hover:text-moutarde">{ui[lang].nav.allServices}</a>
+        <a href={anchor(lang, 'accompagnements')} class="font-semibold text-framboise underline underline-offset-4 hover:text-corail">{ui[lang].nav.allServices}</a>
       </div>
       <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {others.map((p) => (
           <li>
-            <a href={p.url} class="card group flex h-full flex-col overflow-hidden rounded-3xl border border-brun/10 bg-creme">
+            <a href={p.url} class="card group flex h-full flex-col overflow-hidden rounded-3xl border border-prune/10 bg-creme">
               <div class="overflow-hidden bg-sable/50 px-10 pt-6 pb-2">
                 <Illustration name={p.key as IllustrationName} class="transition-transform duration-500 group-hover:scale-[1.05]" />
               </div>
               <div class="flex flex-1 flex-col p-6">
-                <h3 class="text-2xl transition-colors group-hover:text-moutarde">{p.entry.data.menuLabel}</h3>
-                <p class="mt-2 flex-1 text-brun/75">{p.entry.data.summary}</p>
-                <span class="mt-5 inline-flex items-center gap-2 font-semibold text-pivoine">
+                <h3 class="text-2xl transition-colors group-hover:text-corail">{p.entry.data.menuLabel}</h3>
+                <p class="mt-2 flex-1 text-prune/75">{p.entry.data.summary}</p>
+                <span class="mt-5 inline-flex items-center gap-2 font-semibold text-framboise">
                   {u.discover}
                   <svg viewBox="0 0 24 24" class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
