@@ -42,10 +42,9 @@ Pour garder une série cohérente : générer les 10 dans la même conversation 
 3. `npm run build && npm run preview`, puis `npm run shots` pour vérifier.
 4. Les images IA ne sont pas des photos du cabinet ni de Pauline : elles restent des illustrations.
 
-## Continuer la série (état au 23/10/2026)
+## Continuer la série
 
-**Faites :** `hypnose`, `nemo`, `gestion-des-emotions` (générées avec ChatGPT, déjà en ligne).
-**Restent :** les 7 autres.
+**Toutes faites (23/10/2026)** : `hypnose`, `nemo`, `gestion-des-emotions` avec ChatGPT ; les 7 autres avec le générateur d'images de Figma (modèle gpt-image), fichier Figma « Pauline Martino - illustrations » (équipe personnelle de Gaëtan). La section ci-dessous reste utile pour en ajouter ou en refaire.
 
 Pour garder exactement le même style dans un autre outil (Gemini, Microsoft Copilot / Designer,
 ou ChatGPT quand la limite est levée), **joindre les 3 images déjà faites** (`src/assets/illustrations/`)
