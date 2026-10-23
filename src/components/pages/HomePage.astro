@@ -319,13 +319,13 @@ const personSchema = {
   </section>
 
   <!-- Dernier appel -->
-  <section class="relative overflow-hidden bg-miel py-16 text-encre sm:py-20">
+  <section class="relative overflow-hidden bg-saumon py-16 text-encre sm:py-20">
     <div class="wrap grid items-center gap-10 md:grid-cols-[1.3fr_0.7fr]">
       <div>
         <h2 class="text-3xl sm:text-4xl">{t.final.title}</h2>
         <p class="mt-4 max-w-xl text-lg text-encre/85">{t.final.text}</p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <BookingButton lang={lang} campaign={`${c}-fin`} class="btn-on-color" />
+          <BookingButton lang={lang} campaign={`${c}-fin`} />
           <a class="btn border border-encre/30 text-encre hover:bg-white/30" href={site.phoneHref}>{site.phone}</a>
         </div>
       </div>
