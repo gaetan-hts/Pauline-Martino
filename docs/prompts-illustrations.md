@@ -29,7 +29,7 @@ Pour garder une série cohérente : générer les 10 dans la même conversation 
 | `stress-anxiete` | Stress et anxiété | She sits cross-legged and patiently untangles a knotted ball of pastel salmon thread on her lap; from her hands the thread becomes a smooth, straight line across the floor. |
 | `gestion-des-emotions` | Émotions envahissantes | Seen from behind, shoulders and head, wearing a cream and sage striped sweater; small symbols float around her head: a heart, a tiny rain cloud, a spark, a spiral. |
 | `souvenirs-douloureux-deuil-separation` | Souvenirs douloureux | Seen from behind, she stands in front of an open door that reveals a bright blue sky with soft clouds; light spills onto the floor. |
-| `phobies-peurs-blocages` | Peurs et blocages | A hand and forearm reach up out of a dark round hole in the floor, toward the light, fingers open. |
+| `phobies-peurs-blocages` | Peurs et blocages | She holds a small glowing lamp; a huge grey bird shadow looms on the wall, but her light reveals it is cast by a tiny pastel salmon origami bird on the floor. She smiles, reassured. |
 | `confiance-en-soi` | Confiance et estime de soi | She stands facing a large round golden mirror; her reflection stands tall and confident with both arms raised. |
 | `sommeil` | Sommeil | She sleeps peacefully on a soft white cloud under a crescent moon and a few stars, in pale night colors. |
 | `arret-tabac-alimentation` | Habitudes à changer | She steps out of a circle drawn on the floor, whose inside is worn by repeated footprints, and walks calmly toward the light. |
@@ -60,7 +60,7 @@ Puis, une scène par message :
 
 1. `stress-anxiete` : She sits cross-legged and patiently untangles a knotted ball of pastel salmon thread on her lap; from her hands the thread becomes a smooth, straight line across the floor.
 2. `souvenirs-douloureux-deuil-separation` : Seen from behind, she stands in front of an open door that reveals a bright blue sky with soft clouds; light spills onto the floor.
-3. `phobies-peurs-blocages` : A hand and forearm reach up out of a dark round hole in the floor, toward the light, fingers open.
+3. `phobies-peurs-blocages` : She holds a small glowing lamp; a huge grey bird shadow looms on the wall, but her light reveals it is cast by a tiny pastel salmon origami bird on the floor. She smiles, reassured.
 4. `confiance-en-soi` : She stands facing a large round golden mirror; her reflection stands tall and confident with both arms raised.
 5. `sommeil` : She sleeps peacefully on a soft white cloud under a crescent moon and a few stars, in pale night colors.
 6. `arret-tabac-alimentation` : She steps out of a circle drawn on the floor, whose inside is worn by repeated footprints, and walks calmly toward the light.

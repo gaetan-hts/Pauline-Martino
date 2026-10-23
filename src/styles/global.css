@@ -2,16 +2,17 @@
 @import '@fontsource/young-serif';
 @import '@fontsource-variable/figtree';
 
-/* Palette sobre : saumon pastel et bleu poudré (oct. 2026). Aucun bloc sombre, texte encre partout.
-   Contrastes AA : encre sur bleu 7:1, sur ciel, brume et saumon > 9:1 ; cuivre sur crème 5:1. */
+/* Palette sobre en camaïeu de roses : saumon, vieux rose, nacre, et un footer neutre grège (oct. 2026).
+   Aucun bloc sombre, texte encre partout. Contrastes AA : encre sur vieux rose 5,6:1, sur nacre, saumon
+   et grège > 9:1 ; cuivre sur crème 5:1. */
 @theme {
   --color-creme: #faf5ef; /* fond principal */
   --color-sable: #f3e8dc; /* sections alternées, fonds de cartes */
   --color-cuivre: #a5513f; /* saumon profond : accents texte, titres H3, liens, étoiles des avis */
-  --color-bleu: #9fb6cb; /* bleu doux : boutons « Prendre rendez-vous », puces */
-  --color-ciel: #cfdce6; /* bleu pâle : footer */
-  --color-brume: #e3ebf1; /* bleu brume : encarts « En pratique » / RDV */
+  --color-vieux-rose: #d58c7a; /* vieux rose : boutons « Prendre rendez-vous », puces */
+  --color-nacre: #f6dcd4; /* rose pâle : encarts « En pratique » / RDV */
   --color-saumon: #efc3b6; /* saumon pastel : bandeaux (citation, « Envie d'en parler ? ») */
+  --color-greige: #dcd3c9; /* neutre : footer */
   --color-peche: #f5dccb; /* touches décoratives */
   --color-sauge: #a9b8a2; /* touches décoratives */
   --color-encre: #3d3431; /* texte, contour de focus */
@@ -73,7 +74,7 @@
     min-height: 48px;
   }
   .btn-rdv {
-    @apply bg-bleu text-encre hover:bg-[#8aa3ba];
+    @apply bg-vieux-rose text-encre hover:bg-[#c97a67];
   }
   /* Bouton RDV posé sur un bloc coloré (corail, soleil) : fond crème pour qu'il ressorte */
   .btn-rdv.btn-on-color {
@@ -133,7 +134,7 @@
   }
   .card:hover {
     translate: 0 -4px;
-    @apply border-bleu/40 bg-white/60;
+    @apply border-vieux-rose/40 bg-white/60;
   }
   .prose-pauline p + p {
     margin-top: 1rem;

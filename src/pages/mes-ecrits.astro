@@ -48,7 +48,7 @@ const schema = {
   <section>
     <div class="wrap pt-6">
       <nav aria-label="Fil d’Ariane" class="text-sm text-encre/65">
-        <a href="/" class="hover:text-bleu">Accueil</a>
+        <a href="/" class="hover:text-vieux-rose">Accueil</a>
         <span aria-hidden="true" class="mx-1.5">/</span>
         <span aria-current="page">Mes écrits</span>
       </nav>
@@ -70,7 +70,7 @@ const schema = {
     <article id={entry.id} class="bg-sable py-16 sm:py-24">
       <div class="wrap">
         <header class="mx-auto max-w-2xl text-center">
-          <span class="mx-auto block h-1.5 w-12 rounded-full bg-bleu" aria-hidden="true"></span>
+          <span class="mx-auto block h-1.5 w-12 rounded-full bg-vieux-rose" aria-hidden="true"></span>
           <h2 class="mt-6 text-3xl sm:text-5xl">{entry.data.title}</h2>
         </header>
         <!-- Le texte coule sur deux colonnes en desktop ; l'exergue traverse les deux colonnes -->
@@ -93,7 +93,7 @@ const schema = {
 
   <section class="py-16 sm:py-24">
     <div class="wrap grid gap-5 md:grid-cols-2">
-      <div class="flex flex-col rounded-3xl bg-brume p-8 text-encre sm:p-10">
+      <div class="flex flex-col rounded-3xl bg-nacre p-8 text-encre sm:p-10">
         <h2 class="text-2xl sm:text-3xl">Être prévenu de la parution</h2>
         <p class="mt-4 flex-1 text-lg text-encre/85">Laissez-moi votre adresse e-mail, je vous écrirai le jour où le livre sortira.</p>
         <a class="btn btn-rdv mt-8 self-start" href={mail('Prévenez-moi de la parution de votre livre', 'Bonjour Pauline,\n\nJe souhaite être prévenu(e) de la parution de votre livre.\n\n')}>M’inscrire par e-mail</a>

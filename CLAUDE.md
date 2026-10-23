@@ -106,24 +106,24 @@ scripts/screenshots.mjs
 
 ## Charte graphique
 
-Palette **sobre : saumon pastel et bleu poudré** (oct. 2026 ; le doré a été écarté). Aucun bloc sombre : fonds clairs, texte encre (gris chaud) partout. Photos phares en arche (`.arch`), le reste en `rounded-2xl/3xl`.
+Palette **sobre en camaïeu de roses** (oct. 2026 ; le doré puis le bleu ont été écartés) : saumon, vieux rose, nacre, footer neutre grège. Aucun bloc sombre : fonds clairs, texte encre (gris chaud) partout. Photos phares en arche (`.arch`), le reste en `rounded-2xl/3xl`.
 
 | Token | Hex | Rôle |
 |---|---|---|
 | `creme` | `#faf5ef` | fond principal |
 | `sable` | `#f3e8dc` | sections alternées, fonds de cartes |
 | `cuivre` | `#a5513f` | saumon profond : accents texte, titres H3, liens, étoiles des avis (5:1 sur crème) |
-| `bleu` | `#9fb6cb` | bleu doux : **boutons « Prendre rendez-vous »** (texte encre, 7:1), puces |
-| `ciel` | `#cfdce6` | bleu pâle : footer |
-| `brume` | `#e3ebf1` | bleu brume : encarts « En pratique » / RDV |
+| `vieux-rose` | `#d58c7a` | **boutons « Prendre rendez-vous »** (texte encre, 5,6:1), puces |
+| `nacre` | `#f6dcd4` | rose pâle : encarts « En pratique » / RDV |
 | `saumon` | `#efc3b6` | saumon pastel : bandeau de citation, bandeau « Envie d'en parler ? » |
+| `greige` | `#dcd3c9` | neutre : footer |
 | `peche`, `sauge` | `#f5dccb`, `#a9b8a2` | touches décoratives |
 | `encre` | `#3d3431` | texte, contour de focus |
 
 - **Typo :** `Young Serif` pour les titres et les citations (`font-serif`), `Figtree Variable` pour le texte (`font-sans`). Corps 17 px, interligne 1,65.
 - **À éviter :** labels en MAJUSCULES espacées, mot isolé en couleur ou en italique dans un titre, numérotation 01/02/03 décorative, animations d'entrée sur chaque section, cartes identiques avec ombre grise.
 - **Logo :** `Logo.astro` (cerveau dont l'intérieur est un arbre en feuilles, vectorisé depuis le fichier de Pauline, en `currentColor`) + `public/favicon.svg` (même tracé en pivoine).
-- **Footer :** fond bleu pâle (`ciel`), texte encre, bouton RDV `btn-on-color`. Pas de liste de communes dans le texte (elles restent dans le JSON-LD `areaServed`).
+- **Footer :** fond neutre grège (`greige`), texte encre, bouton RDV vieux rose. Pas de liste de communes dans le texte (elles restent dans le JSON-LD `areaServed`).
 - **Header :** 4 entrées seulement (« Accompagnements » avec menu déroulant CSS des 7 pages au survol / focus, Qui suis-je, Mes écrits, Infos pratiques). « Hypnose et NEMO » et la FAQ sont dans le menu mobile et le footer. Téléphone en icône, bouton « Rendez-vous ». Réseaux sociaux en icônes dans le footer (`SocialIcons.astro`).
 - **Responsive :** la nav desktop apparaît à partir de `xl` (1280 px). En dessous, bouton menu (pages thématiques + sections + FAQ + langue) + icône téléphone. Le header utilise `max-w-7xl`, le contenu `max-w-6xl` (`.wrap`).
 - **Accessibilité :** focus visible (outline argile), lien d'évitement « Aller au contenu », `prefers-reduced-motion` respecté.

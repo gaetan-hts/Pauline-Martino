@@ -14,7 +14,7 @@ const services = await getServices(lang);
 const other = u.switchTo.lang as Lang;
 const year = new Date().getFullYear();
 ---
-<footer class="bg-ciel text-encre">
+<footer class="bg-greige text-encre">
   <div class="wrap grid gap-12 py-16 md:grid-cols-[1.3fr_1fr_1fr]">
     <div>
       <div class="flex items-center gap-3">
@@ -22,7 +22,7 @@ const year = new Date().getFullYear();
         <p class="font-serif text-2xl text-encre">Pauline Martino</p>
       </div>
       <p class="mt-4 max-w-sm">{u.footer.intro}</p>
-      <BookingButton lang={lang} campaign={lang === 'fr' ? 'footer' : 'en-footer'} class="btn-on-color mt-6" />
+      <BookingButton lang={lang} campaign={lang === 'fr' ? 'footer' : 'en-footer'} class="mt-6" />
     </div>
 
     <div>
