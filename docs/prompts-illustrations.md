@@ -41,3 +41,28 @@ Pour garder une série cohérente : générer les 10 dans la même conversation 
 2. Renommer (par exemple `sommeil.png`) et déposer dans `src/assets/illustrations/`.
 3. `npm run build && npm run preview`, puis `npm run shots` pour vérifier.
 4. Les images IA ne sont pas des photos du cabinet ni de Pauline : elles restent des illustrations.
+
+## Continuer la série (état au 23/10/2026)
+
+**Faites :** `hypnose`, `nemo`, `gestion-des-emotions` (générées avec ChatGPT, déjà en ligne).
+**Restent :** les 7 autres.
+
+Pour garder exactement le même style dans un autre outil (Gemini, Microsoft Copilot / Designer,
+ou ChatGPT quand la limite est levée), **joindre les 3 images déjà faites** (`src/assets/illustrations/`)
+et coller ce message, puis demander les images une par une :
+
+> Here are 3 illustrations from a series. Create new illustrations in exactly the same style:
+> same young woman (brown hair in a low bun, gentle face, natural proportions), same soft
+> watercolor-like pastel palette (warm cream background, pale sky blue, sage green, pastel salmon,
+> soft gold), same paper grain texture, same airy composition with lots of empty space, a plain
+> wall and floor. No text, no frame. Landscape 4:3. I will describe each scene; make one image per message.
+
+Puis, une scène par message :
+
+1. `stress-anxiete` : She sits on the floor hugging her knees, head resting on them; a thin cable runs from her back to a wall socket, as if she were recharging.
+2. `souvenirs-douloureux-deuil-separation` : Seen from behind, she stands in front of an open door that reveals a bright blue sky with soft clouds; light spills onto the floor.
+3. `phobies-peurs-blocages` : A hand and forearm reach up out of a dark round hole in the floor, toward the light, fingers open.
+4. `confiance-en-soi` : She stands facing a large round golden mirror; her reflection stands tall and confident with both arms raised.
+5. `sommeil` : She sleeps peacefully on a soft white cloud under a crescent moon and a few stars, in pale night colors.
+6. `arret-tabac-alimentation` : She steps out of a circle drawn on the floor, whose inside is worn by repeated footprints, and walks calmly toward the light.
+7. `ecrits` : A tiny version of her sits on the page of a giant open notebook, holding an oversized pencil, writing.

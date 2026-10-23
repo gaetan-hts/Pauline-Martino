@@ -99,6 +99,7 @@ export const home = {
       bookTitle: 'Prendre rendez-vous',
       bookText: 'En ligne sur Medoucine, ou directement par téléphone.',
       byEmail: 'Par e-mail :',
+      noHealthData: 'Merci de ne pas envoyer d’informations de santé par e-mail.',
     },
     faqTitle: 'Vos questions',
     final: {
@@ -204,6 +205,7 @@ export const home = {
       bookTitle: 'Book a session',
       bookText: 'Online on Medoucine (in French), or directly by phone.',
       byEmail: 'By email:',
+      noHealthData: 'Please do not send health information by email.',
     },
     faqTitle: 'Your questions',
     final: {

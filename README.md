@@ -61,7 +61,7 @@ Workers & Pages → `pauline-martino`, relié au repo GitHub, branche `master` :
 
 ## À faire avant la mise en ligne
 
-- [ ] Mentions légales : SIRET et hébergeur (`src/pages/mentions-legales.astro`)
+- [ ] Mentions légales : médiateur de la consommation (`src/pages/mentions-legales.astro`, constante `mediateur`)
 - [ ] Logo définitif (cerveau + rameau d'olivier) à la place de `OliveMark.astro` et `public/favicon.svg`
 - [ ] Avis Google : widget ou sélection validée par Pauline (section `#avis` de la home)
 - [ ] Lien « Réserver un appel gratuit » de l'accompagnement à deux voix

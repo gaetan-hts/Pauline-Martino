@@ -56,6 +56,8 @@ export const ui = {
       verified: (s: string) => (s === 'Medoucine' ? 'avis vérifié Medoucine' : `avis ${s}`),
       seeAll: (n: string, s: string) => `Voir les ${n} avis sur ${s}`,
       originalLang: '',
+      // obligation d'information sur les avis (décret 2017-1436)
+      selection: 'Sélection d’avis choisis par Pauline parmi ceux publiés sur Google et Medoucine, reproduits sans modification. Tous les avis sont consultables sur ces plateformes.',
     },
   },
   en: {
@@ -111,6 +113,7 @@ export const ui = {
       verified: (s: string) => (s === 'Medoucine' ? 'verified Medoucine review' : `${s} review`),
       seeAll: (n: string, s: string) => `See all ${n} reviews on ${s}`,
       originalLang: 'Reviews are shown in their original French.',
+      selection: 'A selection chosen by Pauline from the reviews published on Google and Medoucine, reproduced unchanged. All reviews can be read on those platforms.',
     },
   },
 } satisfies Record<Lang, unknown>;

@@ -74,7 +74,8 @@ const star = 'M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9
       ))}
     </ul>
 
-    <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+    <p class="mt-6 max-w-3xl text-sm text-encre/65">{u.selection}</p>
+    <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
       {platforms.map((p) => (
         <a href={p.url} target="_blank" rel="noopener" class="font-semibold text-cuivre underline underline-offset-4 hover:text-encre">
           {u.seeAll(p.count, p.source)}<span class="sr-only"> {u.newTab(p.source)}</span>

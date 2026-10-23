@@ -178,7 +178,7 @@ Palette **sobre, pastel saumon et doré** (oct. 2026). Aucun bloc sombre : fonds
 5. Avis : faire valider les 6 extraits par Pauline, remplacer le lien Google par celui de sa fiche
 6. Page contact avec formulaire (Web3Forms) et carte
 7. Logo définitif + favicon
-8. Mentions légales : SIRET et hébergeur
+8. ~~Mentions légales : SIRET et hébergeur~~ **faites** (Pauline Martino EI, SIRET 937 686 897 00037, hébergeur Cloudflare, politique de confidentialité RGPD, cookies, avis). Reste : **médiateur de la consommation** (obligatoire, art. L612-1) à renseigner dans `mentions-legales.astro` (constante `mediateur`) ; accord écrit de Christophe Rodrik pour la photo ; registre des traitements de Pauline pour ses dossiers clients (hors site)
 9. Mise en ligne :
    - domaine, puis mettre à jour `astro.config.mjs` (`site`), `site.ts` (`url`) et `public/robots.txt`
    - Search Console + sitemap
