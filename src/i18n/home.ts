@@ -11,7 +11,7 @@ export const home = {
       kicker: 'Hypnose et NEMO à La Farlède, à 15 min de Toulon, et en visio',
       h1: 'Pauline Martino, hypnothérapeute et praticienne NEMO à La Farlède',
       lead: 'Ici, on prend soin de ce qui se passe en vous, par l’écoute, l’accompagnement et les mots.',
-      note: (price: string) => `Séance d’une heure, ${price}. Enfants dès 5 ans, adolescents et adultes.`,
+      note: (price: string) => `Séance d’une heure, ${price}. Enfants dès 6-7 ans, adolescents et adultes.`,
       portraitAlt: 'Portrait de Pauline Martino, hypnothérapeute à La Farlède',
     },
     why: {
@@ -21,7 +21,7 @@ export const home = {
         'Chaque personne a sa propre carte du monde. L’objectif des séances est de vous accompagner à comprendre la façon dont vous voyez le monde, et à déprogrammer les croyances qui ne correspondent plus à qui vous êtes aujourd’hui.',
       ],
       forWhoLabel: 'Pour qui ?',
-      forWho: 'Les adultes, les femmes enceintes et jeunes mamans, les enfants à partir de 5 ans, les adolescents, les seniors et les couples.',
+      forWho: 'Les adultes, les femmes enceintes et jeunes mamans, les enfants à partir de 6-7 ans, les adolescents, les seniors et les couples.',
     },
     about: {
       title: 'Qui suis-je ?',
@@ -117,7 +117,7 @@ export const home = {
       kicker: 'Hypnosis and NEMO in La Farlède, 15 minutes from Toulon, and online',
       h1: 'Pauline Martino, hypnotherapist and NEMO practitioner in La Farlède',
       lead: 'Here, we take care of what is happening inside you, through listening, support and words.',
-      note: (price: string) => `One-hour session, ${price}. Children from age 5, teenagers and adults.`,
+      note: (price: string) => `One-hour session, ${price}. Children from age 6 or 7, teenagers and adults.`,
       portraitAlt: 'Portrait of Pauline Martino, hypnotherapist in La Farlède',
     },
     why: {
@@ -127,7 +127,7 @@ export const home = {
         'Everyone has their own map of the world. The aim of the sessions is to help you understand the way you see the world, and to deprogram the beliefs that no longer match who you are today.',
       ],
       forWhoLabel: 'Who is it for?',
-      forWho: 'Adults, pregnant women and new mothers, children from age 5, teenagers, seniors and couples.',
+      forWho: 'Adults, pregnant women and new mothers, children from age 6 or 7, teenagers, seniors and couples.',
     },
     about: {
       title: 'About me',

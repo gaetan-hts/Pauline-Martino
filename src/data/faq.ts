@@ -39,7 +39,7 @@ const fr: Faq = [
   {
     q: 'Est-ce que l’hypnose et NEMO sont adaptés aux enfants ?',
     a: [
-      'Oui. Ces thérapies brèves peuvent aider les enfants à partir de 5 ans à gérer le stress et la phobie scolaire, les difficultés d’attention, les difficultés émotionnelles ou les troubles du sommeil, de manière ludique et bienveillante.',
+      'Oui. Ces thérapies brèves peuvent aider les enfants à partir de 6-7 ans à gérer le stress et la phobie scolaire, les difficultés d’attention, les difficultés émotionnelles ou les troubles du sommeil, de manière ludique et bienveillante.',
     ],
   },
   {
@@ -94,7 +94,7 @@ const en: Faq = [
   {
     q: 'Are hypnosis and NEMO suitable for children?',
     a: [
-      'Yes. These brief therapies can help children from the age of 5 with stress and school anxiety, attention difficulties, emotional difficulties or sleep problems, in a playful and caring way.',
+      'Yes. These brief therapies can help children from the age of 6 or 7 with stress and school anxiety, attention difficulties, emotional difficulties or sleep problems, in a playful and caring way.',
     ],
   },
   {

@@ -15,7 +15,7 @@ function header() {
   const a = site.address;
   return `# ${site.name}, hypnothérapeute à ${site.city}
 
-> ${site.name} est hypnothérapeute et praticienne NEMO-EMDR à ${site.city} (Var, ${a.postalCode}), à 15 minutes de Toulon. Elle accompagne enfants (dès 5 ans), adolescents, adultes, seniors et couples avec l’hypnose ericksonienne, la PNL et NEMO (nettoyage émotionnel par mouvements oculaires), au cabinet ou en visio.
+> ${site.name} est hypnothérapeute et praticienne NEMO-EMDR à ${site.city} (Var, ${a.postalCode}), à 15 minutes de Toulon. Elle accompagne enfants (dès 6-7 ans), adolescents, adultes, seniors et couples avec l’hypnose ericksonienne, la PNL et NEMO (nettoyage émotionnel par mouvements oculaires), au cabinet ou en visio.
 
 - Cabinet : ${a.street}, ${a.postalCode} ${a.city}, France
 - Horaires : ${site.hours}

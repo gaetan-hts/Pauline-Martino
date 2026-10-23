@@ -8,7 +8,7 @@ Site vitrine de **Pauline Martino, hypnothérapeute et praticienne NEMO** à La 
 Développeur : Gaëtan Honthaas. Cliente : Pauline.
 
 **Objectif n°1 : le référencement local.** Apparaître sur « hypnose La Farlède / Toulon / La Garde / Hyères… » et faire cliquer sur « Prendre rendez-vous ».
-**Public :** des particuliers (adultes, parents d'enfants dès 5 ans, ados, seniors, couples), souvent en situation de fragilité. Le ton est doux, rassurant, sans jargon et sans promesse.
+**Public :** des particuliers (adultes, parents d'enfants dès 6-7 ans, ados, seniors, couples), souvent en situation de fragilité. Le ton est doux, rassurant, sans jargon et sans promesse.
 
 ## Stack et commandes
 
