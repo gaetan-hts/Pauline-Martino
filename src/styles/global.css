@@ -2,18 +2,18 @@
 @import '@fontsource/young-serif';
 @import '@fontsource-variable/figtree';
 
-/* Palette sobre, pastel saumon et doré. Aucun bloc sombre, texte encre (gris chaud) partout.
-   Contrastes AA : encre sur miel 6,4:1, sur champagne et saumon > 9:1 ; cuivre sur crème 5:1. */
+/* Palette sobre : saumon pastel et bleu poudré (oct. 2026). Aucun bloc sombre, texte encre partout.
+   Contrastes AA : encre sur bleu 7:1, sur ciel, brume et saumon > 9:1 ; cuivre sur crème 5:1. */
 @theme {
   --color-creme: #faf5ef; /* fond principal */
   --color-sable: #f3e8dc; /* sections alternées, fonds de cartes */
-  --color-cuivre: #a5513f; /* saumon profond : accents texte, titres H3, liens */
-  --color-miel: #c9a25a; /* doré : boutons « Prendre rendez-vous », bandeau final, étoiles des avis */
-  --color-champagne: #eedfc0; /* doré pâle : encarts « En pratique » / RDV */
-  --color-saumon: #efc3b6; /* saumon pastel : footer, bandeau de citation */
-  --color-peche: #f5dccb; /* illustrations */
-  --color-sauge: #a9b8a2; /* vert sauge : illustrations */
-  --color-ciel: #c9d8e0; /* bleu ciel pastel : illustrations */
+  --color-cuivre: #a5513f; /* saumon profond : accents texte, titres H3, liens, étoiles des avis */
+  --color-bleu: #9fb6cb; /* bleu doux : boutons « Prendre rendez-vous », puces */
+  --color-ciel: #cfdce6; /* bleu pâle : footer */
+  --color-brume: #e3ebf1; /* bleu brume : encarts « En pratique » / RDV */
+  --color-saumon: #efc3b6; /* saumon pastel : bandeaux (citation, « Envie d'en parler ? ») */
+  --color-peche: #f5dccb; /* touches décoratives */
+  --color-sauge: #a9b8a2; /* touches décoratives */
   --color-encre: #3d3431; /* texte, contour de focus */
 
   --font-serif: 'Young Serif', Georgia, serif;
@@ -73,7 +73,7 @@
     min-height: 48px;
   }
   .btn-rdv {
-    @apply bg-miel text-encre hover:bg-[#b8904a];
+    @apply bg-bleu text-encre hover:bg-[#8aa3ba];
   }
   /* Bouton RDV posé sur un bloc coloré (corail, soleil) : fond crème pour qu'il ressorte */
   .btn-rdv.btn-on-color {
@@ -133,7 +133,7 @@
   }
   .card:hover {
     translate: 0 -4px;
-    @apply border-miel/40 bg-white/60;
+    @apply border-bleu/40 bg-white/60;
   }
   .prose-pauline p + p {
     margin-top: 1rem;

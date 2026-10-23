@@ -41,7 +41,7 @@ const phoneIcon = 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A
     <nav aria-label={u.nav.main} class="hidden xl:block">
       <ul class="flex items-center gap-7 text-[0.95rem] whitespace-nowrap">
         <li class="group relative">
-          <a class="inline-flex items-center gap-1 py-2 hover:text-miel" href={anchor(lang, 'accompagnements')} aria-haspopup="true">
+          <a class="inline-flex items-center gap-1 py-2 hover:text-bleu" href={anchor(lang, 'accompagnements')} aria-haspopup="true">
             {u.nav.services}
             <svg viewBox="0 0 24 24" class="h-4 w-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -59,12 +59,12 @@ const phoneIcon = 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A
             </ul>
           </div>
         </li>
-        {nav.map((l) => <li><a class="py-2 hover:text-miel" href={l.href}>{l.label}</a></li>)}
+        {nav.map((l) => <li><a class="py-2 hover:text-bleu" href={l.href}>{l.label}</a></li>)}
       </ul>
     </nav>
 
     <div class="flex items-center gap-2">
-      {englishEnabled && <a href={switchHref} hreflang={other} lang={other} title={u.switchTo.title} class="hidden h-11 min-w-11 items-center justify-center rounded-full px-2 text-sm font-semibold text-cuivre hover:text-miel sm:inline-flex">
+      {englishEnabled && <a href={switchHref} hreflang={other} lang={other} title={u.switchTo.title} class="hidden h-11 min-w-11 items-center justify-center rounded-full px-2 text-sm font-semibold text-cuivre hover:text-bleu sm:inline-flex">
         {u.switchTo.label}<span class="sr-only"> : {u.switchTo.title}</span>
       </a>}
       <a href={site.phoneHref} class="grid h-11 w-11 place-items-center rounded-full border border-encre/20 text-cuivre hover:border-cuivre" aria-label={u.call(site.phone)} title={site.phone}>

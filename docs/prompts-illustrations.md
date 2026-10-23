@@ -26,7 +26,7 @@ Pour garder une série cohérente : générer les 10 dans la même conversation 
 |---|---|---|
 | `hypnose` | Accueil, « L'hypnose, c'est quoi ? » | She sits cross-legged on the floor, eyes closed, relaxed; a soft white cloud gently surrounds her head, as if she were inside a daydream. |
 | `nemo` | Accueil, « NEMO, c'est quoi ? » | She sits in a comfortable armchair, seen in profile, her eyes following a small golden light that moves from left to right, its path drawn as a soft dotted arc. |
-| `stress-anxiete` | Stress et anxiété | She sits on the floor hugging her knees, head resting on them; a thin cable runs from her back to a wall socket, as if she were recharging. |
+| `stress-anxiete` | Stress et anxiété | She sits cross-legged and patiently untangles a knotted ball of pastel salmon thread on her lap; from her hands the thread becomes a smooth, straight line across the floor. |
 | `gestion-des-emotions` | Émotions envahissantes | Seen from behind, shoulders and head, wearing a cream and sage striped sweater; small symbols float around her head: a heart, a tiny rain cloud, a spark, a spiral. |
 | `souvenirs-douloureux-deuil-separation` | Souvenirs douloureux | Seen from behind, she stands in front of an open door that reveals a bright blue sky with soft clouds; light spills onto the floor. |
 | `phobies-peurs-blocages` | Peurs et blocages | A hand and forearm reach up out of a dark round hole in the floor, toward the light, fingers open. |
@@ -58,7 +58,7 @@ et coller ce message, puis demander les images une par une :
 
 Puis, une scène par message :
 
-1. `stress-anxiete` : She sits on the floor hugging her knees, head resting on them; a thin cable runs from her back to a wall socket, as if she were recharging.
+1. `stress-anxiete` : She sits cross-legged and patiently untangles a knotted ball of pastel salmon thread on her lap; from her hands the thread becomes a smooth, straight line across the floor.
 2. `souvenirs-douloureux-deuil-separation` : Seen from behind, she stands in front of an open door that reveals a bright blue sky with soft clouds; light spills onto the floor.
 3. `phobies-peurs-blocages` : A hand and forearm reach up out of a dark round hole in the floor, toward the light, fingers open.
 4. `confiance-en-soi` : She stands facing a large round golden mirror; her reflection stands tall and confident with both arms raised.
