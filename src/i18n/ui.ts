@@ -23,8 +23,7 @@ export const ui = {
     bookShort: 'Rendez-vous',
     bookSr: '(ouvre Medoucine dans un nouvel onglet)',
     footer: {
-      intro: (neighbours: string) =>
-        `Hypnothérapeute et praticienne NEMO à La Farlède, à 15 minutes de Toulon. Séances au cabinet, pour La Farlède et les environs (${neighbours}), ou en visio.`,
+      intro: 'Hypnothérapeute et praticienne NEMO à La Farlède, à 15 minutes de Toulon. Séances au cabinet ou en visio.',
       services: 'Accompagnements',
       office: 'Le cabinet',
       copyright: 'Pauline Martino, hypnothérapeute à La Farlède',
@@ -80,8 +79,7 @@ export const ui = {
     bookShort: 'Book',
     bookSr: '(opens Medoucine, in French, in a new tab)',
     footer: {
-      intro: (neighbours: string) =>
-        `Hypnotherapist and NEMO practitioner in La Farlède, 15 minutes from Toulon. Sessions at the practice, for La Farlède and the surrounding area (${neighbours}), or online by video.`,
+      intro: 'Hypnotherapist and NEMO practitioner in La Farlède, 15 minutes from Toulon. Sessions at the practice or online by video.',
       services: 'How I can help',
       office: 'The practice',
       copyright: 'Pauline Martino, hypnotherapist in La Farlède',

@@ -3,6 +3,7 @@
 // avec un personnage et une métaphore légère. Couleurs pastel saumon, doré, ciel, sauge.
 // Une par technique (hypnose, nemo), une par accompagnement (clé = slug français), une pour Mes écrits.
 // Les personnages sont générés depuis un squelette aux proportions d'adulte : ./illustration/figure.ts
+import { Image } from 'astro:assets';
 import Shapes from './illustration/Shapes.astro';
 import { figure, standing, type Pose } from './illustration/figure';
 
@@ -16,6 +17,11 @@ interface Props {
 }
 const { name, class: cls = '', title } = Astro.props;
 const uid = `il-${name}-${Math.random().toString(36).slice(2, 7)}`;
+
+// Si une image existe dans src/assets/illustrations/<nom>.webp|png|jpg (générée à partir de
+// docs/prompts-illustrations.md), elle remplace le dessin SVG ci-dessous.
+const rasters = import.meta.glob<{ default: ImageMetadata }>('../assets/illustrations/*.{webp,png,jpg,jpeg}', { eager: true });
+const raster = Object.entries(rasters).find(([path]) => path.split('/').pop()!.replace(/\.\w+$/, '') === name)?.[1].default;
 
 // Couleurs propres aux illustrations (en plus des tokens du site)
 const c = {
@@ -103,6 +109,15 @@ const reflet: Pose = (() => {
 })();
 const figures = (poses[name] ?? []).map(figure);
 ---
+{raster ? (
+  <Image
+    src={raster}
+    alt={title ?? ''}
+    widths={[480, 800, 1200]}
+    sizes="(min-width: 1024px) 34rem, 90vw"
+    class:list={['mx-auto block h-auto w-full rounded-3xl object-cover', cls]}
+  />
+) : (
 <svg
   viewBox="0 0 320 240"
   class:list={['mx-auto block h-auto w-full', cls]}
@@ -293,3 +308,4 @@ const figures = (poses[name] ?? []).map(figure);
     <rect width="320" height="240" filter={`url(#${uid}-grain)`} />
   </g>
 </svg>
+)}

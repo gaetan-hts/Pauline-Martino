@@ -1,0 +1,2 @@
+Déposer ici les illustrations générées (voir docs/prompts-illustrations.md).
+Nom de fichier = clé de l'illustration, ex. sommeil.png. Chaque image remplace le dessin SVG correspondant.
