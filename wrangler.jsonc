@@ -5,6 +5,10 @@
   // Pour remettre un mot de passe de préversion : voir l'historique git (worker/index.js, commit aa6522e).
   "name": "pauline-martino",
   "compatibility_date": "2025-09-01",
+  // Seuls les domaines personnalisés servent le site : pas d'adresse workers.dev ni d'URL de prévisualisation
+  // (sinon chaque déploiement les réactive et le site existe en double).
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
