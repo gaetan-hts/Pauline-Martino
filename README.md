@@ -38,7 +38,7 @@ Ajouter une page thématique = copier un `.md`, changer le contenu et `order`. E
 
 ## Déploiement (Cloudflare Workers, gratuit)
 
-Le site est servi par un Worker Cloudflare (`wrangler.jsonc`) : les fichiers de `dist/` sont servis tels quels, et `worker/index.js` passe avant chacun pour demander le mot de passe de préversion. Le domaine `pauline-martino-hypnose.fr` est déjà celui du code (URL canonique `https://www.pauline-martino-hypnose.fr`).
+Le site est servi par Cloudflare Workers (`wrangler.jsonc`) : les fichiers de `dist/` sont servis tels quels, sans code Worker. En ligne et public depuis le 28/10/2026. Le domaine `pauline-martino-hypnose.fr` est déjà celui du code (URL canonique `https://www.pauline-martino-hypnose.fr`).
 
 ### 1. Projet Cloudflare (fait)
 

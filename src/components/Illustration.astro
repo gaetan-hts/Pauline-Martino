@@ -14,8 +14,25 @@ interface Props {
   name: IllustrationName;
   class?: string;
   title?: string; // si fourni, l'illustration est annoncée aux lecteurs d'écran
+  describe?: boolean; // true : texte alternatif descriptif (image principale) ; sinon décorative
+  eager?: boolean; // true : image visible au chargement (héros), chargée en priorité
 }
-const { name, class: cls = '', title } = Astro.props;
+const { name, class: cls = '', title, describe = false, eager = false } = Astro.props;
+
+// Textes alternatifs des images générées, pour les lecteurs d'écran et Google Images
+const descriptions: Record<IllustrationName, string> = {
+  hypnose: 'Illustration : une jeune femme assise en tailleur, les yeux fermés, la tête entourée d’un nuage doux',
+  nemo: 'Illustration : une jeune femme assise dans un fauteuil suit du regard une petite lumière dorée qui se déplace',
+  'stress-anxiete': 'Illustration : une jeune femme assise par terre démêle calmement une pelote de fil qui devient une ligne droite',
+  'gestion-des-emotions': 'Illustration : une jeune femme vue de dos, entourée de petites émotions qui flottent autour de sa tête',
+  'souvenirs-douloureux-deuil-separation': 'Illustration : une jeune femme vue de dos devant une porte ouverte sur un ciel bleu et lumineux',
+  'phobies-peurs-blocages': 'Illustration : une jeune femme éclaire une ombre immense qui vient en réalité d’un minuscule oiseau en papier',
+  'confiance-en-soi': 'Illustration : une jeune femme face à un grand miroir où son reflet lève les bras avec assurance',
+  sommeil: 'Illustration : une jeune femme endormie paisiblement sur un nuage, sous un croissant de lune',
+  'arret-tabac-alimentation': 'Illustration : une jeune femme sort d’un cercle tracé au sol et avance vers la lumière',
+  ecrits: 'Illustration : une toute petite femme assise sur la page d’un carnet géant écrit avec un crayon immense',
+};
+const alt = title ?? (describe ? descriptions[name] : '');
 const uid = `il-${name}-${Math.random().toString(36).slice(2, 7)}`;
 
 // Si une image existe dans src/assets/illustrations/<nom>.webp|png|jpg (générée à partir de
@@ -112,9 +129,11 @@ const figures = (poses[name] ?? []).map(figure);
 {raster ? (
   <Image
     src={raster}
-    alt={title ?? ''}
+    alt={alt}
     widths={[480, 800, 1200]}
     sizes="(min-width: 1024px) 34rem, 90vw"
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : 'auto'}
     class:list={['mx-auto block h-auto w-full rounded-3xl object-cover', cls]}
   />
 ) : (

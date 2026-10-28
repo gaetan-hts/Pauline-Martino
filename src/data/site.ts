@@ -5,7 +5,7 @@ export const site = {
   name: 'Pauline Martino',
   job: 'Hypnothérapeute et praticienne NEMO',
   city: 'La Farlède',
-  url: 'https://www.pauline-martino-hypnose.fr', // TODO domaine définitif
+  url: 'https://www.pauline-martino-hypnose.fr',
   phone: '06 05 53 21 43',
   phoneHref: 'tel:+33605532143',
   email: 'paulinemartino.therapeute@gmail.com',

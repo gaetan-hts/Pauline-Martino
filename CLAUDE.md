@@ -17,7 +17,7 @@ Développeur : Gaëtan Honthaas. Cliente : Pauline.
 - `@astrojs/sitemap`, `sharp` (images), polices auto-hébergées via Fontsource
 - Zéro framework JS côté client. Seul script : le toggle du menu mobile dans `Header.astro`
 - Hébergement : **Cloudflare Workers** (projet `pauline-martino`, Workers Builds depuis GitHub `master` : `npm run build` puis `npx wrangler deploy`, config `wrangler.jsonc`). Domaine `pauline-martino-hypnose.fr` (registrar IONOS, DNS à passer chez Cloudflare), URL canonique `https://www.pauline-martino-hypnose.fr`. Procédure dans le README.
-- **Mot de passe de préversion :** `worker/index.js` (Basic Auth devant tous les fichiers grâce à `run_worker_first`, mot de passe en dur `Paupau1337`, `X-Robots-Tag: noindex`). Ouvrir au public : variable `SITE_PUBLIC=true` sur le Worker, puis redéployer. Ne pas recréer de dossier `functions/` : c'est une fonctionnalité Cloudflare Pages, ignorée par un Worker.
+- **En production depuis le 28/10/2026** : site public, plus de mot de passe. `wrangler.jsonc` ne déclare que les fichiers statiques (`assets`), sans code Worker : Cloudflare les sert directement, gratuitement et sans limite de requêtes. `public/_headers` : cache d'un an sur `/_astro/*`, en-têtes de sécurité. Pour une préversion protégée (autre site, refonte), l'ancien Worker à mot de passe est dans l'historique git (`worker/index.js`, commit aa6522e) ; il fait passer chaque requête par le Worker (quota gratuit de 100 000/jour partagé entre tous les sites du compte).
 
 ```bash
 npm install

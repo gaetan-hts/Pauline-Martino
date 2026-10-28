@@ -167,14 +167,14 @@ const personSchema = {
       <h2 class="max-w-2xl text-3xl sm:text-4xl">{t.techniques.title}</h2>
       <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-16">
         <div>
-          <Illustration name="hypnose" class="mb-8" />
+          <Illustration name="hypnose" describe class="mb-8" />
           <h3 class="text-2xl text-cuivre">{t.techniques.hypnosisTitle}</h3>
           <div class="prose-pauline mt-4 text-encre/85">
             {t.techniques.hypnosis.map((p) => <p>{p}</p>)}
           </div>
         </div>
         <div>
-          <Illustration name="nemo" class="mb-8" />
+          <Illustration name="nemo" describe class="mb-8" />
           <h3 class="text-2xl text-cuivre">{t.techniques.nemoTitle}</h3>
           <div class="prose-pauline mt-4 text-encre/85">
             {t.techniques.nemo.map((p) => <p>{p}</p>)}
@@ -240,16 +240,16 @@ const personSchema = {
       <!-- Hauteurs fixes en desktop : les photos remplissent leur case sans trou -->
       <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 md:h-[34rem] md:grid-cols-4 md:grid-rows-2">
         <div class="col-span-2 aspect-[4/3] overflow-hidden rounded-3xl md:row-span-2 md:aspect-auto">
-          <Image src={fauteuil} alt={t.office.alt.fauteuil} widths={[500, 800, 1100]} sizes="(min-width: 768px) 50vw, 95vw" class="h-full w-full object-cover" />
+          <Image src={fauteuil} alt={t.office.alt.fauteuil} widths={[500, 800, 1100]} sizes="(min-width: 768px) 50vw, 95vw" quality={72} class="h-full w-full object-cover" />
         </div>
         <div class="col-span-2 aspect-[16/9] overflow-hidden rounded-3xl md:aspect-auto">
-          <Image src={salle} alt={t.office.alt.salle} widths={[500, 800, 1100]} sizes="(min-width: 768px) 50vw, 95vw" class="h-full w-full object-cover" />
+          <Image src={salle} alt={t.office.alt.salle} widths={[500, 800, 1100]} sizes="(min-width: 768px) 50vw, 95vw" quality={72} class="h-full w-full object-cover" />
         </div>
         <div class="aspect-square overflow-hidden rounded-3xl md:aspect-auto">
-          <Image src={bureauLampe} alt={t.office.alt.bureauLampe} widths={[300, 500]} sizes="(min-width: 768px) 25vw, 47vw" class="h-full w-full object-cover" />
+          <Image src={bureauLampe} alt={t.office.alt.bureauLampe} widths={[300, 500]} sizes="(min-width: 768px) 25vw, 47vw" quality={72} class="h-full w-full object-cover" />
         </div>
         <div class="aspect-square overflow-hidden rounded-3xl md:aspect-auto">
-          <Image src={bureauJour} alt={t.office.alt.bureauJour} widths={[300, 500]} sizes="(min-width: 768px) 25vw, 47vw" class="h-full w-full object-cover" />
+          <Image src={bureauJour} alt={t.office.alt.bureauJour} widths={[300, 500]} sizes="(min-width: 768px) 25vw, 47vw" quality={72} class="h-full w-full object-cover" />
         </div>
       </div>
     </div>

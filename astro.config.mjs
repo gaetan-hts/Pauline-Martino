@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import typoFr from './src/typo-fr.mjs';
 
-// TODO: remplacer par le nom de domaine définitif avant la mise en ligne
+// Domaine de production (URL canonique avec www ; l'apex redirige vers www dans Cloudflare)
 export default defineConfig({
   site: 'https://www.pauline-martino-hypnose.fr',
   // Une page = un dossier avec index.html : les URL marchent sur n'importe quel hébergeur
