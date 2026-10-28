@@ -118,10 +118,7 @@ const schemas = [business, ...jsonLd];
     <Header lang={lang} campaign={campaign} alternates={alternates} />
     <main id="contenu"><slot /></main>
     <Footer lang={lang} alternates={alternates} />
-    {/* Mesure d'audience Cloudflare Web Analytics : sans cookie, donc sans bandeau de consentement.
-        Uniquement dans le build de production (pas en npm run dev). */}
-    {import.meta.env.PROD && (
-      <script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "a3aeee46691d42d989cc47582b394120"}'></script>
-    )}
+    {/* Mesure d'audience : Cloudflare Web Analytics en « Automatic setup », le script est injecté
+        par Cloudflare dans les pages servies. Rien à ajouter ici. */}
   </body>
 </html>
