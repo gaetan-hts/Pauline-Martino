@@ -169,6 +169,16 @@ Palette **sobre en camaïeu de roses** (oct. 2026 ; le doré puis le bleu ont é
 
 ## Reste à faire (par priorité)
 
+**Mise en ligne faite le 28/10/2026** : site public sur https://www.pauline-martino-hypnose.fr (apex → www, http → https, workers.dev désactivé), Cloudflare Web Analytics (Automatic setup), Google Search Console (propriété Domaine, sitemap envoyé, indexation demandée pour toutes les pages), Bing Webmaster Tools.
+
+**Encore en attente** :
+- Médiateur de la consommation (obligatoire) → `mentions-legales.astro`, constante `mediateur`
+- Lien direct de la fiche Google Business Profile → `src/data/avis.ts` (aujourd'hui une recherche Maps)
+- Accord écrit de Christophe Rodrik pour la photo ; registre des traitements de Pauline (hors site)
+- Formulaire Brevo pour « Être prévenu de la parution » (aujourd'hui un lien mailto)
+
+Historique du plan initial :
+
 1. Retours de Pauline sur le draft (couleurs, textes, choix des photos)
 2. ~~Page « Mes écrits »~~ **faite** (`/mes-ecrits/`, collection `src/content/ecrits/`, un texte = un .md, « --- » = ornement entre passages, `pullQuote` = exergue placée automatiquement après le passage qui la contient ; texte sur deux colonnes en desktop, l'exergue traverse les colonnes, l'ornement entre passages n'est affiché qu'en une colonne (mobile)). Reste : formulaire Brevo pour « Être prévenu de la parution » (aujourd'hui un lien mailto), Keystatic. Ancien plan : collection de contenu `ecrits` (Markdown), listing + page article (`Article` JSON-LD). Contenu de départ dans `brief-presentation-pauline.md` (section « Mes écrits »). Ajouter :
    - un formulaire « Être prévenu de la parution » (Brevo, liste gratuite)
