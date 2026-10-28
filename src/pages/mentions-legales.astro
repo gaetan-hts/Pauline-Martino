@@ -1,15 +1,15 @@
 ---
-// Mentions légales (LCEN), médiation de la consommation, politique de confidentialité (RGPD) et cookies.
+// Mentions légales (LCEN), politique de confidentialité (RGPD) et cookies.
+// Section « Médiation de la consommation » retirée à la demande de Gaëtan (28/10/2026) : à rajouter
+// avec les coordonnées du médiateur quand Pauline en aura choisi un (obligation, art. L612-1 Code conso).
 import Layout from '../layouts/Layout.astro';
 import { site } from '../data/site';
 import { legalPath } from '../i18n/config';
 
-const updated = '23 octobre 2026';
+const updated = '28 octobre 2026';
 const siret = '937 686 897 00037';
-// TODO : renseigner le médiateur de la consommation choisi par Pauline (obligatoire, Code de la consommation art. L612-1)
-const mediateur: { nom: string; adresse: string; site: string } | null = null;
 ---
-<Layout title="Mentions légales et confidentialité | Pauline Martino" description="Mentions légales, médiation de la consommation, politique de confidentialité et cookies du site de Pauline Martino, hypnothérapeute à La Farlède." campaign="mentions" alternates={legalPath}>
+<Layout title="Mentions légales et confidentialité | Pauline Martino" description="Mentions légales, politique de confidentialité et cookies du site de Pauline Martino, hypnothérapeute à La Farlède : éditrice, hébergement, données personnelles." campaign="mentions" alternates={legalPath}>
   <section class="wrap max-w-3xl py-16">
     <h1 class="text-4xl">Mentions légales et confidentialité</h1>
     <p class="mt-3 text-sm text-encre/70">Dernière mise à jour : {updated}</p>
@@ -29,16 +29,6 @@ const mediateur: { nom: string; adresse: string; site: string } | null = null;
         Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, États-Unis<br />
         Téléphone : +1 (650) 319-8930 · <a href="https://www.cloudflare.com" target="_blank" rel="noopener">www.cloudflare.com</a>
       </p>
-
-      <h2>Médiation de la consommation</h2>
-      {mediateur ? (
-        <p>
-          Conformément au Code de la consommation (articles L612-1 et suivants), vous pouvez recourir gratuitement au médiateur de la consommation suivant en cas de litige non résolu :
-          {mediateur.nom}, {mediateur.adresse}, <a href={mediateur.site} target="_blank" rel="noopener">{mediateur.site}</a>.
-        </p>
-      ) : (
-        <p>Conformément au Code de la consommation (articles L612-1 et suivants), vous pouvez recourir gratuitement à un médiateur de la consommation en cas de litige non résolu. [Coordonnées du médiateur à compléter.]</p>
-      )}
 
       <h2>Propriété intellectuelle</h2>
       <p>Les textes du site, dont ceux de la page « Mes écrits », ainsi que les photographies, sont la propriété de Pauline Martino. Toute reproduction, même partielle, nécessite son accord écrit.</p>

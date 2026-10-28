@@ -172,7 +172,7 @@ Palette **sobre en camaïeu de roses** (oct. 2026 ; le doré puis le bleu ont é
 **Mise en ligne faite le 28/10/2026** : site public sur https://www.pauline-martino-hypnose.fr (apex → www, http → https, workers.dev désactivé), Cloudflare Web Analytics (Automatic setup), Google Search Console (propriété Domaine, sitemap envoyé, indexation demandée pour toutes les pages), Bing Webmaster Tools.
 
 **Encore en attente** :
-- Médiateur de la consommation (obligatoire) → `mentions-legales.astro`, constante `mediateur`
+- Médiateur de la consommation (obligatoire) : section retirée du site à la demande de Gaëtan (28/10/2026), à rajouter dans `mentions-legales.astro` quand Pauline en aura choisi un
 - Lien direct de la fiche Google Business Profile → `src/data/avis.ts` (aujourd'hui une recherche Maps)
 - Accord écrit de Christophe Rodrik pour la photo ; registre des traitements de Pauline (hors site)
 - Formulaire Brevo pour « Être prévenu de la parution » (aujourd'hui un lien mailto)
